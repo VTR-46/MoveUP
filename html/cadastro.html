@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saúde App — Cadastro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+          colors: {
+            dark: '#0a1628',
+            brand: '#1a4fa8',
+            'brand-light': '#3a7fd4',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    input:focus { border-color: #1a4fa8; outline: none; box-shadow: none; }
+
+    #popup-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    #popup-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    #popup-card {
+      transform: translateY(32px) scale(0.97);
+      transition: transform 0.38s cubic-bezier(.22,1,.36,1), opacity 0.35s ease;
+      opacity: 0;
+    }
+    #popup-overlay.active #popup-card {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .step { display: none; }
+    .step.active { display: block; }
+
+    .opt-item input[type="checkbox"] { display: none; }
+    .opt-item label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 15px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13.5px;
+      color: #374151;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+    .opt-item label:hover { border-color: #1a4fa8; background: #f0f5ff; }
+    .opt-item input[type="checkbox"]:checked + label {
+      border-color: #1a4fa8;
+      background: #eef3fc;
+      color: #0a1628;
+      font-weight: 600;
+    }
+    .opt-item .check-box {
+      width: 18px; height: 18px;
+      border: 2px solid #d1d5db;
+      border-radius: 5px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s ease;
+    }
+    .opt-item input[type="checkbox"]:checked + label .check-box {
+      background: #1a4fa8;
+      border-color: #1a4fa8;
+    }
+    .opt-item .check-box svg { display: none; }
+    .opt-item input[type="checkbox"]:checked + label .check-box svg { display: block; }
+
+    .level-item input[type="radio"] { display: none; }
+    .level-item label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 15px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+    .level-item label:hover { border-color: #1a4fa8; background: #f0f5ff; }
+    .level-item input[type="radio"]:checked + label {
+      border-color: #1a4fa8;
+      background: #eef3fc;
+      font-weight: 600;
+      color: #0a1628;
+    }
+    .level-radio {
+      width: 18px; height: 18px;
+      border: 2px solid #d1d5db;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s ease;
+    }
+    .level-item input[type="radio"]:checked + label .level-radio { border-color: #1a4fa8; }
+    .level-dot {
+      width: 8px; height: 8px;
+      background: #1a4fa8;
+      border-radius: 50%;
+      display: none;
+    }
+    .level-item input[type="radio"]:checked + label .level-dot { display: block; }
+
+    #progress-bar { transition: width 0.4s cubic-bezier(.22,1,.36,1); }
+
+    textarea:focus { border-color: #1a4fa8; outline: none; }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .success-check { animation: popIn 0.5s cubic-bezier(.22,1,.36,1) forwards; }
+
+    .strength-bar {
+      height: 3px;
+      border-radius: 9px;
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="font-poppins bg-white overflow-hidden h-screen flex flex-col">
+
+  <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
+
+    <div class="relative md:w-[52%] h-56 md:h-full shrink-0 overflow-hidden">
+      <img
+        src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1200&q=85"
+        alt="Pessoa se exercitando"
+        class="w-full h-full object-cover object-center"
+      />
+      <div class="hidden md:block absolute bottom-0 left-0 right-0 h-48"
+           style="background: linear-gradient(to top, rgba(8,18,45,0.88) 0%, transparent 100%);">
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-transparent to-white"
+           style="--tw-gradient-stops: transparent 30%, white 100%;"></div>
+      <div class="hidden md:block absolute bottom-10 left-10 z-10 max-w-xs">
+        <h2 class="text-2xl font-extrabold leading-snug tracking-tight mb-2 text-white drop-shadow">
+          Comece Sua <em class="not-italic text-brand-light">Jornada</em><br>Hoje Mesmo
+        </h2>
+        <p class="text-sm text-white/75 leading-relaxed drop-shadow">
+          Cada grande conquista começa com um único passo.
+        </p>
+      </div>
+    </div>
+
+    <div class="flex flex-1 flex-col justify-center px-8 md:px-16 bg-white z-10 py-10 md:py-0 overflow-y-auto">
+
+      <div class="md:hidden mb-6 text-center">
+        <h2 class="text-xl font-extrabold leading-snug tracking-tight text-dark mb-1">
+          Comece Sua <em class="not-italic text-brand">Jornada</em> Hoje Mesmo
+        </h2>
+        <p class="text-sm text-gray-400">Cada grande conquista começa com um único passo.</p>
+      </div>
+
+      <div class="mb-8">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-dark rounded-lg flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="white"/>
+            </svg>
+          </div>
+          <span class="text-xl font-extrabold text-dark tracking-tight">MoveUP</span>
+        </div>
+      </div>
+
+      <h1 class="text-2xl font-bold text-dark tracking-tight mb-1.5">Crie sua conta</h1>
+      <p class="text-sm text-gray-400 mb-7">Preencha os dados abaixo para começar.</p>
+
+      <div class="space-y-4">
+
+        <div class="flex gap-3">
+          <div class="flex-1">
+            <label class="block text-[13px] font-medium text-gray-600 mb-1.5">Nome</label>
+            <input id="inp-nome" type="text" placeholder="João"
+              class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors" />
+          </div>
+          <div class="flex-1">
+            <label class="block text-[13px] font-medium text-gray-600 mb-1.5">Sobrenome</label>
+            <input id="inp-sobrenome" type="text" placeholder="Silva"
+              class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[13px] font-medium text-gray-600 mb-1.5">E-mail</label>
+          <input id="inp-email" type="email" placeholder="seu@email.com"
+            class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors" />
+        </div>
+
+        <div>
+          <label class="block text-[13px] font-medium text-gray-600 mb-1.5">Senha</label>
+          <input id="inp-senha" type="password" placeholder="••••••••" oninput="checkStrength(this.value)"
+            class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors" />
+          <div class="flex gap-1 mt-2">
+            <div class="strength-bar flex-1 bg-gray-200" id="s1"></div>
+            <div class="strength-bar flex-1 bg-gray-200" id="s2"></div>
+            <div class="strength-bar flex-1 bg-gray-200" id="s3"></div>
+            <div class="strength-bar flex-1 bg-gray-200" id="s4"></div>
+          </div>
+          <p id="strength-label" class="text-[11px] mt-1 text-gray-400"></p>
+        </div>
+
+      </div>
+
+      <p id="form-error" class="text-[12px] text-red-500 mt-3 hidden"></p>
+
+      <button onclick="handleSignup()"
+        class="w-full mt-6 bg-dark text-white text-[15px] font-semibold py-3.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+        Criar conta
+      </button>
+
+      <p class="text-center text-[12.5px] text-gray-400 mt-5">
+        Já tem uma conta?
+        <a href="./login.html" class="text-brand font-medium hover:underline">Entrar</a>
+      </p>
+
+    </div>
+  </div>
+
+  <div id="popup-overlay" class="fixed inset-0 z-50 flex items-center justify-center px-4"
+       style="background: rgba(10,22,40,0.65); backdrop-filter: blur(4px);">
+
+    <div id="popup-card" class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-hidden flex flex-col">
+
+      <div class="px-7 pt-7 pb-5 border-b border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+          <span id="step-label" class="text-[11px] font-semibold text-brand uppercase tracking-widest">Etapa 1 de 3</span>
+          <span id="step-pct" class="text-[11px] font-semibold text-gray-400">33%</span>
+        </div>
+        <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+          <div id="progress-bar" class="h-full bg-brand rounded-full" style="width: 33%"></div>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto px-7 py-6">
+
+        <div class="step active" id="step-1">
+          <span class="text-2xl">🏃</span>
+          <h2 class="text-xl font-bold text-dark mt-2 mb-1">Quase lá!</h2>
+          <p class="text-sm text-gray-400 mb-6">Conta pra gente um pouco sobre você para personalizar sua experiência.</p>
+          <h3 class="text-[13px] font-semibold text-dark mb-3">Qual é o seu nível de atividade física atual?</h3>
+          <div class="space-y-2.5">
+            <div class="level-item">
+              <input type="radio" name="nivel" id="n1" value="sedentario" />
+              <label for="n1">
+                <span class="level-radio"><span class="level-dot"></span></span>
+                <div>
+                  <p class="text-[13.5px] font-medium text-dark">Sedentário</p>
+                  <p class="text-[11.5px] text-gray-400">Pouco ou nenhum exercício regular</p>
+                </div>
+              </label>
+            </div>
+            <div class="level-item">
+              <input type="radio" name="nivel" id="n2" value="iniciante" />
+              <label for="n2">
+                <span class="level-radio"><span class="level-dot"></span></span>
+                <div>
+                  <p class="text-[13.5px] font-medium text-dark">Iniciante</p>
+                  <p class="text-[11.5px] text-gray-400">Exercício leve 1–2x por semana</p>
+                </div>
+              </label>
+            </div>
+            <div class="level-item">
+              <input type="radio" name="nivel" id="n3" value="intermediario" />
+              <label for="n3">
+                <span class="level-radio"><span class="level-dot"></span></span>
+                <div>
+                  <p class="text-[13.5px] font-medium text-dark">Intermediário</p>
+                  <p class="text-[11.5px] text-gray-400">Treinos regulares 3–4x por semana</p>
+                </div>
+              </label>
+            </div>
+            <div class="level-item">
+              <input type="radio" name="nivel" id="n4" value="avancado" />
+              <label for="n4">
+                <span class="level-radio"><span class="level-dot"></span></span>
+                <div>
+                  <p class="text-[13.5px] font-medium text-dark">Avançado</p>
+                  <p class="text-[11.5px] text-gray-400">Treinos intensos 5+ vezes por semana</p>
+                </div>
+              </label>
+            </div>
+          </div>
+          <p id="err-1" class="text-[12px] text-red-500 mt-3 hidden">Selecione seu nível para continuar.</p>
+        </div>
+
+        <div class="step" id="step-2">
+          <span class="text-2xl">🎯</span>
+          <h2 class="text-xl font-bold text-dark mt-2 mb-1">Seus objetivos</h2>
+          <p class="text-sm text-gray-400 mb-6">Selecione todos que se aplicam a você.</p>
+          <h3 class="text-[13px] font-semibold text-dark mb-3">O que você quer alcançar com o MoveUP?</h3>
+          <div class="space-y-2.5">
+            <div class="opt-item">
+              <input type="checkbox" id="o1" value="perder_peso" />
+              <label for="o1"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Perder peso</label>
+            </div>
+            <div class="opt-item">
+              <input type="checkbox" id="o2" value="ganhar_massa" />
+              <label for="o2"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Ganhar massa muscular</label>
+            </div>
+            <div class="opt-item">
+              <input type="checkbox" id="o3" value="melhorar_condicionamento" />
+              <label for="o3"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Melhorar condicionamento físico</label>
+            </div>
+            <div class="opt-item">
+              <input type="checkbox" id="o4" value="reducao_stress" />
+              <label for="o4"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Reduzir estresse e ansiedade</label>
+            </div>
+            <div class="opt-item">
+              <input type="checkbox" id="o5" value="flexibilidade" />
+              <label for="o5"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Melhorar flexibilidade e mobilidade</label>
+            </div>
+            <div class="opt-item">
+              <input type="checkbox" id="o6" value="saude_geral" />
+              <label for="o6"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Manter saúde geral e bem-estar</label>
+            </div>
+            <div class="opt-item">
+              <input type="checkbox" id="o7" value="preparacao_evento" />
+              <label for="o7"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Preparação para evento ou competição</label>
+            </div>
+          </div>
+          <p id="err-2" class="text-[12px] text-red-500 mt-3 hidden">Selecione pelo menos um objetivo.</p>
+        </div>
+
+        <div class="step" id="step-3">
+          <span class="text-2xl">💬</span>
+          <h2 class="text-xl font-bold text-dark mt-2 mb-1">Mais alguma coisa?</h2>
+          <p class="text-sm text-gray-400 mb-6">Essa pergunta é completamente opcional — responda só se quiser.</p>
+          <h3 class="text-[13px] font-semibold text-dark mb-1.5">Tem alguma limitação física, lesão ou algo que devemos saber para personalizar seus treinos?</h3>
+          <p class="text-[11.5px] text-gray-400 mb-3">Ex: dor no joelho, hérnia de disco, gravidez, cirurgia recente…</p>
+          <textarea id="inp-obs" rows="4" placeholder="Escreva aqui (opcional)…"
+            class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors resize-none"
+            style="font-family: 'Poppins', sans-serif;"></textarea>
+          <div class="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-xl">
+            <p class="text-[12px] text-brand font-medium mb-0.5">🔒 Seus dados estão seguros</p>
+            <p class="text-[11.5px] text-gray-500">Todas as suas informações são armazenadas de forma segura e usadas apenas para personalizar sua experiência.</p>
+          </div>
+        </div>
+
+        <div class="step" id="step-4">
+          <div class="flex flex-col items-center text-center py-4">
+            <div class="success-check w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-5">
+              <svg width="36" height="28" viewBox="0 0 36 28" fill="none">
+                <path d="M3 14L13 24L33 4" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-dark mb-2">Tudo certo! 🎉</h2>
+            <p class="text-sm text-gray-500 mb-6 max-w-xs">Seu perfil foi criado com sucesso. Estamos prontos para começar sua jornada com o MoveUP.</p>
+            <div class="w-full bg-gray-50 rounded-xl p-4 text-left mb-6">
+              <p class="text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-3">Resumo do seu perfil</p>
+              <div id="summary-body" class="space-y-1.5"></div>
+            </div>
+            <button onclick="closePopup()"
+              class="w-full bg-dark text-white text-[14px] font-semibold py-3.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+              Começar agora →
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="popup-footer" class="px-7 py-5 border-t border-gray-100 flex gap-3">
+        <button id="btn-back" onclick="prevStep()"
+          class="flex-1 border border-gray-200 text-dark text-[14px] font-semibold py-3 rounded-full hover:bg-gray-50 transition-all cursor-pointer hidden">
+          Voltar
+        </button>
+        <button id="btn-next" onclick="nextStep()"
+          class="flex-1 bg-dark text-white text-[14px] font-semibold py-3 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+          Continuar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    window.onload = () => {
+      const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
+      if (user.nome) {
+        window.location.href = './perfil.html';
+      }
+    };
+
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    function checkStrength(val) {
+      const colors = ['#ef4444','#f97316','#eab308','#22c55e'];
+      const labels = ['Muito fraca','Fraca','Média','Forte'];
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+      ['s1','s2','s3','s4'].forEach((id, i) => {
+        document.getElementById(id).style.background = i < score ? colors[score - 1] : '#e5e7eb';
+      });
+      const lbl = document.getElementById('strength-label');
+      lbl.textContent = val.length ? (labels[score - 1] || 'Muito fraca') : '';
+      lbl.style.color = score > 0 ? colors[score - 1] : '#9ca3af';
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('form-error');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+    }
+
+    function handleSignup() {
+      const nome = document.getElementById('inp-nome').value.trim();
+      const sobrenome = document.getElementById('inp-sobrenome').value.trim();
+      const email = document.getElementById('inp-email').value.trim();
+      const senha = document.getElementById('inp-senha').value;
+      if (!nome || !sobrenome) return showError('Preencha seu nome e sobrenome.');
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Insira um e-mail válido.');
+      if (senha.length < 6) return showError('A senha deve ter pelo menos 6 caracteres.');
+      
+      const users = JSON.parse(localStorage.getItem('moveup_users') || '[]');
+      if (users.find(u => u.email === email)) return showError('E-mail já cadastrado.');
+
+      document.getElementById('form-error').classList.add('hidden');
+      const newUser = { nome, sobrenome, email, senha };
+      localStorage.setItem('moveup_user', JSON.stringify(newUser));
+      users.push(newUser);
+      localStorage.setItem('moveup_users', JSON.stringify(users));
+      document.getElementById('popup-overlay').classList.add('active');
+    }
+
+    function closePopup() {
+      document.getElementById('popup-overlay').classList.remove('active');
+      window.location.href = './perfil.html';
+    }
+
+    function updateUI() {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('step-' + i).classList.toggle('active', i === currentStep);
+      }
+      const pct = Math.min(Math.round((currentStep / totalSteps) * 100), 100);
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('step-pct').textContent = pct + '%';
+      document.getElementById('step-label').textContent = currentStep <= totalSteps
+        ? `Etapa ${currentStep} de ${totalSteps}` : 'Concluído';
+      const footer = document.getElementById('popup-footer');
+      const btnBack = document.getElementById('btn-back');
+      const btnNext = document.getElementById('btn-next');
+      if (currentStep === 4) {
+        footer.classList.add('hidden');
+      } else {
+        footer.classList.remove('hidden');
+        btnBack.classList.toggle('hidden', currentStep === 1);
+        btnNext.textContent = currentStep === totalSteps ? 'Finalizar' : 'Continuar';
+      }
+    }
+
+    function nextStep() {
+      if (currentStep === 1) {
+        if (!document.querySelector('input[name="nivel"]:checked')) {
+          document.getElementById('err-1').classList.remove('hidden');
+          return;
+        }
+        document.getElementById('err-1').classList.add('hidden');
+      }
+      if (currentStep === 2) {
+        if (!document.querySelectorAll('input[type="checkbox"]:checked').length) {
+          document.getElementById('err-2').classList.remove('hidden');
+          return;
+        }
+        document.getElementById('err-2').classList.add('hidden');
+      }
+      if (currentStep === totalSteps) {
+        saveOnboarding();
+        buildSummary();
+        currentStep = 4;
+        updateUI();
+        return;
+      }
+      currentStep++;
+      updateUI();
+    }
+
+    function prevStep() {
+      if (currentStep > 1) { currentStep--; updateUI(); }
+    }
+
+    function saveOnboarding() {
+      const nivel = document.querySelector('input[name="nivel"]:checked')?.value || '';
+      const objetivos = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(el => el.value);
+      const obs = document.getElementById('inp-obs').value.trim();
+      const existing = JSON.parse(localStorage.getItem('moveup_user') || '{}');
+      
+      const updatedUser = {
+        ...existing, nivel, objetivos,
+        observacao: obs,
+        onboarding_completo: true,
+        data_cadastro: new Date().toISOString()
+      };
+      localStorage.setItem('moveup_user', JSON.stringify(updatedUser));
+      
+      const users = JSON.parse(localStorage.getItem('moveup_users') || '[]');
+      const filtered = users.filter(u => u.email !== updatedUser.email);
+      filtered.push(updatedUser);
+      localStorage.setItem('moveup_users', JSON.stringify(filtered));
+    }
+
+    function buildSummary() {
+      const nivelLabels = { sedentario:'Sedentário', iniciante:'Iniciante', intermediario:'Intermediário', avancado:'Avançado' };
+      const objLabels = { perder_peso:'Perder peso', ganhar_massa:'Ganhar massa muscular', melhorar_condicionamento:'Melhorar condicionamento', reducao_stress:'Reduzir estresse', flexibilidade:'Flexibilidade', saude_geral:'Saúde geral', preparacao_evento:'Preparação p/ evento' };
+      const nivel = document.querySelector('input[name="nivel"]:checked')?.value;
+      const objetivos = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(el => el.value);
+      const obs = document.getElementById('inp-obs').value.trim();
+      const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
+      let html = '';
+      if (user.nome) html += `<div class="flex items-start gap-2"><span class="text-[11px] text-gray-400 w-20 shrink-0 pt-0.5">Nome</span><span class="text-[13px] font-medium text-dark">${user.nome} ${user.sobrenome||''}</span></div>`;
+      if (nivel) html += `<div class="flex items-start gap-2"><span class="text-[11px] text-gray-400 w-20 shrink-0 pt-0.5">Nível</span><span class="text-[13px] font-medium text-dark">${nivelLabels[nivel]}</span></div>`;
+      if (objetivos.length) html += `<div class="flex gap-2"><span class="text-[11px] text-gray-400 w-20 shrink-0 pt-0.5">Objetivos</span><span class="text-[13px] font-medium text-dark">${objetivos.map(o=>objLabels[o]).join(', ')}</span></div>`;
+      if (obs) html += `<div class="flex gap-2"><span class="text-[11px] text-gray-400 w-20 shrink-0 pt-0.5">Obs.</span><span class="text-[13px] font-medium text-dark">${obs}</span></div>`;
+      document.getElementById('summary-body').innerHTML = html;
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>

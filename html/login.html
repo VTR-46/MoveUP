@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saúde App — Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+          colors: {
+            dark: '#0a1628',
+            brand: '#1a4fa8',
+            'brand-light': '#3a7fd4',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    input:focus { border-color: #1a4fa8; outline: none; box-shadow: none; }
+  </style>
+</head>
+<body class="font-poppins bg-white overflow-hidden h-screen flex flex-col">
+
+  <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
+
+    <div class="relative md:w-[52%] h-56 md:h-full shrink-0 overflow-hidden" style="max-height: 100vh;">
+      <img
+        src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&q=85"
+        alt="Atletas correndo"
+        class="w-full h-full object-cover object-center"
+      />
+
+      <div class="hidden md:block absolute bottom-0 left-0 right-0 h-48"
+           style="background: linear-gradient(to top, rgba(8,18,45,0.88) 0%, transparent 100%);">
+      </div>
+
+      <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-transparent to-white"
+           style="--tw-gradient-stops: transparent 30%, white 100%;"></div>
+
+      <div class="hidden md:block absolute bottom-10 left-10 z-10 max-w-xs">
+        <h2 class="text-2xl font-extrabold leading-snug tracking-tight mb-2 text-white drop-shadow">
+          A Sua <em class="not-italic text-brand-light">Saúde</em> É A<br>Prioridade Número Um
+        </h2>
+        <p class="text-sm text-white/75 leading-relaxed drop-shadow">
+          Não há caminhos fáceis para uma vida saudável.
+        </p>
+      </div>
+    </div>
+
+    <div class="flex flex-1 flex-col justify-center px-8 md:px-16 bg-white z-10 py-10 md:py-0">
+
+      <div class="md:hidden mb-8 text-center">
+        <h2 class="text-2xl font-extrabold leading-snug tracking-tight text-dark mb-1">
+          A Sua <em class="not-italic text-brand">Saúde</em> É A Prioridade Número Um
+        </h2>
+        <p class="text-sm text-gray-400">Não há caminhos fáceis para uma vida saudável.</p>
+      </div>
+
+      <div class="mb-10">
+        <img src="../img/MoveUPSolo.png" alt="MoveUP" class="h-12 w-auto object-contain" />
+      </div>
+
+      <h1 class="text-2xl font-bold text-dark tracking-tight mb-1.5">Bem-vindo de volta</h1>
+      <p class="text-sm text-gray-400 mb-8">Acesse sua conta para continuar.</p>
+
+      <div class="mb-4">
+        <label class="block text-[13px] font-medium text-gray-600 mb-1.5">E-mail</label>
+        <input id="inp-email"
+          type="email"
+          placeholder="seu@email.com"
+          class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors"
+        />
+      </div>
+
+      <div class="mb-2">
+        <label class="block text-[13px] font-medium text-gray-600 mb-1.5">Senha</label>
+        <input id="inp-senha"
+          type="password"
+          placeholder="••••••••"
+          class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors"
+        />
+      </div>
+
+      <div class="text-right mb-7">
+        <a href="#" class="text-[12.5px] font-medium text-brand hover:underline">Esqueceu a senha?</a>
+      </div>
+
+      <button onclick="handleLogin()" class="w-full bg-dark text-white text-[15px] font-semibold py-3.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+        Entrar
+      </button>
+
+      <p class="text-center text-[12.5px] text-gray-400 mt-6">
+        Ainda não tem uma conta?
+        <a href="./cadastro.html" class="text-brand font-medium hover:underline">Cadastre-se</a>
+      </p>
+
+    </div>
+  </div>
+
+  <script>
+    window.onload = () => {
+      const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
+      if (user.nome) {
+        window.location.href = './perfil.html';
+      }
+    };
+
+    function handleLogin() {
+      const email = document.getElementById('inp-email').value.trim();
+      const senha = document.getElementById('inp-senha').value;
+      
+      if (!email || !senha) {
+        alert("Por favor, preencha e-mail e senha.");
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('moveup_users') || '[]');
+      const user = users.find(u => u.email === email && u.senha === senha);
+
+      if (!user) {
+        alert("Credenciais incorretas.");
+        return;
+      }
+      
+      localStorage.setItem('moveup_user', JSON.stringify(user));
+      window.location.href = './perfil.html';
+    }
+  </script>
+</body>
+</html>

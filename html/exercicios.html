@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoveUP — Exercícios</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+          colors: {
+            dark: '#0a1628',
+            brand: '#1a4fa8',
+            'brand-light': '#3a7fd4',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+
+    /* Overlay/Popup */
+    #overlay {
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    #overlay.active { opacity: 1; pointer-events: all; }
+    #modal-card {
+      transform: translateY(32px) scale(0.97);
+      transition: transform 0.38s cubic-bezier(.22,1,.36,1), opacity 0.35s ease;
+      opacity: 0;
+    }
+    #overlay.active #modal-card { transform: translateY(0) scale(1); opacity: 1; }
+
+    /* Workout card */
+    .workout-card {
+      border: 1.5px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .workout-card:hover { border-color: #1a4fa8; background: #f5f8ff; }
+    .workout-card.selected { border-color: #1a4fa8; background: #eef3fc; }
+
+    /* Steps */
+    .step { display: none; }
+    .step.active { display: block; }
+
+    /* Radio / checkbox items */
+    .opt-item input[type="checkbox"],
+    .opt-item input[type="radio"] { display: none; }
+    .opt-item label {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      cursor: pointer; font-size: 13.5px; color: #374151;
+      transition: all 0.18s ease; user-select: none;
+    }
+    .opt-item label:hover { border-color: #1a4fa8; background: #f0f5ff; }
+    .opt-item input:checked + label { border-color: #1a4fa8; background: #eef3fc; color: #0a1628; font-weight: 600; }
+    .check-box {
+      width: 18px; height: 18px; border: 2px solid #d1d5db;
+      border-radius: 5px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s ease;
+    }
+    .opt-item input:checked + label .check-box { background: #1a4fa8; border-color: #1a4fa8; }
+    .check-box svg { display: none; }
+    .opt-item input:checked + label .check-box svg { display: block; }
+
+    /* Radio dot */
+    .radio-circle {
+      width: 18px; height: 18px; border: 2px solid #d1d5db;
+      border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s ease;
+    }
+    .opt-item input[type="radio"]:checked + label .radio-circle { border-color: #1a4fa8; }
+    .radio-dot { width: 8px; height: 8px; background: #1a4fa8; border-radius: 50%; display: none; }
+    .opt-item input[type="radio"]:checked + label .radio-dot { display: block; }
+
+    /* Progress bar */
+    #prog-bar { transition: width 0.4s cubic-bezier(.22,1,.36,1); }
+
+    /* Exercise item in list */
+    .ex-item {
+      display: flex; align-items: center; gap-3;
+      padding: 10px 14px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      transition: all 0.18s ease;
+    }
+    .ex-item.included { border-color: #1a4fa8; background: #eef3fc; }
+
+    /* Exercise executing */
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeSlideIn 0.4s ease forwards; }
+
+    /* Timer ring */
+    #timer-ring { transition: stroke-dashoffset 1s linear; }
+
+    /* Badge */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #eef3fc; color: #1a4fa8;
+      font-size: 11px; font-weight: 600;
+      padding: 3px 9px; border-radius: 99px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 9px; }
+
+    input[type="text"]:focus, textarea:focus { border-color: #1a4fa8; outline: none; }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .pop-in { animation: popIn 0.5s cubic-bezier(.22,1,.36,1) forwards; }
+
+    .pill-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #f3f4f6; border-radius: 99px;
+      padding: 4px 10px; font-size: 12px; color: #374151;
+      font-weight: 500;
+    }
+    .pill-tag.active { background: #eef3fc; color: #1a4fa8; font-weight: 600; }
+  </style>
+</head>
+<body class="font-poppins bg-gray-50 min-h-screen">
+
+<nav class="bg-white border-b border-gray-100 sticky top-0 z-30">
+  <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-dark rounded-lg flex items-center justify-center">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="white"/>
+        </svg>
+      </div>
+      <span class="text-xl font-extrabold text-dark tracking-tight">MoveUP</span>
+    </div>
+    
+    <div id="nav-logged-in" class="flex items-center gap-4">
+      <a href="./perfil.html" class="text-sm text-gray-500 hover:text-dark transition-colors font-medium hidden sm:block">Meu Perfil</a>
+      <span id="nav-user" class="text-sm text-gray-500 font-medium hidden md:block text-ellipsis whitespace-nowrap overflow-hidden max-w-[120px]">Usuário</span>
+      <button onclick="logout()" class="text-sm text-gray-400 hover:text-dark transition-colors font-medium bg-transparent border-none cursor-pointer">Sair</button>
+    </div>
+  </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-6 py-10">
+
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold text-dark tracking-tight mb-1">Meus Treinos</h1>
+    <p class="text-sm text-gray-400">Selecione um treino existente ou crie um novo personalizado.</p>
+  </div>
+
+  <!-- Action bar -->
+  <div class="flex flex-col sm:flex-row gap-3 mb-8">
+    <div class="relative flex-1">
+      <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" width="15" height="15" fill="none" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+        <path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input id="search-workouts" type="text" placeholder="Buscar treinos salvos…"
+        class="w-full border border-gray-200 rounded-[10px] pl-10 pr-4 py-2.5 text-sm text-dark placeholder-gray-300 bg-white transition-colors"/>
+    </div>
+    <button onclick="openNewWorkoutModal()"
+      class="flex items-center gap-2 bg-dark text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none whitespace-nowrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+      Criar novo treino
+    </button>
+  </div>
+
+  <div id="workouts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  </div>
+
+  <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center">
+    <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 5h6" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h3 class="text-base font-semibold text-dark mb-1">Nenhum treino ainda</h3>
+    <p class="text-sm text-gray-400 mb-5 max-w-xs">Crie seu primeiro treino personalizado com base no seu perfil e objetivos.</p>
+    <button onclick="openNewWorkoutModal()"
+      class="bg-dark text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-[#060e1c] transition-all cursor-pointer border-none">
+      Criar primeiro treino
+    </button>
+  </div>
+
+</main>
+
+<div id="overlay" class="fixed inset-0 z-50 flex items-center justify-center px-4"
+     style="background: rgba(10,22,40,0.65); backdrop-filter: blur(4px);">
+
+  <div id="new-modal" class="hidden">
+    <div id="modal-card" class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[92vh] overflow-hidden flex flex-col">
+
+      <div class="px-7 pt-7 pb-5 border-b border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+          <span id="step-label" class="text-[11px] font-semibold text-brand uppercase tracking-widest">Etapa 1 de 3</span>
+          <button onclick="closeModal()" class="text-gray-300 hover:text-gray-500 transition-colors cursor-pointer bg-transparent border-none p-0">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+          <div id="prog-bar" class="h-full bg-brand rounded-full" style="width: 33%"></div>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto px-7 py-6">
+
+        <div class="step active" id="s1">
+          <span class="text-2xl">💪</span>
+          <h2 class="text-xl font-bold text-dark mt-2 mb-1">Novo treino</h2>
+          <p class="text-sm text-gray-400 mb-5">Vamos montar um treino perfeito para você.</p>
+
+          <h3 class="text-[13px] font-semibold text-dark mb-2">Qual grupo muscular você quer treinar?</h3>
+          <div class="grid grid-cols-2 gap-2 mb-5" id="muscle-groups">
+          </div>
+
+          <h3 class="text-[13px] font-semibold text-dark mb-2">Seu nível nesse grupo muscular</h3>
+          <div class="space-y-2" id="level-opts">
+            <div class="opt-item"><input type="radio" name="nivel-ex" id="lv1" value="iniciante"/>
+              <label for="lv1"><span class="radio-circle"><span class="radio-dot"></span></span><div><p class="text-[13px] font-medium text-dark">Iniciante</p><p class="text-[11px] text-gray-400">Pouca ou nenhuma experiência</p></div></label></div>
+            <div class="opt-item"><input type="radio" name="nivel-ex" id="lv2" value="intermediario"/>
+              <label for="lv2"><span class="radio-circle"><span class="radio-dot"></span></span><div><p class="text-[13px] font-medium text-dark">Intermediário</p><p class="text-[11px] text-gray-400">Treina regularmente há alguns meses</p></div></label></div>
+            <div class="opt-item"><input type="radio" name="nivel-ex" id="lv3" value="avancado"/>
+              <label for="lv3"><span class="radio-circle"><span class="radio-dot"></span></span><div><p class="text-[13px] font-medium text-dark">Avançado</p><p class="text-[11px] text-gray-400">Experiência consistente há mais de 1 ano</p></div></label></div>
+          </div>
+          <p id="err-s1" class="text-[12px] text-red-500 mt-3 hidden">Selecione grupo muscular e nível.</p>
+        </div>
+
+        <div class="step" id="s2">
+          <span class="text-2xl">🎯</span>
+          <h2 class="text-xl font-bold text-dark mt-2 mb-1">Objetivo do treino</h2>
+          <p class="text-sm text-gray-400 mb-5">O que você quer alcançar hoje?</p>
+
+          <h3 class="text-[13px] font-semibold text-dark mb-2">Foco principal</h3>
+          <div class="space-y-2 mb-5">
+            <div class="opt-item"><input type="radio" name="foco" id="f1" value="hipertrofia"/>
+              <label for="f1"><span class="radio-circle"><span class="radio-dot"></span></span>Hipertrofia (ganho de massa)</label></div>
+            <div class="opt-item"><input type="radio" name="foco" id="f2" value="forca"/>
+              <label for="f2"><span class="radio-circle"><span class="radio-dot"></span></span>Força e potência</label></div>
+            <div class="opt-item"><input type="radio" name="foco" id="f3" value="resistencia"/>
+              <label for="f3"><span class="radio-circle"><span class="radio-dot"></span></span>Resistência muscular</label></div>
+            <div class="opt-item"><input type="radio" name="foco" id="f4" value="queima"/>
+              <label for="f4"><span class="radio-circle"><span class="radio-dot"></span></span>Queima de gordura / condicionamento</label></div>
+          </div>
+
+          <h3 class="text-[13px] font-semibold text-dark mb-2">Duração aproximada</h3>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="opt-item"><input type="radio" name="duracao" id="d1" value="30"/>
+              <label for="d1" class="justify-center text-center"><span class="radio-circle hidden"></span>30 min</label></div>
+            <div class="opt-item"><input type="radio" name="duracao" id="d2" value="45"/>
+              <label for="d2" class="justify-center text-center"><span class="radio-circle hidden"></span>45 min</label></div>
+            <div class="opt-item"><input type="radio" name="duracao" id="d3" value="60"/>
+              <label for="d3" class="justify-center text-center"><span class="radio-circle hidden"></span>60 min</label></div>
+          </div>
+          <p id="err-s2" class="text-[12px] text-red-500 mt-3 hidden">Selecione o foco e a duração.</p>
+        </div>
+
+        <div class="step" id="s3">
+          <div class="flex items-center justify-between mb-1">
+            <h2 class="text-xl font-bold text-dark">Exercícios sugeridos</h2>
+          </div>
+          <p class="text-sm text-gray-400 mb-4">Desmaque o que não quiser ou adicione outros.</p>
+
+          <div class="relative mb-4">
+            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" width="14" height="14" fill="none" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+              <path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input id="ex-search" type="text" placeholder="Buscar exercício…" oninput="filterExercises(this.value)"
+              class="w-full border border-gray-200 rounded-[10px] pl-9 pr-4 py-2.5 text-sm text-dark placeholder-gray-300 bg-white transition-colors"/>
+          </div>
+
+          <div id="filter-tags" class="flex flex-wrap gap-1.5 mb-4"></div>
+
+          <div id="exercise-list" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
+
+          <p class="text-[11.5px] text-gray-400 mt-3"><span id="sel-count" class="font-semibold text-dark">0</span> exercícios selecionados</p>
+          <p id="err-s3" class="text-[12px] text-red-500 mt-1 hidden">Selecione pelo menos 1 exercício.</p>
+
+          <div class="mt-4">
+            <label class="block text-[13px] font-medium text-gray-600 mb-1.5">Nome do treino</label>
+            <input id="workout-name" type="text" placeholder="Ex: Peito e Tríceps — Segunda"
+              class="w-full border border-gray-200 rounded-[10px] px-3.5 py-2.5 text-sm text-dark placeholder-gray-300 transition-colors"/>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="px-7 py-5 border-t border-gray-100 flex gap-3">
+        <button id="btn-back" onclick="prevStep()"
+          class="flex-1 border border-gray-200 text-dark text-[14px] font-semibold py-3 rounded-full hover:bg-gray-50 transition-all cursor-pointer hidden">
+          Voltar
+        </button>
+        <button id="btn-next" onclick="nextStep()"
+          class="flex-1 bg-dark text-white text-[14px] font-semibold py-3 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-modal" class="hidden w-full max-w-md">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-h-[92vh] overflow-hidden flex flex-col">
+
+      <div id="detail-header" class="px-7 pt-7 pb-5 border-b border-gray-100 flex items-start justify-between">
+        <div>
+          <h2 id="detail-title" class="text-xl font-bold text-dark mb-0.5"></h2>
+          <p id="detail-meta" class="text-[12px] text-gray-400"></p>
+        </div>
+        <button onclick="closeModal()" class="text-gray-300 hover:text-gray-500 cursor-pointer bg-transparent border-none p-0 ml-4 mt-1">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div id="detail-summary" class="flex-1 overflow-y-auto px-7 py-6">
+        <h3 class="text-[13px] font-semibold text-dark mb-3">Lista de exercícios</h3>
+        <div id="detail-ex-list" class="space-y-2 mb-6"></div>
+        <button onclick="startWorkout()" id="btn-start"
+          class="w-full bg-dark text-white text-[14px] font-semibold py-3.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+          Iniciar treino →
+        </button>
+        <button onclick="deleteWorkout()" class="w-full mt-3 text-[12.5px] text-red-400 hover:text-red-600 transition-colors cursor-pointer bg-transparent border-none font-medium">
+          Excluir treino
+        </button>
+      </div>
+
+      <div id="detail-executing" class="hidden flex-1 flex flex-col">
+
+        <div class="px-7 py-4 border-b border-gray-100">
+          <div class="flex items-center justify-between mb-1.5">
+            <span id="ex-counter" class="text-[11px] font-semibold text-brand uppercase tracking-widest"></span>
+            <span id="ex-pct" class="text-[11px] font-semibold text-gray-400"></span>
+          </div>
+          <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div id="ex-prog" class="h-full bg-brand rounded-full transition-all duration-500"></div>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto px-7 py-6 flex flex-col items-center text-center fade-in" id="ex-content">
+        </div>
+
+        <div class="px-7 py-5 border-t border-gray-100 flex gap-3">
+          <button onclick="completeExercise()"
+            class="flex-1 bg-dark text-white text-[14px] font-semibold py-3 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+            Concluir exercício ✓
+          </button>
+        </div>
+
+      </div>
+
+      <div id="detail-done" class="hidden flex-1 overflow-y-auto px-7 py-8 flex flex-col items-center text-center">
+        <div class="pop-in w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-5">
+          <svg width="36" height="28" viewBox="0 0 36 28" fill="none">
+            <path d="M3 14L13 24L33 4" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-dark mb-2">Treino concluído! 🎉</h2>
+        <p class="text-sm text-gray-500 mb-6 max-w-xs" id="done-msg"></p>
+        <button onclick="closeModal()"
+          class="w-full bg-dark text-white text-[14px] font-semibold py-3.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+          Voltar aos treinos
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+const MUSCLE_GROUPS = [
+  { id: 'peito', label: 'Peito', emoji: '🏋️' },
+  { id: 'costas', label: 'Costas', emoji: '🔙' },
+  { id: 'ombros', label: 'Ombros', emoji: '💪' },
+  { id: 'biceps', label: 'Bíceps', emoji: '💪' },
+  { id: 'triceps', label: 'Tríceps', emoji: '💪' },
+  { id: 'pernas', label: 'Pernas', emoji: '🦵' },
+  { id: 'gluteos', label: 'Glúteos', emoji: '🍑' },
+  { id: 'abdomen', label: 'Abdômen', emoji: '🔥' },
+  { id: 'cardio', label: 'Cardio', emoji: '🏃' },
+  { id: 'full_body', label: 'Full Body', emoji: '⚡' },
+];
+
+const EXERCISES_DB = {
+  peito: {
+    iniciante:     ['Flexão de braços','Supino com halteres','Crucifixo inclinado','Peck Deck (máquina)','Flexão inclinada (joelhos)'],
+    intermediario: ['Supino reto (barra)','Supino inclinado','Crossover no cabo','Mergulho em paralelas','Flexão com palmas juntas'],
+    avancado:      ['Supino declinado','Supino pega aberta','Flexão archer','Mergulho lastrado','Supino guilhotina'],
+  },
+  costas: {
+    iniciante:     ['Remada curvada c/ halteres','Puxada frontal (máquina)','Remada baixa (cabo)','Superman','Pulldown no cabo'],
+    intermediario: ['Barra fixa','Remada cavalinho','Serrote c/ halter','Pullover c/ halter','Remada unilateral'],
+    avancado:      ['Barra fixa lastrada','Remada Pendlay','Levantamento terra','Pull-up com argolas','Remo máquina convergente'],
+  },
+  ombros: {
+    iniciante:     ['Elevação lateral c/ halteres','Desenvolvimento c/ halteres','Elevação frontal','Encolhimento de ombros','Desenvolvimento Arnold (leve)'],
+    intermediario: ['Desenvolvimento militar','Elevação lateral no cabo','Remada alta','Crucifixo invertido','Face pull'],
+    avancado:      ['Desenvolvimento atrás do pescoço','Elevação lateral lastrada','Clean e pressione','Handstand push-up','Arnold press pesado'],
+  },
+  biceps: {
+    iniciante:     ['Rosca direta c/ barra','Rosca alternada c/ halteres','Rosca martelo','Rosca concentrada','Rosca no cabo'],
+    intermediario: ['Rosca Scott','Rosca inversa','Rosca 21','Rosca aranha','Rosca Zottman'],
+    avancado:      ['Rosca com barra W pesada','Rosca inclinada','Curl preacher lastrado','Rosca dragão','Rosca isométrica máxima'],
+  },
+  triceps: {
+    iniciante:     ['Extensão de tríceps no cabo','Tríceps testa','Tríceps coice','Dip entre bancos','Tríceps francês'],
+    intermediario: ['Tríceps corda no cabo','Tríceps mergulho','Extensão unilateral','Kickback c/ halter','Supino fechado'],
+    avancado:      ['Mergulho lastrado','Extensão pesada acima da cabeça','Dip anéis','Skull crusher c/ barra','Tríceps JM Press'],
+  },
+  pernas: {
+    iniciante:     ['Agachamento livre','Leg press','Cadeira extensora','Cadeira flexora','Panturrilha em pé'],
+    intermediario: ['Agachamento c/ barra','Stiff','Avanço c/ halteres','Hack squat','Leg curl deitado'],
+    avancado:      ['Agachamento profundo c/ barra','Levantamento terra romeno','Pistol squat','Bulgarian split squat','Agachamento búlgaro lastrado'],
+  },
+  gluteos: {
+    iniciante:     ['Ponte de glúteo','Abdução de quadril','Kickback','Agachamento sumô','Step-up no banco'],
+    intermediario: ['Hip thrust c/ barra','Agachamento sumô pesado','Kickback no cabo','Abdução no cabo','Avanço reverso'],
+    avancado:      ['Hip thrust lastrado','Agachamento sumô máximo','Pull-through','Glute drive máquina','RDL unilateral'],
+  },
+  abdomen: {
+    iniciante:     ['Prancha','Crunch básico','Elevação de pernas','Bicicleta','Contração abdominal'],
+    intermediario: ['Prancha lateral','Ab wheel','Crunch inverso','Russian twist','Hollow body hold'],
+    avancado:      ['Dragon flag','Ab wheel em pé','V-up','Hanging leg raise','Canivete'],
+  },
+  cardio: {
+    iniciante:     ['Caminhada rápida 20 min','Pulo de corda 5 min','Jumping jack','Step básico','Bicicleta ergométrica leve'],
+    intermediario: ['Corrida 20 min','HIIT 15 min','Burpee','Mountain climber','Remo ergométrico'],
+    avancado:      ['Corrida intervalada','HIIT tabata','Box jump','Sprint 100m x8','Assault bike'],
+  },
+  full_body: {
+    iniciante:     ['Agachamento c/ flexão','Remada + desenvolvimento','Lunges alternados','Prancha com toque de ombro','Agachamento sumo + curl'],
+    intermediario: ['Thruster','Man maker','Kettlebell swing','Complexo de barra','Circuit training 5 exercícios'],
+    avancado:      ['Clean & jerk','Snatch','Turkish get-up','Complexo Barbell pesado','CrossFit WOD'],
+  },
+};
+
+let currentStep = 1;
+let selectedMuscle = null;
+let selectedLevel = null;
+let selectedExercises = new Set();
+let allExercises = [];
+let workouts = [];
+let activeWorkout = null;
+let currentExIdx = 0;
+let currentUser = {};
+
+function init() {
+  currentUser = JSON.parse(localStorage.getItem('moveup_user') || '{}');
+  
+  if (!currentUser.nome) {
+    window.location.href = './login.html';
+    return;
+  }
+
+  workouts = JSON.parse(localStorage.getItem('moveup_workouts_' + currentUser.email) || '[]');
+  document.getElementById('nav-user').textContent = `Olá, ${currentUser.nome}!`;
+  renderWorkouts();
+  renderMuscleGroups();
+}
+
+function logout() {
+  localStorage.removeItem('moveup_user');
+  window.location.href = './login.html';
+}
+
+function renderWorkouts(filter = '') {
+  const grid = document.getElementById('workouts-grid');
+  const empty = document.getElementById('empty-state');
+  const filtered = workouts.filter(w => w.name.toLowerCase().includes(filter.toLowerCase()));
+
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  const focusLabel = { hipertrofia:'Hipertrofia', forca:'Força', resistencia:'Resistência', queima:'Queima de gordura' };
+  const nivelLabel = { iniciante:'Iniciante', intermediario:'Intermediário', avancado:'Avançado' };
+
+  grid.innerHTML = filtered.map(w => `
+    <div class="workout-card bg-white" onclick="openWorkoutDetail('${w.id}')">
+      <div class="flex items-start justify-between mb-3">
+        <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center text-xl">
+          ${MUSCLE_GROUPS.find(m => m.id === w.muscle)?.emoji || '🏋️'}
+        </div>
+        <span class="badge">${nivelLabel[w.nivel] || w.nivel}</span>
+      </div>
+      <h3 class="text-[15px] font-bold text-dark mb-0.5 leading-snug">${w.name}</h3>
+      <p class="text-[12px] text-gray-400 mb-3">
+        ${MUSCLE_GROUPS.find(m => m.id === w.muscle)?.label || w.muscle} · ${focusLabel[w.foco] || w.foco} · ${w.duracao} min
+      </p>
+      <div class="flex items-center gap-2 flex-wrap">
+        ${w.exercises.slice(0, 3).map(e => `<span class="pill-tag">${e}</span>`).join('')}
+        ${w.exercises.length > 3 ? `<span class="pill-tag">+${w.exercises.length - 3}</span>` : ''}
+      </div>
+      <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+        <span class="text-[11.5px] text-gray-400">${w.exercises.length} exercícios</span>
+        <span class="text-[11.5px] font-semibold text-brand">Iniciar →</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('search-workouts').addEventListener('input', e => renderWorkouts(e.target.value));
+
+function renderMuscleGroups() {
+  const container = document.getElementById('muscle-groups');
+  container.innerHTML = MUSCLE_GROUPS.map(m => `
+    <button onclick="selectMuscle('${m.id}', this)"
+      class="flex flex-col items-center gap-1 p-3 border-[1.5px] border-gray-200 rounded-xl text-[12px] font-medium text-dark hover:border-brand hover:bg-blue-50 transition-all cursor-pointer bg-white"
+      data-muscle="${m.id}">
+      <span class="text-xl">${m.emoji}</span>
+      ${m.label}
+    </button>
+  `).join('');
+}
+
+function selectMuscle(id, btn) {
+  selectedMuscle = id;
+  document.querySelectorAll('#muscle-groups button').forEach(b => {
+    b.classList.remove('border-brand', 'bg-blue-50', 'font-bold');
+    b.style.color = '';
+  });
+  btn.classList.add('border-brand', 'bg-blue-50', 'font-bold');
+}
+
+function openNewWorkoutModal() {
+  selectedMuscle = null; selectedLevel = null;
+  selectedExercises = new Set();
+  currentStep = 1;
+  resetNewModal();
+  document.getElementById('new-modal').classList.remove('hidden');
+  document.getElementById('detail-modal').classList.add('hidden');
+  document.getElementById('overlay').classList.add('active');
+  updateStepUI();
+}
+
+function openWorkoutDetail(id) {
+  activeWorkout = workouts.find(w => w.id === id);
+  if (!activeWorkout) return;
+  currentExIdx = 0;
+
+  document.getElementById('detail-title').textContent = activeWorkout.name;
+  const focusLabel = { hipertrofia:'Hipertrofia', forca:'Força', resistencia:'Resistência', queima:'Queima de gordura' };
+  document.getElementById('detail-meta').textContent =
+    `${MUSCLE_GROUPS.find(m => m.id === activeWorkout.muscle)?.label} · ${focusLabel[activeWorkout.foco]} · ${activeWorkout.duracao} min`;
+
+  const list = document.getElementById('detail-ex-list');
+  list.innerHTML = activeWorkout.exercises.map((e, i) => `
+    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+      <span class="w-6 h-6 bg-dark text-white rounded-full text-[11px] font-bold flex items-center justify-center flex-shrink-0">${i+1}</span>
+      <span class="text-[13.5px] font-medium text-dark">${e}</span>
+    </div>
+  `).join('');
+
+  document.getElementById('detail-summary').classList.remove('hidden');
+  document.getElementById('detail-executing').classList.add('hidden');
+  document.getElementById('detail-done').classList.add('hidden');
+
+  document.getElementById('new-modal').classList.add('hidden');
+  document.getElementById('detail-modal').classList.remove('hidden');
+  document.getElementById('overlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('active');
+  setTimeout(() => {
+    document.getElementById('new-modal').classList.add('hidden');
+    document.getElementById('detail-modal').classList.add('hidden');
+    const card = document.getElementById('modal-card');
+    if (card) { card.style.transform = ''; card.style.opacity = ''; }
+  }, 350);
+}
+
+function resetNewModal() {
+  document.getElementById('workout-name').value = '';
+  document.getElementById('ex-search').value = '';
+  document.querySelectorAll('input[name="nivel-ex"]').forEach(r => r.checked = false);
+  document.querySelectorAll('input[name="foco"]').forEach(r => r.checked = false);
+  document.querySelectorAll('input[name="duracao"]').forEach(r => r.checked = false);
+  renderMuscleGroups();
+  ['err-s1','err-s2','err-s3'].forEach(id => document.getElementById(id).classList.add('hidden'));
+}
+
+function updateStepUI() {
+  [1, 2, 3].forEach(i => {
+    document.getElementById('s' + i).classList.toggle('active', i === currentStep);
+  });
+  const pct = Math.round((currentStep / 3) * 100);
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('step-label').textContent = `Etapa ${currentStep} de 3`;
+  document.getElementById('btn-back').classList.toggle('hidden', currentStep === 1);
+  document.getElementById('btn-next').textContent = currentStep === 3 ? 'Salvar treino' : 'Continuar';
+}
+
+function nextStep() {
+  if (currentStep === 1) {
+    selectedLevel = document.querySelector('input[name="nivel-ex"]:checked')?.value;
+    if (!selectedMuscle || !selectedLevel) {
+      const errS1 = document.getElementById('err-s1');
+      errS1.classList.remove('hidden');
+      errS1.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    document.getElementById('err-s1').classList.add('hidden');
+    buildExerciseList();
+    currentStep = 2; updateStepUI(); return;
+  }
+  if (currentStep === 2) {
+    const foco = document.querySelector('input[name="foco"]:checked')?.value;
+    const dur = document.querySelector('input[name="duracao"]:checked')?.value;
+    if (!foco || !dur) {
+      document.getElementById('err-s2').classList.remove('hidden'); return;
+    }
+    document.getElementById('err-s2').classList.add('hidden');
+    currentStep = 3; updateStepUI(); renderExerciseList(); return;
+  }
+  if (currentStep === 3) {
+    if (selectedExercises.size === 0) {
+      document.getElementById('err-s3').classList.remove('hidden'); return;
+    }
+    document.getElementById('err-s3').classList.add('hidden');
+    saveWorkout(); return;
+  }
+}
+
+function prevStep() {
+  if (currentStep > 1) { currentStep--; updateStepUI(); }
+}
+
+function buildExerciseList() {
+  const pool = EXERCISES_DB[selectedMuscle]?.[selectedLevel] || [];
+  const all = new Set([
+    ...(EXERCISES_DB[selectedMuscle]?.iniciante || []),
+    ...(EXERCISES_DB[selectedMuscle]?.intermediario || []),
+    ...(EXERCISES_DB[selectedMuscle]?.avancado || []),
+  ]);
+  allExercises = Array.from(all).map(name => ({
+    name,
+    suggested: pool.includes(name)
+  }));
+  selectedExercises = new Set(pool);
+  updateSelCount();
+}
+
+function renderExerciseList(filter = '') {
+  const container = document.getElementById('exercise-list');
+  const lf = filter.toLowerCase();
+  const visible = allExercises.filter(e => !lf || e.name.toLowerCase().includes(lf));
+
+  container.innerHTML = visible.map(e => {
+    const checked = selectedExercises.has(e.name);
+    return `
+      <div class="opt-item">
+        <input type="checkbox" id="ex-${e.name}" ${checked ? 'checked' : ''} onchange="toggleExercise('${e.name}', this.checked)"/>
+        <label for="ex-${e.name}">
+          <span class="check-box">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="flex-1 text-[13px]">${e.name}</span>
+          ${e.suggested ? '<span class="text-[10px] bg-brand text-white rounded-full px-2 py-0.5 font-semibold">Sugerido</span>' : ''}
+        </label>
+      </div>
+    `;
+  }).join('');
+  updateSelCount();
+
+  const tags = document.getElementById('filter-tags');
+  const levels = ['iniciante','intermediario','avancado'];
+  const lbl = { iniciante:'Iniciante', intermediario:'Intermediário', avancado:'Avançado' };
+  tags.innerHTML = levels.map(lv => `
+    <button onclick="filterByLevel('${lv}')"
+      class="pill-tag cursor-pointer border-none ${lv === selectedLevel ? 'active' : ''} hover:bg-blue-50"
+      data-lv="${lv}">${lbl[lv]}</button>
+  `).join('') + `<button onclick="filterByLevel(null)" class="pill-tag cursor-pointer border-none hover:bg-blue-50">Todos</button>`;
+}
+
+function filterByLevel(lv) {
+  const pool = lv ? (EXERCISES_DB[selectedMuscle]?.[lv] || []) : null;
+  const container = document.getElementById('exercise-list');
+  const searchVal = document.getElementById('ex-search').value;
+  const lf = searchVal.toLowerCase();
+
+  const visible = allExercises.filter(e => {
+    const matchSearch = !lf || e.name.toLowerCase().includes(lf);
+    const matchLevel = !pool || pool.includes(e.name);
+    return matchSearch && matchLevel;
+  });
+
+  container.innerHTML = visible.map(e => {
+    const checked = selectedExercises.has(e.name);
+    return `
+      <div class="opt-item">
+        <input type="checkbox" id="ex-${e.name}" ${checked ? 'checked' : ''} onchange="toggleExercise('${e.name}', this.checked)"/>
+        <label for="ex-${e.name}">
+          <span class="check-box">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="flex-1 text-[13px]">${e.name}</span>
+          ${e.suggested ? '<span class="text-[10px] bg-brand text-white rounded-full px-2 py-0.5 font-semibold">Sugerido</span>' : ''}
+        </label>
+      </div>
+    `;
+  }).join('');
+
+  document.querySelectorAll('[data-lv]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lv === lv);
+  });
+  updateSelCount();
+}
+
+function filterExercises(val) { renderExerciseList(val); }
+
+function toggleExercise(name, checked) {
+  checked ? selectedExercises.add(name) : selectedExercises.delete(name);
+  updateSelCount();
+}
+
+function updateSelCount() {
+  document.getElementById('sel-count').textContent = selectedExercises.size;
+}
+
+function saveWorkout() {
+  const name = document.getElementById('workout-name').value.trim() ||
+    `${MUSCLE_GROUPS.find(m => m.id === selectedMuscle)?.label} — ${new Date().toLocaleDateString('pt-BR')}`;
+  const foco = document.querySelector('input[name="foco"]:checked')?.value;
+  const duracao = document.querySelector('input[name="duracao"]:checked')?.value;
+
+  const workout = {
+    id: Date.now().toString(),
+    name,
+    muscle: selectedMuscle,
+    nivel: selectedLevel,
+    foco,
+    duracao,
+    exercises: Array.from(selectedExercises),
+    createdAt: new Date().toISOString(),
+  };
+
+  workouts.unshift(workout);
+  localStorage.setItem('moveup_workouts_' + currentUser.email, JSON.stringify(workouts));
+  closeModal();
+  renderWorkouts();
+}
+
+function startWorkout() {
+  currentExIdx = 0;
+  document.getElementById('detail-summary').classList.add('hidden');
+  document.getElementById('detail-executing').classList.remove('hidden');
+  document.getElementById('detail-done').classList.add('hidden');
+  showCurrentExercise();
+}
+
+const SETS_REPS = {
+  hipertrofia: '4 séries × 10–12 reps',
+  forca: '5 séries × 4–6 reps',
+  resistencia: '3 séries × 15–20 reps',
+  queima: '3 séries × 15 reps (30s descanso)',
+};
+
+const TIPS = [
+  'Mantenha a respiração controlada durante o movimento.',
+  'Foque na contração muscular no ponto de maior tensão.',
+  'Controle a descida — eccentric matters!',
+  'Mantenha a coluna neutra durante o exercício.',
+  'Hidrate-se entre as séries.',
+];
+
+function showCurrentExercise() {
+  const exList = activeWorkout.exercises;
+  const total = exList.length;
+  const ex = exList[currentExIdx];
+  const pct = Math.round(((currentExIdx) / total) * 100);
+
+  document.getElementById('ex-counter').textContent = `Exercício ${currentExIdx + 1} de ${total}`;
+  document.getElementById('ex-pct').textContent = pct + '%';
+  document.getElementById('ex-prog').style.width = pct + '%';
+
+  const tip = TIPS[currentExIdx % TIPS.length];
+  const setsReps = SETS_REPS[activeWorkout.foco] || '3 séries × 12 reps';
+
+  document.getElementById('ex-content').innerHTML = `
+    <div class="w-20 h-20 bg-brand rounded-2xl flex items-center justify-center mb-5 mx-auto">
+      <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+        <path d="M6.5 6.5h11v11h-11z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 4l2.5 2.5M20 4l-2.5 2.5M4 20l2.5-2.5M20 20l-2.5-2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h3 class="text-xl font-bold text-dark mb-2">${ex}</h3>
+    <div class="badge mb-4">${setsReps}</div>
+    <div class="w-full bg-blue-50 border border-blue-100 rounded-xl p-3 text-left">
+      <p class="text-[12px] text-brand font-semibold mb-0.5">💡 Dica</p>
+      <p class="text-[12px] text-gray-500">${tip}</p>
+    </div>
+    ${currentExIdx + 1 < total ? `
+    <p class="text-[11.5px] text-gray-400 mt-4">
+      Próximo: <span class="font-semibold text-dark">${exList[currentExIdx + 1]}</span>
+    </p>` : `<p class="text-[12px] text-brand font-semibold mt-4">🏁 Último exercício!</p>`}
+  `;
+
+  const content = document.getElementById('ex-content');
+  content.classList.remove('fade-in');
+  void content.offsetWidth;
+  content.classList.add('fade-in');
+}
+
+function completeExercise() {
+  currentExIdx++;
+  const total = activeWorkout.exercises.length;
+
+  if (currentExIdx >= total) {
+    document.getElementById('detail-executing').classList.add('hidden');
+    document.getElementById('detail-done').classList.remove('hidden');
+    document.getElementById('done-msg').textContent =
+      `Você completou ${total} exercício${total > 1 ? 's' : ''} do treino "${activeWorkout.name}". Continue assim! 💪`;
+
+    const key = 'moveup_history_' + currentUser.email;
+    const history = JSON.parse(localStorage.getItem(key) || '[]');
+    history.unshift({ workoutId: activeWorkout.id, name: activeWorkout.name, date: new Date().toISOString() });
+    localStorage.setItem(key, JSON.stringify(history.slice(0, 50)));
+    return;
+  }
+
+  const pct = Math.round((currentExIdx / total) * 100);
+  document.getElementById('ex-counter').textContent = `Exercício ${currentExIdx + 1} de ${total}`;
+  document.getElementById('ex-pct').textContent = pct + '%';
+  document.getElementById('ex-prog').style.width = pct + '%';
+  showCurrentExercise();
+}
+
+function deleteWorkout() {
+  if (!confirm(`Excluir o treino "${activeWorkout.name}"?`)) return;
+  workouts = workouts.filter(w => w.id !== activeWorkout.id);
+  localStorage.setItem('moveup_workouts_' + currentUser.email, JSON.stringify(workouts));
+  closeModal();
+  renderWorkouts();
+}
+
+init();
+</script>
+</body>
+</html>
