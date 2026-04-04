@@ -23,7 +23,6 @@
   <style>
     body { font-family: 'Poppins', sans-serif; }
 
-    /* Overlay/Popup */
     #overlay {
       opacity: 0; pointer-events: none;
       transition: opacity 0.35s ease;
@@ -36,7 +35,6 @@
     }
     #overlay.active #modal-card { transform: translateY(0) scale(1); opacity: 1; }
 
-    /* Workout card */
     .workout-card {
       border: 1.5px solid #e5e7eb;
       border-radius: 14px;
@@ -47,11 +45,9 @@
     .workout-card:hover { border-color: #1a4fa8; background: #f5f8ff; }
     .workout-card.selected { border-color: #1a4fa8; background: #eef3fc; }
 
-    /* Steps */
     .step { display: none; }
     .step.active { display: block; }
 
-    /* Radio / checkbox items */
     .opt-item input[type="checkbox"],
     .opt-item input[type="radio"] { display: none; }
     .opt-item label {
@@ -74,7 +70,6 @@
     .check-box svg { display: none; }
     .opt-item input:checked + label .check-box svg { display: block; }
 
-    /* Radio dot */
     .radio-circle {
       width: 18px; height: 18px; border: 2px solid #d1d5db;
       border-radius: 50%; flex-shrink: 0;
@@ -85,10 +80,8 @@
     .radio-dot { width: 8px; height: 8px; background: #1a4fa8; border-radius: 50%; display: none; }
     .opt-item input[type="radio"]:checked + label .radio-dot { display: block; }
 
-    /* Progress bar */
     #prog-bar { transition: width 0.4s cubic-bezier(.22,1,.36,1); }
 
-    /* Exercise item in list */
     .ex-item {
       display: flex; align-items: center; gap-3;
       padding: 10px 14px;
@@ -98,17 +91,12 @@
     }
     .ex-item.included { border-color: #1a4fa8; background: #eef3fc; }
 
-    /* Exercise executing */
     @keyframes fadeSlideIn {
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
     .fade-in { animation: fadeSlideIn 0.4s ease forwards; }
 
-    /* Timer ring */
-    #timer-ring { transition: stroke-dashoffset 1s linear; }
-
-    /* Badge */
     .badge {
       display: inline-flex; align-items: center; gap: 4px;
       background: #eef3fc; color: #1a4fa8;
@@ -116,19 +104,11 @@
       padding: 3px 9px; border-radius: 99px;
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 9px; }
 
     input[type="text"]:focus, textarea:focus { border-color: #1a4fa8; outline: none; }
-
-    @keyframes popIn {
-      0% { transform: scale(0); opacity: 0; }
-      70% { transform: scale(1.2); }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .pop-in { animation: popIn 0.5s cubic-bezier(.22,1,.36,1) forwards; }
 
     .pill-tag {
       display: inline-flex; align-items: center; gap: 5px;
@@ -167,7 +147,6 @@
     <p class="text-sm text-gray-400">Selecione um treino existente ou crie um novo personalizado.</p>
   </div>
 
-  <!-- Action bar -->
   <div class="flex flex-col sm:flex-row gap-3 mb-8">
     <div class="relative flex-1">
       <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" width="15" height="15" fill="none" viewBox="0 0 24 24">
@@ -333,48 +312,10 @@
         <div id="detail-ex-list" class="space-y-2 mb-6"></div>
         <button onclick="startWorkout()" id="btn-start"
           class="w-full bg-dark text-white text-[14px] font-semibold py-3.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
-          Iniciar treino →
+          Iniciar treino
         </button>
         <button onclick="deleteWorkout()" class="w-full mt-3 text-[12.5px] text-red-400 hover:text-red-600 transition-colors cursor-pointer bg-transparent border-none font-medium">
           Excluir treino
-        </button>
-      </div>
-
-      <div id="detail-executing" class="hidden flex-1 flex flex-col">
-
-        <div class="px-7 py-4 border-b border-gray-100">
-          <div class="flex items-center justify-between mb-1.5">
-            <span id="ex-counter" class="text-[11px] font-semibold text-brand uppercase tracking-widest"></span>
-            <span id="ex-pct" class="text-[11px] font-semibold text-gray-400"></span>
-          </div>
-          <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-            <div id="ex-prog" class="h-full bg-brand rounded-full transition-all duration-500"></div>
-          </div>
-        </div>
-
-        <div class="flex-1 overflow-y-auto px-7 py-6 flex flex-col items-center text-center fade-in" id="ex-content">
-        </div>
-
-        <div class="px-7 py-5 border-t border-gray-100 flex gap-3">
-          <button onclick="completeExercise()"
-            class="flex-1 bg-dark text-white text-[14px] font-semibold py-3 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
-            Concluir exercício ✓
-          </button>
-        </div>
-
-      </div>
-
-      <div id="detail-done" class="hidden flex-1 overflow-y-auto px-7 py-8 flex flex-col items-center text-center">
-        <div class="pop-in w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-5">
-          <svg width="36" height="28" viewBox="0 0 36 28" fill="none">
-            <path d="M3 14L13 24L33 4" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <h2 class="text-2xl font-bold text-dark mb-2">Treino concluído! 🎉</h2>
-        <p class="text-sm text-gray-500 mb-6 max-w-xs" id="done-msg"></p>
-        <button onclick="closeModal()"
-          class="w-full bg-dark text-white text-[14px] font-semibold py-3.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
-          Voltar aos treinos
         </button>
       </div>
 
@@ -457,17 +398,14 @@ let selectedExercises = new Set();
 let allExercises = [];
 let workouts = [];
 let activeWorkout = null;
-let currentExIdx = 0;
 let currentUser = {};
 
 function init() {
   currentUser = JSON.parse(localStorage.getItem('moveup_user') || '{}');
-  
   if (!currentUser.nome) {
     window.location.href = './login.html';
     return;
   }
-
   workouts = JSON.parse(localStorage.getItem('moveup_workouts_' + currentUser.email) || '[]');
   document.getElementById('nav-user').textContent = `Olá, ${currentUser.nome}!`;
   renderWorkouts();
@@ -512,7 +450,7 @@ function renderWorkouts(filter = '') {
       </div>
       <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
         <span class="text-[11.5px] text-gray-400">${w.exercises.length} exercícios</span>
-        <span class="text-[11.5px] font-semibold text-brand">Iniciar →</span>
+        <span class="text-[11.5px] font-semibold text-brand">Ver treino</span>
       </div>
     </div>
   `).join('');
@@ -555,7 +493,6 @@ function openNewWorkoutModal() {
 function openWorkoutDetail(id) {
   activeWorkout = workouts.find(w => w.id === id);
   if (!activeWorkout) return;
-  currentExIdx = 0;
 
   document.getElementById('detail-title').textContent = activeWorkout.name;
   const focusLabel = { hipertrofia:'Hipertrofia', forca:'Força', resistencia:'Resistência', queima:'Queima de gordura' };
@@ -569,10 +506,6 @@ function openWorkoutDetail(id) {
       <span class="text-[13.5px] font-medium text-dark">${e}</span>
     </div>
   `).join('');
-
-  document.getElementById('detail-summary').classList.remove('hidden');
-  document.getElementById('detail-executing').classList.add('hidden');
-  document.getElementById('detail-done').classList.add('hidden');
 
   document.getElementById('new-modal').classList.add('hidden');
   document.getElementById('detail-modal').classList.remove('hidden');
@@ -761,88 +694,8 @@ function saveWorkout() {
 }
 
 function startWorkout() {
-  currentExIdx = 0;
-  document.getElementById('detail-summary').classList.add('hidden');
-  document.getElementById('detail-executing').classList.remove('hidden');
-  document.getElementById('detail-done').classList.add('hidden');
-  showCurrentExercise();
-}
-
-const SETS_REPS = {
-  hipertrofia: '4 séries × 10–12 reps',
-  forca: '5 séries × 4–6 reps',
-  resistencia: '3 séries × 15–20 reps',
-  queima: '3 séries × 15 reps (30s descanso)',
-};
-
-const TIPS = [
-  'Mantenha a respiração controlada durante o movimento.',
-  'Foque na contração muscular no ponto de maior tensão.',
-  'Controle a descida — eccentric matters!',
-  'Mantenha a coluna neutra durante o exercício.',
-  'Hidrate-se entre as séries.',
-];
-
-function showCurrentExercise() {
-  const exList = activeWorkout.exercises;
-  const total = exList.length;
-  const ex = exList[currentExIdx];
-  const pct = Math.round(((currentExIdx) / total) * 100);
-
-  document.getElementById('ex-counter').textContent = `Exercício ${currentExIdx + 1} de ${total}`;
-  document.getElementById('ex-pct').textContent = pct + '%';
-  document.getElementById('ex-prog').style.width = pct + '%';
-
-  const tip = TIPS[currentExIdx % TIPS.length];
-  const setsReps = SETS_REPS[activeWorkout.foco] || '3 séries × 12 reps';
-
-  document.getElementById('ex-content').innerHTML = `
-    <div class="w-20 h-20 bg-brand rounded-2xl flex items-center justify-center mb-5 mx-auto">
-      <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
-        <path d="M6.5 6.5h11v11h-11z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M4 4l2.5 2.5M20 4l-2.5 2.5M4 20l2.5-2.5M20 20l-2.5-2.5" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <h3 class="text-xl font-bold text-dark mb-2">${ex}</h3>
-    <div class="badge mb-4">${setsReps}</div>
-    <div class="w-full bg-blue-50 border border-blue-100 rounded-xl p-3 text-left">
-      <p class="text-[12px] text-brand font-semibold mb-0.5">💡 Dica</p>
-      <p class="text-[12px] text-gray-500">${tip}</p>
-    </div>
-    ${currentExIdx + 1 < total ? `
-    <p class="text-[11.5px] text-gray-400 mt-4">
-      Próximo: <span class="font-semibold text-dark">${exList[currentExIdx + 1]}</span>
-    </p>` : `<p class="text-[12px] text-brand font-semibold mt-4">🏁 Último exercício!</p>`}
-  `;
-
-  const content = document.getElementById('ex-content');
-  content.classList.remove('fade-in');
-  void content.offsetWidth;
-  content.classList.add('fade-in');
-}
-
-function completeExercise() {
-  currentExIdx++;
-  const total = activeWorkout.exercises.length;
-
-  if (currentExIdx >= total) {
-    document.getElementById('detail-executing').classList.add('hidden');
-    document.getElementById('detail-done').classList.remove('hidden');
-    document.getElementById('done-msg').textContent =
-      `Você completou ${total} exercício${total > 1 ? 's' : ''} do treino "${activeWorkout.name}". Continue assim! 💪`;
-
-    const key = 'moveup_history_' + currentUser.email;
-    const history = JSON.parse(localStorage.getItem(key) || '[]');
-    history.unshift({ workoutId: activeWorkout.id, name: activeWorkout.name, date: new Date().toISOString() });
-    localStorage.setItem(key, JSON.stringify(history.slice(0, 50)));
-    return;
-  }
-
-  const pct = Math.round((currentExIdx / total) * 100);
-  document.getElementById('ex-counter').textContent = `Exercício ${currentExIdx + 1} de ${total}`;
-  document.getElementById('ex-pct').textContent = pct + '%';
-  document.getElementById('ex-prog').style.width = pct + '%';
-  showCurrentExercise();
+  if (!activeWorkout) return;
+  window.location.href = `./treino.html?id=${activeWorkout.id}`;
 }
 
 function deleteWorkout() {
