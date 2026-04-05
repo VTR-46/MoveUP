@@ -1,5 +1,5 @@
 
-
+// === VALIDAÇÃO BASICA DOS CAMPOS ===
 
 const nomeInput = document.querySelector('#nomeInput');
 const emailInput = document.querySelector('#emailInput');
@@ -71,9 +71,13 @@ confirmarSenhaInput.addEventListener('input', () => {
 
 });
 
+// =========================================================
+
 const form = document.querySelector('#form-cadastro');
 
-form.addEventListener('submit', (event) => {
+// === ENVIO DO FORMULARIO ===
+
+form.addEventListener('submit', (event) => {    
     event.preventDefault();
 
     let valido = true;
@@ -97,7 +101,7 @@ form.addEventListener('submit', (event) => {
     }
 
     if (valido) {
-        alert('Cadastro realizado');
+        alert('Cadastro realizado');    //TESTE 
         const usuario = {
             nome: nomeInput.value,
             email: emailInput.value,
@@ -116,3 +120,5 @@ form.addEventListener('submit', (event) => {
         window.location.href = "../html/home.html";
     }
 });
+
+//============================================================

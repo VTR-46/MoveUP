@@ -4,6 +4,7 @@ const boasVindasUsuario = document.querySelector('#boas-vindas');
 
 const nome = document.createTextNode(usuarioLS.nome);
 
+//=== SISTEMA DE BOAS VINDAS DE ACORDO COM O HORARIO E NOME DO USUARIO ===
 
 const d = new Date();
 console.log(d.getHours());
@@ -29,13 +30,19 @@ if ((d.getHours() >= 19 && d.getHours() <= 23) || (d.getHours() >= 0 && d.getHou
 
 boasVindasUsuario.textContent += " " + bomEstado.innerHTML + " " + nome.textContent;
 
+//==========================================
+
+//CARD DE CRIAÇÃO DE TREINO PERSONALIZADO QUE APARECE CASO O USUARIO AINDA NÃO TENHA UM TREINO PERSONALIZADO SETADO COMO TRUE 
+
 const divTreinoPersonalizado = document.querySelector('#div-treino-personalizado');
 
 // usuarioLS.possuiTreinoPesonalizado = false;
 // usuarioLS.possuiTreinoPesonalizado = true;
 
 if (usuarioLS.possuiTreinoPesonalizado == false) {
-    divTreinoPersonalizado.style.display = 'flex';
+    divTreinoPersonalizado.style.display = 'flex';  //APARECE
 }else{
-    divTreinoPersonalizado.style.display = 'none';
+    divTreinoPersonalizado.style.display = 'none';  //SOME
 }
+
+//=================================================
