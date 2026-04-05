@@ -30,25 +30,34 @@
 
     <main>
 
-        
+
 
         <div class="flex items-center justify-center p-10">
 
 
             <div id="form-logincadastro" class="w-[400px] p-6 rounded-lg shadow">
                 <h1 class="text-4xl text-center">CADASTRO</h1>
-                <form class="flex flex-col gap-3">
+                <form id="form-cadastro" class="flex flex-col gap-3">
 
                     <label>Nome</label>
-                    <input type="text" required class="border p-2 rounded">
+                    <input type="text" id="nomeInput" required class="border p-2 rounded">
 
                     <label>E-mail</label>
-                    <input type="email" required class="border p-2 rounded">
+                    <input type="email" id="emailInput" required class="border p-2 rounded">
 
                     <label>Senha</label>
-                    <input type="password" required class="border p-2 rounded">
+                    <input type="password" id="senhaInput" required minlength="8" class="border p-2 rounded">
 
-                    <button type="submit" class="bg-blue-500 text-white p-2 rounded mt-2 rounded transition duration-700 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500">
+                    <label>Confirmar senha</label>
+                    <input type="password" id="confirma-senhaInput" required  class="border p-2 rounded">
+
+                    <span id="nome-error" class="text-red-500 text-sm"></span>
+                    <span id="email-error" class="text-red-500 text-sm"></span>
+                    <span id="senha-error" class="text-red-500 text-sm"></span>
+                    <span id="senhac-error" class="text-red-500 text-sm"></span>
+
+                    <button type="submit"
+                        class="bg-blue-500 text-white p-2 rounded mt-2 rounded transition duration-700 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500">
                         Cadastrar
                     </button>
 
@@ -61,6 +70,7 @@
     <footer>
 
     </footer>
+    <script src="../js/scriptCadastro.js"></script>
 </body>
 
 </html>
