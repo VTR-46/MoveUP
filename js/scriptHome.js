@@ -28,3 +28,14 @@ if ((d.getHours() >= 19 && d.getHours() <= 23) || (d.getHours() >= 0 && d.getHou
 
 
 boasVindasUsuario.textContent += " " + bomEstado.innerHTML + " " + nome.textContent;
+
+const divTreinoPersonalizado = document.querySelector('#div-treino-personalizado');
+
+// usuarioLS.possuiTreinoPesonalizado = false;
+// usuarioLS.possuiTreinoPesonalizado = true;
+
+if (usuarioLS.possuiTreinoPesonalizado == false) {
+    divTreinoPersonalizado.style.display = 'flex';
+}else{
+    divTreinoPersonalizado.style.display = 'none';
+}

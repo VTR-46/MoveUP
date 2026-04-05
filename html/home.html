@@ -52,6 +52,16 @@
                 <span></span>
             </div>
         </div>
+        <div id="div-treino-personalizado" style="display: none;" class="flex justify-center items-center">
+            <a href="../html/questionario.html">
+                <div id="card-treino"
+                    class="w-100 h-50 p-3 rounded transition duration-700 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 ">
+                    <img src="../img/treino personalizado.png" alt="Icone de um quebra cabeça" class="w-15 ">
+                    <h2 class="text-2xl">Treino Pesonalizado</h2>
+                    <p>Você não possui um treino personalizado ainda, Clique aqui para criar seus treinos personalizados conforme suas preferencias e objetivos</p>
+                </div>
+            </a>
+        </div>
 
         <!-- !!!!SE FOR NECESSARIO UMA BARRA DE PESQUISA, VAI SER PRECISO MONTAR UM NOVO SPRIPT!!!! -->
 
@@ -226,7 +236,7 @@
             class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-neutral-primary-soft border border-default rounded-full bottom-4 left-1/2 flex justify-center">
             <div class="grid h-full w-full max-w-lg grid-cols-4 mx-auto">
 
-                <button data-tooltip-target="tooltip-home" type="button"
+                <a href="../html/home.html" data-tooltip-target="tooltip-home" type="button"
                     class="group inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-neutral-secondary-medium bg-cyan-600">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-black-500 group-hover:text-white">
@@ -235,14 +245,14 @@
                     </svg>
                     <span class="sr-only ">Home</span>
 
-                </button>
+                </a>
                 <div id="tooltip-home" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-black transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
                     Home
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
-                <button data-tooltip-target="tooltip-wallet" type="button"
+                <a href="../html/treinos.html" data-tooltip-target="tooltip-wallet" type="button"
                     class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -253,14 +263,14 @@
                         <path d="M9.964 6.825C8.019 7.977 9.5 13 8 15" />
                     </svg>
                     <span class="sr-only">Treinos</span>
-                </button>
+                </a>
                 <div id="tooltip-wallet" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-black transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
                     Treinos
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
-                <button data-tooltip-target="tooltip-settings" type="button"
+                <a href="../html/estatisticas.html" data-tooltip-target="tooltip-settings" type="button"
                     class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-white group-hover:text-white">
@@ -268,14 +278,14 @@
                             d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                     </svg>
                     <span class="sr-only">Estatísticas</span>
-                </button>
+                </a>
                 <div id="tooltip-settings" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-black transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
                     Estatísticas
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
-                <button data-tooltip-target="tooltip-profile" type="button"
+                <a href="../html/perfil" data-tooltip-target="tooltip-profile" type="button"
                     class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-white group-hover:text-white">
@@ -283,7 +293,7 @@
                             d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
                     <span class="sr-only">Perfil</span>
-                </button>
+                </a>
                 <div id="tooltip-profile" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-black transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
                     Perfil

@@ -102,6 +102,10 @@ form.addEventListener('submit', (event) => {
             nome: nomeInput.value,
             email: emailInput.value,
             senha: senhaInput.value,
+            possuiTreinoPesonalizado: false,
+            objetivo: null,
+            local: null,
+            estado: null
         }
 
         console.log(usuario);
