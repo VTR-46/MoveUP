@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <title>Cadastro</title>
+</head>
+
+<body>
+    <header>
+        <nav id="cabecalho" class="bg-neutral-primary sticky w-full z-20 top-0 start-0 border-b border-default">
+            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                <a href="../index.html" class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <img src="../img/MoveUPSoloWhite.png" class="h-10" alt="Flowbite Logo" />
+                </a>
+
+                <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+                    <div class="flex gap-4 text-white" id="bt-login-cadastro">
+                        <a href=""><button id="bt-login" class="px-5 py-2">Login</button></a>
+                        <a href=""><button id="bt-cadastro" class="px-5 py-2">Cadastro</button></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        
+
+        <div class="flex items-center justify-center p-10">
+
+
+            <div id="form-logincadastro" class="w-[400px] p-6 rounded-lg shadow">
+                <h1 class="text-4xl text-center">CADASTRO</h1>
+                <form class="flex flex-col gap-3">
+
+                    <label>Nome</label>
+                    <input type="text" required class="border p-2 rounded">
+
+                    <label>E-mail</label>
+                    <input type="email" required class="border p-2 rounded">
+
+                    <label>Senha</label>
+                    <input type="password" required class="border p-2 rounded">
+
+                    <button type="submit" class="bg-blue-500 text-white p-2 rounded mt-2 rounded transition duration-700 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500">
+                        Cadastrar
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+    <footer>
+
+    </footer>
+</body>
+
+</html>

@@ -61,3 +61,17 @@ button:hover {
     background-color: #0062ff;
     border-color: #ffffff;
 }
+
+#form-logincadastro{
+    border: 2px solid #0062ff;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+#form-logincadastro input{
+    border: 2px solid #1871ff;
+    border-radius: 5px;
+    background-color: #f6fdff;
+    
+    
+}
