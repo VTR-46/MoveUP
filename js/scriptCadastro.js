@@ -109,5 +109,6 @@ form.addEventListener('submit', (event) => {
         localStorage.setItem('usuarioLOCAL', JSON.stringify(usuario));
 
 
+        window.location.href = "../html/home.html";
     }
 });

@@ -25,6 +25,7 @@ button:hover {
 
 #cabecalho {
     background-color: #0c0d1a;
+    color: #f6fdff;
 }
 
 #hm-pt2 {
@@ -74,4 +75,32 @@ button:hover {
     background-color: #f6fdff;
     
     
+}
+
+#card-treino{
+    border: 2px solid #0062ff;
+    border-radius: 5px;
+    background-color: #0c0d1a;
+    color: #f6fdff;
+}
+
+#barra-navegacao-bottom{
+
+    background-color: #0c0d1a;;
+
+}
+
+#card-principal-treino-em-alta{
+
+    background-color: #afafaf;
+    border-radius: 8px;
+    border: 0;
+
+}
+
+#nota-do-treino p{
+
+    background-color: #ffffff;
+    border-radius: 8px;
+
 }
