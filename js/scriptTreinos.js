@@ -13,6 +13,18 @@ class Exercicio {
     }
 }
 
+class Treino {
+    constructor(nome, calorias, tempoEstimado, dificultade, descricao, img) {
+        this.nome = nome
+        this.exercicios = [];
+        this.calorias = calorias;
+        this.tempoEstimado = tempoEstimado;
+        this.dificultade = dificultade;
+        this.descricao = descricao;
+        this.img = img;
+    }
+}
+
 //TREINOS PADRONIZADOS
 
 //                       NOME             REPETIÇOES | SERIES | TEMPO_DESCANSO(Seg) | TEMPO_ESTIMADO(Min) | CALORIAS | DIFICULDADE | DESCRIÇÃO
@@ -23,3 +35,15 @@ const ex4 = new Exercicio("Agachamento Livre",                  12, 4, 60, 12, 6
 const ex5 = new Exercicio("Leg Press",                          12, 4, 90, 10, 50, "Média", "...");
 const ex6 = new Exercicio("Corrida na Esteira",                 1, 1, 90, 20, 30, "Média", "...");
 const ex7 = new Exercicio("Remada Curvada (costas)",            10, 4, 90, 10, 40, "Média", "...");
+
+
+
+
+const tr1 = new Treino("Treino Simples");
+
+tr1.exercicios.push(ex1, ex2, ex4);
+
+tr1.calorias = 95;
+tr1.tempoEstimado = 30;  //MINUTOS
+tr1.dificultade = "Média";
+tr1.descricao = "Treino X com exercicio tal tal tal tal";
