@@ -16,6 +16,12 @@ nomeInput.addEventListener('input', () => {
         nomeError.textContent = errorMsg;
     }
 
+    if (nomeInput.value.length > 20) {
+        const errorMsg = 'O nome deve ter no máximo 20 caracteres';
+        nomeInput.setCustomValidity(errorMsg);
+        nomeError.textContent = errorMsg;
+    }
+
 });
 
 const emailError = document.querySelector('#email-error');
@@ -52,6 +58,12 @@ senhaInput.addEventListener('input', () => {
         senhaError.textContent = errorMsg;
     }
 
+    if (senhaInput.value.length > 25) {
+        const errorMsg = 'A senha deve ter no máximo 25 caracteres';
+        senhaInput.setCustomValidity(errorMsg);
+        senhaError.textContent = errorMsg;
+    }
+
 
 
 });
@@ -77,10 +89,15 @@ const form = document.querySelector('#form-cadastro');
 
 // === ENVIO DO FORMULARIO ===
 
-form.addEventListener('submit', (event) => {    
+form.addEventListener('submit', (event) => {
     event.preventDefault();
 
     let valido = true;
+
+
+    if (nomeInput.value.length > 20) {
+        valido = false;
+    }
 
     // EMAIL
     if (!emailInput.value || emailInput.validity.typeMismatch) {
@@ -91,6 +108,10 @@ form.addEventListener('submit', (event) => {
     // SENHA
     if (senhaInput.value.length < 8) {
         senhaError.textContent = 'Senha deve ter no mínimo 8 caracteres';
+        valido = false;
+    }
+
+    if (senhaInput.value.length > 25) {
         valido = false;
     }
 
