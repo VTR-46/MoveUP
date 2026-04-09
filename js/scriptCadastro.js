@@ -22,6 +22,12 @@ nomeInput.addEventListener('input', () => {
         nomeError.textContent = errorMsg;
     }
 
+    if (nomeInput.value.length < 2) {
+        const errorMsg = 'O nome deve ter no minimo 2 caracteres';
+        nomeInput.setCustomValidity(errorMsg);
+        nomeError.textContent = errorMsg;
+    }
+
 });
 
 const emailError = document.querySelector('#email-error');
@@ -96,6 +102,10 @@ form.addEventListener('submit', (event) => {
 
 
     if (nomeInput.value.length > 20) {
+        valido = false;
+    }
+
+    if (nomeInput.value.length < 2) {
         valido = false;
     }
 
