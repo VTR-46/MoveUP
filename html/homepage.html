@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MoveUP — Meu Perfil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        dark: '#0a1628',
+                        brand: '#1a4fa8',
+                        'brand-light': '#3a7fd4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ── Streak fire animation ── */
+        @keyframes flicker {
+
+            0%,
+            100% {
+                transform: scaleY(1) rotate(-1deg);
+                filter: brightness(1);
+            }
+
+            25% {
+                transform: scaleY(1.05) rotate(1deg);
+                filter: brightness(1.1);
+            }
+
+            50% {
+                transform: scaleY(0.97) rotate(-0.5deg);
+                filter: brightness(0.95);
+            }
+
+            75% {
+                transform: scaleY(1.03) rotate(1.5deg);
+                filter: brightness(1.05);
+            }
+        }
+
+        .fire-icon {
+            animation: flicker 1.8s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes countUp {
+            from {
+                transform: translateY(8px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .count-up {
+            animation: countUp 0.5s cubic-bezier(.22, 1, .36, 1) forwards;
+        }
+
+        /* ── Streak ring ── */
+        .streak-ring {
+            transition: stroke-dashoffset 1.2s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        /* ── Rank badge ── */
+        .rank-gold {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        .rank-silver {
+            background: linear-gradient(135deg, #9ca3af, #d1d5db);
+        }
+
+        .rank-bronze {
+            background: linear-gradient(135deg, #b45309, #d97706);
+        }
+
+        /* ── Card hover ── */
+        .stat-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(26, 79, 168, 0.10);
+        }
+
+        /* ── Edit modal ── */
+        #edit-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #edit-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #edit-card {
+            transform: translateY(28px) scale(0.97);
+            transition: transform 0.35s cubic-bezier(.22, 1, .36, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        #edit-overlay.active #edit-card {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        /* ── Ranking row ── */
+        .rank-row {
+            transition: background 0.15s ease;
+        }
+
+        .rank-row:hover {
+            background: #f5f8ff;
+        }
+
+        .rank-row.is-me {
+            background: #eef3fc;
+            border-left: 3px solid #1a4fa8;
+        }
+
+        /* ── Week calendar ── */
+        .day-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .day-dot.done {
+            background: #1a4fa8;
+            color: white;
+        }
+
+        .day-dot.today {
+            border: 2px solid #1a4fa8;
+            color: #1a4fa8;
+        }
+
+        .day-dot.missed {
+            background: #f3f4f6;
+            color: #9ca3af;
+        }
+
+        .day-dot.future {
+            background: #f9fafb;
+            color: #d1d5db;
+        }
+
+        /* ── Avatar ── */
+        .avatar-ring {
+            background: conic-gradient(#1a4fa8 0%, #3a7fd4 60%, #e5e7eb 60%);
+            border-radius: 50%;
+            padding: 3px;
+            transition: background 0.5s ease;
+        }
+
+        /* ── Tab ── */
+        .tab-btn {
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: #1a4fa8;
+            border-bottom-color: #1a4fa8;
+            font-weight: 600;
+        }
+
+        /* ── Achievement badge ── */
+        .ach-badge {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .ach-badge.earned {
+            border-color: #1a4fa8;
+            background: #eef3fc;
+        }
+
+        .ach-badge.locked {
+            opacity: 0.45;
+            filter: grayscale(0.6);
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 9px;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #1a4fa8;
+            outline: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s cubic-bezier(.22, 1, .36, 1) forwards;
+        }
+
+        .slide-up-2 {
+            animation: slideUp 0.5s 0.08s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .slide-up-3 {
+            animation: slideUp 0.5s 0.16s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .slide-up-4 {
+            animation: slideUp 0.5s 0.24s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .pop-in {
+            animation: popIn 0.45s cubic-bezier(.22, 1, .36, 1) forwards;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #0a1628;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            z-index: 9999;
+            transform: translateY(60px);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(.22, 1, .36, 1);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+    <!-- Input hidden for file upload -->
+    <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleAvatarUpload(event)" />
+</head>
+
+<body class="font-poppins bg-gray-50 min-h-screen">
+
+    <!-- ═══ NAV ═══ -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2">
+                    <img src="../img/MoveUPSolo.png" alt=""
+                        class="w-35 h-10 rounded-lg flex items-center justify-center">
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="./perfil.html"
+                    class="text-sm text-gray-500 hover:text-dark transition-colors font-medium hidden sm:block">Meu
+                    Perfil</a>
+                <a href="./exercicios.html"
+                    class="text-sm text-gray-500 hover:text-dark transition-colors font-medium hidden sm:block">Treinos</a>
+                <button onclick="logout()"
+                    class="text-sm text-gray-400 hover:text-dark transition-colors font-medium bg-transparent border-none cursor-pointer p-0">Sair</button>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+        <div class="relative w-60 mx-auto">
+            <figure>
+                <img src="../img/MoveUPSolo.png" alt="Banner">
+            </figure>
+        </div>
+
+        <div id="boas-vindas" class="p-1 text-3xl">
+            <p>Olá, </p>
+        </div>
+
+        <button onclick="openNewWorkoutModal()"
+            class="flex items-center gap-2 bg-dark text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none whitespace-nowrap">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+                <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+            Criar novo treino
+        </button>
+
+        <div id="default-carousel" class="relative w-full" data-carousel="slide">
+            <!-- Carousel wrapper -->
+            <div class="relative h-56 overflow-hidden rounded-base md:h-96">
+                <!-- Item 1 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <a href="">
+                        <img src="../img/MoveUP_banner.png"
+                            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+
+                        <div
+                            class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent text-white p-4">
+                            <h2 class="text-lg font-bold">EM ALTA🔥</h2>
+                            <p class="text-sm">Veja os exercicios em alta!</p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Item 2 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <a href="https://www.youtube.com/watch?v=No6n6r5INkU&t">
+                        <img src="../img/maxresdefault.jpg"
+                            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+
+                        <div
+                            class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent text-white p-4">
+                            <h2 class="text-lg font-bold">DICAS PARA INICAINATES COM RENATO CARIANI</h2>
+                            <p class="text-sm">Melhores dicas para quem está começando no mundo dos treinos</p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Item 3 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <a href="https://www.youtube.com/watch?v=LHWJuZwx8SM">
+                        <img src="../img/maxresdefault2.jpg"
+                            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+
+                        <div
+                            class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent text-white p-4">
+                            <h2 class="text-lg font-bold">OS PRINCIPAIS MÉTODOS DE TEINAMENTO NA MUSCULAÇÃO</h2>
+                            <p class="text-sm">professor explica de forma resumida e muito clara os principais métodos e
+                                sistemas de treino que podes utilizar</p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Item 4 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <a href="https://www.youtube.com/watch?v=wSoMLk6trCw&t">
+                        <img src="../img/hq720 (1).jpg"
+                            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+
+                        <div
+                            class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent text-white p-4">
+                            <h2 class="text-lg font-bold">A MELHOR DIETA PARA PERDER GOURDURA E GANHAR MASSA MUSCULAR
+                            </h2>
+                            <p class="text-sm">O Leandro Twin é um dos educadores físicos mais conhecidos no Brasil e
+                                explica de forma muito simples e direta como estruturar a tua dieta.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Slider controls -->
+                <button type="button"
+                    class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                    data-carousel-prev>
+                    <span
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-base bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <svg class="w-5 h-5 text-white rtl:rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m15 19-7-7 7-7" />
+                        </svg>
+                        <span class="sr-only">Previous</span>
+                    </span>
+                </button>
+                <button type="button"
+                    class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                    data-carousel-next>
+                    <span
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-base bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <svg class="w-5 h-5 text-white rtl:rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m9 5 7 7-7 7" />
+                        </svg>
+                        <span class="sr-only">Next</span>
+                    </span>
+                </button>
+            </div>
+
+            <div class="mt-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-3xl font-bold text-dark">🔥 Meus treinos recentes</h2>
+                    <a href="./exercicios.html" class="text-sm font-semibold text-brand hover:underline">Ver todos</a>
+                </div>
+
+                <div id="workouts-list" class="flex flex-col gap-3">
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <h2 class="text-3xl font-bold text-dark mb-4">⭐ Treinos Recomendados</h2>
+                <p class="text-sm text-gray-400 mb-4 -mt-3">Experimente um destes treinos prontos criados por
+                    especialistas.</p>
+
+                <div id="recommended-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                </div>
+            </div>
+
+    </main>
+
+    <div id="edit-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4"
+        style="background: rgba(10,22,40,0.55); backdrop-filter: blur(4px);">
+        <div id="edit-card" class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-xl">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                <h3 class="font-bold text-dark text-base" id="edit-title">Editar Perfil</h3>
+                <button onclick="closeEditModal()"
+                    class="text-gray-300 hover:text-gray-500 cursor-pointer bg-transparent border-none transition-colors">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6" id="edit-body"></div>
+        </div>
+    </div>
+
+    <div id="barra-navegacao-bottom"
+        class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-dark  rounded-full bottom-4 left-1/2 flex justify-center">
+        <div class="grid h-full w-full max-w-lg grid-cols-4 mx-auto">
+
+            <a href="../html/homepage.html" data-tooltip-target="tooltip-home" type="button"
+                class="group inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-neutral-secondary-medium bg-cyan-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6 text-black-500 group-hover:text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+                <span class="sr-only ">Home</span>
+
+            </a>
+            <div id="tooltip-home" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+                Home
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+
+            <a href="../html/exercicios.html" data-tooltip-target="tooltip-wallet" type="button"
+                class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-biceps-flexed-icon lucide-biceps-flexed text-white group-hover:text-white">
+                    <path
+                        d="M12.409 13.017A5 5 0 0 1 22 15c0 3.866-4 7-9 7-4.077 0-8.153-.82-10.371-2.462-.426-.316-.631-.832-.62-1.362C2.118 12.723 2.627 2 10 2a3 3 0 0 1 3 3 2 2 0 0 1-2 2c-1.105 0-1.64-.444-2-1" />
+                    <path d="M15 14a5 5 0 0 0-7.584 2" />
+                    <path d="M9.964 6.825C8.019 7.977 9.5 13 8 15" />
+                </svg>
+                <span class="sr-only">Treinos</span>
+            </a>
+            <div id="tooltip-wallet" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+                Treinos
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+
+            <a href="../html/estatisticas.html" data-tooltip-target="tooltip-settings" type="button"
+                class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6 text-white group-hover:text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                </svg>
+                <span class="sr-only">Estatísticas</span>
+            </a>
+            <div id="tooltip-settings" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+                Estatísticas
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+
+            <a href="../html/perfil.html" data-tooltip-target="tooltip-profile" type="button"
+                class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6 text-white group-hover:text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+                <span class="sr-only">Perfil</span>
+            </a>
+            <div id="tooltip-profile" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+                Perfil
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="toast" class="toast"></div>
+
+    <footer class="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+
+            <hr class="my-6 border-default sm:mx-auto lg:my-8" />
+            <span class="block text-sm text-body sm:text-center">© 2023 <a href="https://flowbite.com/"
+                    class="hover:underline">Flowbite™</a>. All Rights Reserved.</span>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script>
+        function getWorkouts() {
+            const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
+            if (!user.email) return [];
+            return JSON.parse(localStorage.getItem('moveup_workouts_' + user.email) || '[]');
+        }
+
+        function renderTopWorkouts() {
+            const container = document.getElementById('workouts-list');
+            const workouts = getWorkouts();
+
+            if (!workouts.length) {
+                container.innerHTML = '<p class="text-sm text-gray-400 mt-2">Nenhum treino criado ainda. Crie seu primeiro treino!</p>';
+                return;
+            }
+
+            // Pega apenas os 5 primeiros treinos (índices 0 a 4)
+            const top5 = workouts.slice(0, 5);
+
+            container.innerHTML = top5.map(w => `
+            <div onclick="window.location.href='./treino.html?id=${w.id}'" class="bg-white border border-gray-200 rounded-xl p-4 hover:border-brand hover:bg-blue-50 transition-all cursor-pointer flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                        📋
+                    </div>
+                    <div>
+                        <p class="text-[15px] font-bold text-dark">${w.name}</p>
+                        <p class="text-[12px] text-gray-400 capitalize">${w.muscle || 'Misto'} • ${w.exercises.length} exercícios</p>
+                    </div>
+                </div>
+                <span class="text-brand font-bold text-xl">›</span>
+            </div>
+        `).join('');
+        }
+
+        const TREINOS_RECOMENDADOS = [
+            {
+                name: "Peito e Tríceps Express",
+                muscle: "peito",
+                nivel: "iniciante",
+                foco: "hipertrofia",
+                duracao: "30",
+                exercises: ["Flexão de braços", "Supino reto (barra)", "Tríceps corda no cabo"]
+            },
+            {
+                name: "Pernas de Aço",
+                muscle: "pernas",
+                nivel: "intermediario",
+                foco: "forca",
+                duracao: "45",
+                exercises: ["Agachamento livre", "Leg press", "Cadeira extensora", "Hip thrust c/ barra"]
+            },
+            {
+                name: "Seca Barriga",
+                muscle: "cardio",
+                nivel: "iniciante",
+                foco: "queima",
+                duracao: "30",
+                exercises: ["Caminhada rápida 20 min", "Prancha", "Jumping jack"]
+            }
+
+
+        ];
+
+        function renderRecommendedWorkouts() {
+            const container = document.getElementById('recommended-list');
+
+            container.innerHTML = TREINOS_RECOMENDADOS.map((w, index) => `
+            <div onclick="startRecommended(${index})" class="bg-white border border-yellow-300 rounded-xl p-4 hover:shadow-lg transition-all cursor-pointer relative overflow-hidden group">
+                <div class="absolute top-0 right-0 bg-yellow-400 text-dark text-[10px] font-bold px-3 py-1 rounded-bl-xl">PRONTO</div>
+                
+                <div class="flex items-center gap-3 mb-3 mt-1">
+                    <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center text-xl">⭐</div>
+                    <div>
+                        <p class="text-[14px] font-bold text-dark leading-tight">${w.name}</p>
+                        <p class="text-[11px] text-gray-500 mt-0.5">${w.duracao} min • ${w.foco}</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                    ${w.exercises.slice(0, 2).map(ex => `<span class="bg-gray-100 text-gray-600 text-[10px] font-medium px-2 py-1 rounded-md">${ex}</span>`).join('')}
+                    ${w.exercises.length > 2 ? `<span class="bg-gray-100 text-gray-600 text-[10px] font-medium px-2 py-1 rounded-md">+${w.exercises.length - 2}</span>` : ''}
+                </div>
+            </div>
+        `).join('');
+        }
+
+        function startRecommended(index) {
+            const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
+            const workouts = JSON.parse(localStorage.getItem('moveup_workouts_' + user.email) || '[]');
+
+            // Copia o treino recomendado e cria um ID único para ele
+            const novoTreino = { ...TREINOS_RECOMENDADOS[index] };
+            novoTreino.id = Date.now().toString();
+            novoTreino.createdAt = new Date().toISOString();
+
+            // Salva na lista do usuário
+            workouts.unshift(novoTreino);
+            localStorage.setItem('moveup_workouts_' + user.email, JSON.stringify(workouts));
+
+            // Redireciona para começar o treino
+            window.location.href = './treino.html?id=' + novoTreino.id;
+        }
+
+        function scrollCarousel(direction) {
+            const carousel = document.getElementById('carousel');
+            const scrollAmount = 220;
+            carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+        }
+
+        function logout() {
+            localStorage.removeItem('moveup_user');
+            window.location.href = './login.html';
+        }
+
+        function openNewWorkoutModal() {
+            // Redireciona para a página de treinos/exercícios onde o modal de fato existe
+            window.location.href = './exercicios.html';
+        }
+
+        function init() {
+            const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
+
+            // Proteção: Se não tiver usuário logado, manda pro login
+            if (!user.nome) {
+                window.location.href = './login.html';
+                return;
+            }
+
+            const boasVindasUsuario = document.querySelector('#boas-vindas');
+            if (boasVindasUsuario) {
+                const hora = new Date().getHours();
+                let saudacao = "Boa noite";
+
+                if (hora >= 4 && hora < 12) {
+                    saudacao = "Bom dia";
+                } else if (hora >= 12 && hora < 18) {
+                    saudacao = "Boa tarde";
+                }
+
+                boasVindasUsuario.innerHTML = `<p>${saudacao}, ${user.nome}!</p>`;
+            }
+
+
+            renderTopWorkouts();
+            renderTopWorkouts();
+            renderRecommendedWorkouts();
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
