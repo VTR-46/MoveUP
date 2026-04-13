@@ -1,0 +1,122 @@
+body { font-family: 'Poppins', sans-serif; }
+
+/* ── Streak fire animation ── */
+@keyframes flicker {
+  0%, 100% { transform: scaleY(1) rotate(-1deg); filter: brightness(1); }
+  25% { transform: scaleY(1.05) rotate(1deg); filter: brightness(1.1); }
+  50% { transform: scaleY(0.97) rotate(-0.5deg); filter: brightness(0.95); }
+  75% { transform: scaleY(1.03) rotate(1.5deg); filter: brightness(1.05); }
+}
+.fire-icon { animation: flicker 1.8s ease-in-out infinite; display: inline-block; }
+
+@keyframes countUp {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.count-up { animation: countUp 0.5s cubic-bezier(.22,1,.36,1) forwards; }
+
+/* ── Streak ring ── */
+.streak-ring { transition: stroke-dashoffset 1.2s cubic-bezier(.22,1,.36,1); }
+
+/* ── Rank badge ── */
+.rank-gold { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.rank-silver { background: linear-gradient(135deg, #9ca3af, #d1d5db); }
+.rank-bronze { background: linear-gradient(135deg, #b45309, #d97706); }
+
+/* ── Card hover ── */
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26,79,168,0.10);
+}
+
+/* ── Edit modal ── */
+#edit-overlay {
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+#edit-overlay.active { opacity: 1; pointer-events: all; }
+#edit-card {
+  transform: translateY(28px) scale(0.97);
+  transition: transform 0.35s cubic-bezier(.22,1,.36,1), opacity 0.3s ease;
+  opacity: 0;
+}
+#edit-overlay.active #edit-card { transform: translateY(0) scale(1); opacity: 1; }
+
+/* ── Ranking row ── */
+.rank-row { transition: background 0.15s ease; }
+.rank-row:hover { background: #f5f8ff; }
+.rank-row.is-me { background: #eef3fc; border-left: 3px solid #1a4fa8; }
+
+/* ── Week calendar ── */
+.day-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600;
+  transition: all 0.2s ease;
+}
+.day-dot.done { background: #1a4fa8; color: white; }
+.day-dot.today { border: 2px solid #1a4fa8; color: #1a4fa8; }
+.day-dot.missed { background: #f3f4f6; color: #9ca3af; }
+.day-dot.future { background: #f9fafb; color: #d1d5db; }
+
+/* ── Avatar ── */
+.avatar-ring {
+  background: conic-gradient(#1a4fa8 0%, #3a7fd4 60%, #e5e7eb 60%);
+  border-radius: 50%;
+  padding: 3px;
+  transition: background 0.5s ease;
+}
+
+/* ── Tab ── */
+.tab-btn { transition: all 0.2s ease; border-bottom: 2px solid transparent; }
+.tab-btn.active { color: #1a4fa8; border-bottom-color: #1a4fa8; font-weight: 600; }
+
+/* ── Achievement badge ── */
+.ach-badge {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.ach-badge.earned { border-color: #1a4fa8; background: #eef3fc; }
+.ach-badge.locked { opacity: 0.45; filter: grayscale(0.6); }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 9px; }
+
+input:focus, textarea:focus { border-color: #1a4fa8; outline: none; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.slide-up { animation: slideUp 0.5s cubic-bezier(.22,1,.36,1) forwards; }
+.slide-up-2 { animation: slideUp 0.5s 0.08s cubic-bezier(.22,1,.36,1) both; }
+.slide-up-3 { animation: slideUp 0.5s 0.16s cubic-bezier(.22,1,.36,1) both; }
+.slide-up-4 { animation: slideUp 0.5s 0.24s cubic-bezier(.22,1,.36,1) both; }
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pop-in { animation: popIn 0.45s cubic-bezier(.22,1,.36,1) forwards; }
+
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #0a1628; color: white;
+  padding: 12px 20px; border-radius: 12px;
+  font-size: 13px; font-weight: 500;
+  z-index: 9999;
+  transform: translateY(60px); opacity: 0;
+  transition: all 0.35s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
