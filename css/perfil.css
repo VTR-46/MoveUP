@@ -54,14 +54,6 @@ body { font-family: 'Poppins', sans-serif; }
 .day-dot.missed { background: #f3f4f6; color: #9ca3af; }
 .day-dot.future { background: #f9fafb; color: #d1d5db; }
 
-/* ── Avatar ── */
-.avatar-ring {
-  background: conic-gradient(#1a4fa8 0%, #3a7fd4 60%, #e5e7eb 60%);
-  border-radius: 50%;
-  padding: 3px;
-  transition: background 0.5s ease;
-}
-
 /* ── Tab ── */
 .tab-btn { transition: all 0.2s ease; border-bottom: 2px solid transparent; }
 .tab-btn.active { color: #1a4fa8; border-bottom-color: #1a4fa8; font-weight: 600; }

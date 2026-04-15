@@ -103,18 +103,8 @@ function renderProfile() {
   document.getElementById('display-bio').textContent = bio;
 
   const avatarEl = document.getElementById('avatar-inner');
-  
-  if (user.avatarUrl) {
-    avatarEl.innerHTML = `<img src="${user.avatarUrl}" class="w-full h-full object-cover rounded-full" alt="Avatar"/>`;
-    avatarEl.style.background = 'transparent';
-  } else {
-    const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
-    const colors = ['#1a4fa8','#7c3aed','#059669','#b45309','#dc2626','#0891b2'];
-    const colorIndex = name.charCodeAt(0) % colors.length;
-    avatarEl.textContent = initials || '?';
-    avatarEl.style.background = colors[colorIndex] + '22';
-    avatarEl.style.color = colors[colorIndex];
-  }
+  const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+  avatarEl.textContent = initials || '?';
 
   if (user.nivel) {
     const badge = document.getElementById('level-badge');
@@ -137,9 +127,11 @@ function renderStreak() {
     : `Complete um treino hoje para manter sua sequência!`;
 
   const pct = Math.min(streak.current / 30, 1);
-  const deg = Math.round(pct * 360);
-  document.getElementById('avatar-ring-el').style.background =
-    `conic-gradient(#1a4fa8 0deg ${deg}deg, #e5e7eb ${deg}deg 360deg)`;
+  const ring = document.getElementById('streak-ring');
+  if (ring) {
+      const circumference = 2 * Math.PI * 44; 
+      ring.style.strokeDashoffset = circumference - (pct * circumference);
+  }
 }
 
 function renderStats() {
@@ -227,18 +219,6 @@ function saveProfile() {
   closeEditModal();
   init();
   showToast('Perfil atualizado com sucesso!');
-}
-
-function handleAvatarUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    saveUser({ avatarUrl: e.target.result });
-    renderProfile();
-    showToast('Foto de perfil atualizada!');
-  };
-  reader.readAsDataURL(file);
 }
 
 

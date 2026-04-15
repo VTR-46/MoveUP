@@ -21,9 +21,6 @@
     }
   </script>
   <link rel="stylesheet" href="../css/perfil.css">
-  
-  <!-- Input hidden for file upload -->
-  <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleAvatarUpload(event)" />
 </head>
 <body class="font-poppins bg-gray-50 min-h-screen">
 
@@ -33,97 +30,93 @@
     <div class="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] bg-blue-400/10 rounded-full blur-3xl"></div>
 </div>
 
-<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6 relative z-10">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8 relative z-10 mb-20">
 
-  <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-    <div class="h-28 relative" style="background: linear-gradient(135deg, #0a1628 0%, #1a4fa8 50%, #3a7fd4 100%);">
+  <!-- Header Info -->
+  <div class="flex flex-col items-center text-center bg-white p-8 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-brand/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-cyan-500/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="w-24 h-24 rounded-full bg-gray-50 border-4 border-white shadow-md flex items-center justify-center text-3xl font-extrabold text-brand mb-4 relative z-10" id="avatar-inner">
+      —
     </div>
 
-    <div class="px-6 pb-6">
-      <div class="flex flex-col sm:flex-row sm:items-end gap-4 mb-4">
-        <div class="relative shrink-0 -mt-12 sm:-mt-10">
-          <div class="avatar-ring w-24 h-24" id="avatar-ring-el">
-            <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-3xl font-extrabold text-dark select-none" id="avatar-initials" style="padding:3px">
-              <div class="w-full h-full rounded-full bg-gray-100 flex items-center justify-center text-2xl font-extrabold text-dark overflow-hidden" id="avatar-inner">—</div>
-            </div>
-          </div>
-          <button onclick="document.getElementById('avatar-upload').click()"
-            class="absolute -bottom-1 -right-1 w-7 h-7 bg-white border-2 border-gray-100 rounded-full flex items-center justify-center hover:bg-gray-50 cursor-pointer transition-colors shadow-sm">
-            <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="#374151" stroke-width="2" stroke-linecap="round"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#374151" stroke-width="2" stroke-linecap="round"/></svg>
-          </button>
-        </div>
+    <div class="flex items-center justify-center gap-2 mb-1 relative z-10">
+      <h1 class="text-2xl font-extrabold text-dark tracking-tight" id="display-name">—</h1>
+      <span id="level-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-brand text-white hidden uppercase tracking-wider"></span>
+    </div>
+    
+    <div class="flex items-center justify-center gap-2 mb-3 relative z-10">
+      <span class="text-sm font-medium text-gray-400" id="display-username">@—</span>
+      <button onclick="openEditModal('username')" class="text-gray-300 hover:text-brand transition-colors cursor-pointer">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
 
-        <div class="flex-1 sm:pb-1">
-          <div class="flex items-center gap-2 flex-wrap">
-            <h1 class="text-xl font-extrabold text-dark leading-tight" id="display-name">—</h1>
-            <span id="level-badge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-brand text-white hidden"></span>
-          </div>
-          <div class="flex items-center gap-1.5 mt-0.5">
-            <span class="text-sm text-gray-400" id="display-username">@—</span>
-            <button onclick="openEditModal('username')" class="text-gray-300 hover:text-brand transition-colors cursor-pointer">
-              <svg width="11" height="11" fill="none" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-            </button>
-          </div>
-          <p class="text-[12px] text-gray-400 mt-1 max-w-sm" id="display-bio">Sem bio ainda.</p>
-        </div>
+    <p class="text-[13px] text-gray-500 max-w-md mx-auto mb-6 relative z-10" id="display-bio">Sem bio ainda.</p>
 
-        <button onclick="openEditModal('profile')"
-          class="shrink-0 flex items-center gap-2 border border-gray-200 text-dark text-[13px] font-semibold px-4 py-2 rounded-full hover:bg-gray-50 transition-colors cursor-pointer">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          Editar perfil
-        </button>
-      </div>
+    <button onclick="openEditModal('profile')"
+      class="bg-dark text-white text-[13px] font-semibold px-6 py-2.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none shadow-sm relative z-10">
+      Editar perfil
+    </button>
+  </div>
 
-      <div class="grid grid-cols-2 gap-3 pt-1 border-t border-gray-100">
-        <div class="text-center">
-          <p class="text-lg font-extrabold text-dark" id="stat-workouts">0</p>
-          <p class="text-[11px] text-gray-400 font-medium">Treinos</p>
-        </div>
-        <div class="text-center border-l border-gray-100">
-          <p class="text-lg font-extrabold text-dark" id="stat-days">0</p>
-          <p class="text-[11px] text-gray-400 font-medium">Dias ativos</p>
-        </div>
-      </div>
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white p-5 rounded-2xl border border-gray-100 flex flex-col items-center justify-center text-center">
+      <span class="w-10 h-10 rounded-full bg-blue-50 text-brand flex items-center justify-center mb-2">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
+      </span>
+      <p class="text-2xl font-black text-dark" id="stat-workouts">0</p>
+      <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mt-1">Treinos Criados</p>
+    </div>
+    
+    <div class="bg-white p-5 rounded-2xl border border-gray-100 flex flex-col items-center justify-center text-center">
+      <span class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center mb-2">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v4M8 2v4M3 10h18"/></svg>
+      </span>
+      <p class="text-2xl font-black text-dark" id="stat-days">0</p>
+      <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mt-1">Dias Ativos</p>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl border border-gray-100 flex flex-col items-center justify-center text-center">
+      <span class="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mb-2">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </span>
+      <p class="text-2xl font-black text-dark" id="total-completed">0</p>
+      <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mt-1">Concluídos</p>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl border border-gray-100 flex flex-col items-center justify-center text-center">
+      <span class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center mb-2">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M19 3v4M5 11h14M5 15h14M12 21v-4"/></svg>
+      </span>
+      <p class="text-2xl font-black text-dark" id="rank-position">#—</p>
+      <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mt-1">Ranking</p>
     </div>
   </div>
 
-  <div class="bg-white rounded-2xl border border-gray-100 p-6">
-    <div class="flex items-start justify-between mb-5">
+  <!-- Streak Section -->
+  <div class="bg-white rounded-3xl border border-gray-100 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex items-center gap-6">
+      <div class="relative w-24 h-24 flex items-center justify-center shrink-0">
+        <svg class="absolute inset-0 w-full h-full transform -rotate-90">
+          <circle cx="48" cy="48" r="44" stroke="#f3f4f6" stroke-width="8" fill="none" />
+          <circle id="streak-ring" cx="48" cy="48" r="44" stroke="#1a4fa8" stroke-width="8" fill="none" stroke-dasharray="276" stroke-dashoffset="276" class="transition-all duration-1000 ease-out" stroke-linecap="round"/>
+        </svg>
+        <span class="text-2xl font-black text-dark count-up" id="streak-count">0</span>
+      </div>
       <div>
-        <h2 class="text-base font-bold text-dark flex items-center gap-2">
-          Sequência Diária
-        </h2>
-        <p class="text-[12px] text-gray-400 mt-0.5" id="streak-subtitle">Complete um treino hoje para manter sua sequência!</p>
+        <h2 class="text-xl font-bold text-dark mb-1">Sequência Diária</h2>
+        <p class="text-[13px] text-gray-500" id="streak-subtitle">Complete um treino hoje para manter sua sequência!</p>
       </div>
-      <div class="text-right">
-        <p class="text-3xl font-black text-dark count-up" id="streak-count">0</p>
-        <p class="text-[11px] text-gray-400 font-medium">dias seguidos</p>
-      </div>
+    </div>
+    
+    <div class="bg-gray-50 px-6 py-4 rounded-2xl text-center shrink-0 md:w-48">
+      <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Melhor Sequência</p>
+      <p class="text-2xl font-black text-dark" id="best-streak">0</p>
     </div>
   </div>
-
-  <div class="grid grid-cols-1 sm:grid-cols-3 lg:gap-6 gap-4">
-    <div class="bg-white rounded-2xl border border-gray-100 p-5 stat-card">
-      <div class="w-10 h-10 bg-brand rounded-xl flex items-center justify-center mb-3">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <p class="text-2xl font-extrabold text-dark" id="best-streak">0</p>
-      <p class="text-[12px] text-gray-400 font-medium mt-0.5">Melhor sequência</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-gray-100 p-5 stat-card">
-      <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center mb-3">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <p class="text-2xl font-extrabold text-dark" id="total-completed">0</p>
-      <p class="text-[12px] text-gray-400 font-medium mt-0.5">Treinos concluídos</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-gray-100 p-5 stat-card">
-      <div class="w-10 h-10 bg-amber-400 rounded-xl flex items-center justify-center mb-3">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="white"/></svg>
-      </div>
-      <p class="text-2xl font-extrabold text-dark" id="rank-position">#—</p>
-      <p class="text-[12px] text-gray-400 font-medium mt-0.5">Posição no ranking</p>
-    </div>
 
 </main>
 
@@ -141,8 +134,8 @@
 </div>
 
     <div id="barra-navegacao-bottom"
-        class="fixed z-50 w-full h-16 max-w-4xl -translate-x-1/2 bg-dark rounded-full bottom-4 left-1/2 flex justify-center shadow-2xl">
-        <div class="grid h-full w-full max-w-4xl grid-cols-4 mx-auto">
+        class="fixed z-50 h-16 max-w-4xl bg-dark rounded-full bottom-4 inset-x-4 mx-auto flex justify-center shadow-2xl">
+        <div class="grid h-full w-full grid-cols-4 mx-auto">
 
             <a href="../html/homepage.html" data-tooltip-target="tooltip-home" type="button"
                 class="group inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-neutral-secondary-medium hover:bg-cyan-500">

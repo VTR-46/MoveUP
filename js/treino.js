@@ -1,14 +1,25 @@
 const PREDEFINED_VIDEOS = {
   'Supino reto (barra)': 'rT7DgCr-3pg',
   'Flexão de braços': 'IODxDxX7oi4',
-  'Agachamento c/ barra': 'MVMNK0ncDPk',
   'Agachamento livre': 'MVMNK0ncDPk',
   'Barra fixa': 'eGo4IYcbEPI',
   'Prancha': 'pSHjTRCQxIw',
   'Desenvolvimento militar': '2yjwXTZep3c',
   'Rosca direta c/ barra': 'ykJmrZ5v0Oo',
   'Tríceps corda no cabo': 'vB5OHsJ3EME',
-  'Hip thrust c/ barra': 'xDoeTWA2ttM'
+  'Hip thrust c/ barra': 'xDoeTWA2ttM',
+  'Levantamento terra': '_z-ea42C2M',
+  'Remada curvada c/ halteres': '6-zGprY-s4A',
+  'Elevação lateral c/ halteres': '34JTCfdJ2eE',
+  'Rosca Scott': 'jJ8o0OU_n3U',
+  'Tríceps testa': '1tr1c_A3o1U',
+  'Avanço c/ halteres': 'D7KaRcUTQeE',
+  'Ponte de glúteo': 'Zp26q4i_SoY',
+  'Crunch básico': 'Xyd_fa5zoEU',
+  'Burpee': 'tJrdJBWBu08',
+  'Agachamento c/ barra': 'MVMNK0ncDPk',
+  'Cadeira extensora': 'YyvSfVjQeL0',
+  'Leg press': 'GvRgijoJ2xY'
 };
 
 const SETS_CONFIG = { hipertrofia: 4, forca: 5, resistencia: 3, queima: 3 };
@@ -18,6 +29,14 @@ const REPS_CONFIG = {
   resistencia: '15-20 reps',
   queima: '15 reps'
 };
+
+const ISOMETRIC_EXERCISES = new Set([
+  'Prancha',
+  'Prancha lateral',
+  'Hollow body hold',
+  'Ponte de glúteo'
+]);
+
 const TIPS = [
   'Mantenha a respiracao controlada durante todo o movimento.',
   'Foque na contracao muscular no pico da tensao.',
@@ -59,11 +78,11 @@ const FOCUS_LABEL = { hipertrofia: 'Hipertrofia', forca: 'Forca', resistencia: '
 const NIVEL_LABEL = { iniciante: 'Iniciante', intermediario: 'Intermediario', avancado: 'Avancado' };
 
 let currentExIdx = 0;
-let currentMode = 'timer';
 let timerInterval = null;
 let timerSeconds = 0;
 let timerRunning = false;
-let currentReps = 0;
+let restInterval = null;
+const REST_DURATION = 60;
 let seriesTotal = 0;
 let seriesDone = 0;
 let completedSeries = [];
@@ -88,11 +107,17 @@ function renderSidebar() {
   container.innerHTML = workout.exercises.map((ex, i) => {
     const done = completedSeries[i] >= seriesTotal;
     const active = i === currentExIdx;
+    let firstUncompleted = completedSeries.findIndex(c => c < seriesTotal);
+    if (firstUncompleted === -1) firstUncompleted = workout.exercises.length - 1;
+    const locked = i > firstUncompleted;
     
     let classes = "flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors border border-transparent";
     let numClasses = "w-7 h-7 rounded-lg flex items-center justify-center text-[12px] font-bold border";
     
-    if (active) {
+    if (locked) {
+      classes += " opacity-50 cursor-not-allowed";
+      numClasses += " bg-gray-100 text-gray-400 border-gray-200";
+    } else if (active) {
       classes += " bg-blue-50 border-brand/20";
       numClasses += " bg-brand text-white border-brand";
     } else if (done) {
@@ -103,7 +128,7 @@ function renderSidebar() {
       numClasses += " bg-white text-gray-500 border-gray-200";
     }
     
-    return `<div class="${classes}" id="sidebar-item-${i}" onclick="jumpToExercise(${i})">
+    return `<div class="${classes}" id="sidebar-item-${i}" onclick="${locked ? '' : `jumpToExercise(${i})`}">
       <div class="${numClasses}">${done ? '<svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : (i + 1)}</div>
       <div class="flex-1 overflow-hidden">
         <p class="text-[13px] font-semibold text-dark truncate leading-tight mb-0.5">${ex}</p>
@@ -124,15 +149,24 @@ function loadExercise(idx) {
   document.getElementById('ex-desc-display').textContent = getDesc(name);
   document.getElementById('tip-text').textContent = TIPS[idx % TIPS.length];
 
+  const isIsometric = ISOMETRIC_EXERCISES.has(name);
+  const repTargetSection = document.getElementById('rep-target-section');
+  const timerSection = document.getElementById('timer-section');
+
+  repTargetSection.classList.toggle('hidden', isIsometric);
+  timerSection.classList.toggle('hidden', !isIsometric);
+
+  if (!isIsometric) {
+    document.getElementById('rep-target-display').textContent = REPS_CONFIG[workout.foco] || '12 reps';
+  }
+
   seriesDone = completedSeries[idx];
-  currentReps = 0;
   timerSeconds = 0;
   timerRunning = false;
   clearInterval(timerInterval);
 
   renderSetsRow();
   updateTimerDisplay();
-  updateRepDisplay();
   checkExerciseDone();
   loadVideoForExercise(name);
   renderSidebar();
@@ -158,7 +192,7 @@ function checkExerciseDone() {
   document.getElementById('btn-complete-set').classList.toggle('hidden', done);
   document.getElementById('btn-next-ex').classList.toggle('hidden', !done);
   const isLast = currentExIdx >= workout.exercises.length - 1;
-  document.getElementById('btn-next-ex').textContent = isLast ? 'Finalizar treino 🎉' : 'Próximo exercício';
+  document.getElementById('btn-next-ex').textContent = isLast ? 'Finalizar treino' : 'Próximo exercício';
 }
 
 function completeSerie() {
@@ -166,20 +200,27 @@ function completeSerie() {
   seriesDone++;
   completedSeries[currentExIdx] = seriesDone;
   totalSeriesCompleted++;
-  timerSeconds = 0;
-  timerRunning = false;
-  clearInterval(timerInterval);
-  currentReps = 0;
+
   renderSetsRow();
-  updateTimerDisplay();
-  updateRepDisplay();
   checkExerciseDone();
   renderSidebar();
+
+  if (seriesDone < seriesTotal) {
+    startRestTimer();
+  } else {
+    clearInterval(timerInterval);
+    timerRunning = false;
+  }
 }
 
 function nextExercise() {
   const next = currentExIdx + 1;
   if (next >= workout.exercises.length) {
+    const allDone = completedSeries.every(c => c >= seriesTotal);
+    if (!allDone) {
+      showToast('Conclua todos os exercícios antes de finalizar!');
+      return;
+    }
     finishWorkout();
     return;
   }
@@ -190,6 +231,12 @@ function nextExercise() {
 }
 
 function jumpToExercise(idx) {
+  let firstUncompleted = completedSeries.findIndex(c => c < seriesTotal);
+  if (firstUncompleted === -1) firstUncompleted = workout.exercises.length - 1;
+  if (idx > firstUncompleted) {
+    showToast('Conclua os exercícios anteriores primeiro!');
+    return;
+  }
   loadExercise(idx);
 }
 
@@ -199,21 +246,6 @@ function updateOverall() {
   const pct = Math.round((done / total) * 100);
   document.getElementById('overall-bar').style.width = pct + '%';
   document.getElementById('overall-label').textContent = `${done} / ${total}`;
-}
-
-function setMode(mode) {
-  currentMode = mode;
-  
-  document.getElementById('timer-section').classList.toggle('hidden', mode !== 'timer');
-  document.getElementById('reps-section').classList.toggle('hidden', mode !== 'reps');
-  
-  const btnTimer = document.getElementById('mode-timer');
-  const btnReps = document.getElementById('mode-reps');
-  
-  btnTimer.className = mode === 'timer' ? 'flex-1 py-2 text-sm font-semibold rounded-lg transition-all text-dark bg-white shadow-sm' : 'flex-1 py-2 text-sm font-semibold rounded-lg transition-all text-gray-400 hover:text-dark bg-transparent';
-  btnReps.className = mode === 'reps' ? 'flex-1 py-2 text-sm font-semibold rounded-lg transition-all text-dark bg-white shadow-sm' : 'flex-1 py-2 text-sm font-semibold rounded-lg transition-all text-gray-400 hover:text-dark bg-transparent';
-  
-  if (mode !== 'timer') { clearInterval(timerInterval); timerRunning = false; }
 }
 
 function toggleTimer() {
@@ -248,22 +280,13 @@ function updateTimerDisplay() {
   document.getElementById('timer-display').textContent = `${m}:${s}`;
 }
 
-function changeRep(delta) {
-  currentReps = Math.max(0, currentReps + delta);
-  updateRepDisplay();
-}
-
-function updateRepDisplay() {
-  document.getElementById('rep-display').textContent = currentReps;
-}
-
 function loadVideoForExercise(name) {
   const vid = PREDEFINED_VIDEOS[name] || null;
   const iframe = document.getElementById('video-iframe');
   const placeholder = document.getElementById('video-placeholder');
 
   if (vid) {
-    iframe.src = `https://www.youtube.com/embed/${vid}`;
+    iframe.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1`;
     iframe.classList.remove('hidden');
     placeholder.classList.add('hidden');
   } else {
@@ -297,6 +320,46 @@ function finishWorkout() {
   document.getElementById('done-exercises').textContent = workout.exercises.length;
   document.getElementById('done-sets').textContent = totalSeriesCompleted;
   document.getElementById('done-time').textContent = elapsed || 1;
+
+  showToast('Treino salvo no seu histórico!');
+}
+
+function startRestTimer() {
+  const restOverlay = document.getElementById('rest-overlay');
+  const restTimerDisplay = document.getElementById('rest-timer');
+  const btnSkipRest = document.getElementById('btn-skip-rest');
+
+  restOverlay.classList.remove('hidden');
+  btnSkipRest.onclick = endRest;
+
+  let restSeconds = REST_DURATION;
+
+  const updateRestTimerDisplay = () => {
+    const m = String(Math.floor(restSeconds / 60)).padStart(2, '0');
+    const s = String(restSeconds % 60).padStart(2, '0');
+    restTimerDisplay.textContent = `${m}:${s}`;
+  };
+
+  updateRestTimerDisplay();
+
+  restInterval = setInterval(() => {
+    restSeconds--;
+    updateRestTimerDisplay();
+    if (restSeconds <= 0) endRest();
+  }, 1000);
+}
+
+function endRest() {
+  clearInterval(restInterval);
+  document.getElementById('rest-overlay').classList.add('hidden');
+  resetTimer();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 initPage();

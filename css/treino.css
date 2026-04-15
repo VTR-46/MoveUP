@@ -8,3 +8,18 @@ body { font-family: 'Poppins', sans-serif; }
   100% { transform: scale(1); opacity: 1; }
 }
 .pop-in { animation: popIn 0.5s cubic-bezier(.22,1,.36,1) forwards; }
+
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #0a1628; color: white;
+  padding: 12px 20px; border-radius: 12px;
+  font-size: 13px; font-weight: 500;
+  z-index: 9999;
+  transform: translateY(60px); opacity: 0;
+  transition: all 0.35s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+}
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}

@@ -84,24 +84,16 @@
           <h3 class="text-[13px] font-bold text-dark mb-3" id="set-tracker-title">Séries</h3>
           <div class="flex gap-2 flex-wrap mb-5" id="sets-row"></div>
 
-          <div class="flex gap-2 bg-gray-100 p-1.5 rounded-xl mb-5">
-            <button class="flex-1 py-2 text-sm font-semibold rounded-lg transition-all text-dark bg-white shadow-sm" id="mode-timer" onclick="setMode('timer')">Cronômetro</button>
-            <button class="flex-1 py-2 text-sm font-semibold rounded-lg transition-all text-gray-400 hover:text-dark bg-transparent" id="mode-reps" onclick="setMode('reps')">Repetições</button>
+          <div id="rep-target-section" class="hidden my-6 text-center">
+            <p class="text-sm text-gray-400">Objetivo de Repetições</p>
+            <p id="rep-target-display" class="text-5xl font-bold text-dark tracking-tight"></p>
           </div>
 
-          <div id="timer-section">
+          <div id="timer-section" class="hidden">
             <div class="text-5xl font-bold text-dark text-center my-6 tracking-tight" id="timer-display" style="font-feature-settings: 'tnum';">00:00</div>
             <div class="flex gap-3 mb-5">
               <button class="flex-1 bg-brand text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-colors" id="btn-timer-toggle" onclick="toggleTimer()">Iniciar</button>
               <button class="flex-1 bg-white border border-gray-200 text-dark font-semibold py-3 rounded-xl hover:bg-gray-50 transition-colors" onclick="resetTimer()">Zerar</button>
-            </div>
-          </div>
-
-          <div id="reps-section" class="hidden">
-            <div class="text-6xl font-bold text-dark text-center my-4" id="rep-display">0</div>
-            <div class="flex gap-3 mb-5">
-              <button class="flex-1 bg-white border border-gray-200 text-dark text-2xl font-bold py-3 rounded-xl hover:bg-gray-50 transition-colors active:scale-95" onclick="changeRep(-1)">-</button>
-              <button class="flex-1 bg-white border border-gray-200 text-dark text-2xl font-bold py-3 rounded-xl hover:bg-gray-50 transition-colors active:scale-95" onclick="changeRep(1)">+</button>
             </div>
           </div>
 
@@ -157,6 +149,15 @@
     </button>
   </div>
 </main>
+
+<!-- Rest Timer Overlay -->
+<div id="rest-overlay" class="hidden fixed inset-0 z-50 flex flex-col items-center justify-center text-white" style="background: rgba(10,22,40,0.9); backdrop-filter: blur(8px);">
+  <p class="text-lg font-semibold text-gray-300 mb-2">Descanso</p>
+  <p id="rest-timer" class="text-7xl font-black" style="font-feature-settings: 'tnum';">00:00</p>
+  <button id="btn-skip-rest" class="mt-8 bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-8 rounded-full transition-all">Pular</button>
+</div>
+
+<div id="toast" class="toast"></div>
 
 <script src="../js/treino.js" defer></script>
 </body>
