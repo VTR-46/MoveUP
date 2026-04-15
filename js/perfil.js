@@ -133,7 +133,7 @@ function renderStreak() {
   const history = getHistory();
   const workedToday = history.some(h => h.date && h.date.slice(0, 10) === today);
   document.getElementById('streak-subtitle').textContent = workedToday
-    ? `✅ Treino registrado hoje! Sequência mantida.`
+    ? `Treino registrado hoje! Sequência mantida.`
     : `Complete um treino hoje para manter sua sequência!`;
 
   const pct = Math.min(streak.current / 30, 1);
@@ -226,7 +226,7 @@ function saveProfile() {
   saveUser({ nome, sobrenome, username, bio });
   closeEditModal();
   init();
-  showToast('✅ Perfil atualizado com sucesso!');
+  showToast('Perfil atualizado com sucesso!');
 }
 
 function handleAvatarUpload(event) {
@@ -236,7 +236,7 @@ function handleAvatarUpload(event) {
   reader.onload = function(e) {
     saveUser({ avatarUrl: e.target.result });
     renderProfile();
-    showToast('📸 Foto de perfil atualizada!');
+    showToast('Foto de perfil atualizada!');
   };
   reader.readAsDataURL(file);
 }

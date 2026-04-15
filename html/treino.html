@@ -24,8 +24,14 @@
 </head>
 <body class="font-poppins bg-gray-50 min-h-screen flex flex-col">
 
-<nav class="bg-white border-b border-gray-100 sticky top-0 z-30">
-  <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+<!-- Fundo abstrato decorativo -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-brand/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] bg-blue-400/10 rounded-full blur-3xl"></div>
+</div>
+
+<nav class="bg-white border-b border-gray-100 sticky top-0 z-30 relative w-full">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="./exercicios.html" class="flex items-center gap-2 text-decoration-none">
       <img src="../img/MoveUPSolo.png"  alt="" class="w-35 h-10 rounded-lg flex items-center justify-center"> 
     </a>
@@ -40,7 +46,7 @@
   </div>
 </nav>
 
-<main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 w-full flex-1 flex flex-col">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full flex-1 flex flex-col relative z-10">
   <div id="active-view" class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start w-full">
     <!-- Left Column -->
     <div class="flex flex-col gap-6">
@@ -127,7 +133,7 @@
         <path d="M3 15L14 26L35 4" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
-    <h1 class="text-3xl font-extrabold text-dark mb-3 tracking-tight">Treino concluído! 🎉</h1>
+    <h1 class="text-3xl font-extrabold text-dark mb-3 tracking-tight">Treino concluído!</h1>
     <p class="text-base text-gray-500 max-w-md mx-auto mb-10" id="done-sub"></p>
     
     <div class="flex gap-4 w-full bg-white rounded-2xl border border-gray-100 p-6 shadow-sm mb-10">

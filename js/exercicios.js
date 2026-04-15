@@ -1,14 +1,14 @@
 const MUSCLE_GROUPS = [
-  { id: 'peito', label: 'Peito', emoji: '🏋️' },
-  { id: 'costas', label: 'Costas', emoji: '🔙' },
-  { id: 'ombros', label: 'Ombros', emoji: '💪' },
-  { id: 'biceps', label: 'Bíceps', emoji: '💪' },
-  { id: 'triceps', label: 'Tríceps', emoji: '💪' },
-  { id: 'pernas', label: 'Pernas', emoji: '🦵' },
-  { id: 'gluteos', label: 'Glúteos', emoji: '🍑' },
-  { id: 'abdomen', label: 'Abdômen', emoji: '🔥' },
-  { id: 'cardio', label: 'Cardio', emoji: '🏃' },
-  { id: 'full_body', label: 'Full Body', emoji: '⚡' },
+  { id: 'peito', label: 'Peito' },
+  { id: 'costas', label: 'Costas' },
+  { id: 'ombros', label: 'Ombros' },
+  { id: 'biceps', label: 'Bíceps' },
+  { id: 'triceps', label: 'Tríceps' },
+  { id: 'pernas', label: 'Pernas' },
+  { id: 'gluteos', label: 'Glúteos' },
+  { id: 'abdomen', label: 'Abdômen' },
+  { id: 'cardio', label: 'Cardio' },
+  { id: 'full_body', label: 'Full Body' },
 ];
 
 const EXERCISES_DB = {
@@ -80,7 +80,6 @@ function init() {
     return;
   }
   workouts = JSON.parse(localStorage.getItem('moveup_workouts_' + currentUser.email) || '[]');
-  document.getElementById('nav-user').textContent = `Olá, ${currentUser.nome}!`;
   renderWorkouts();
   renderMuscleGroups();
 }
@@ -108,8 +107,8 @@ function renderWorkouts(filter = '') {
   grid.innerHTML = filtered.map(w => `
     <div class="workout-card bg-white" onclick="openWorkoutDetail('${w.id}')">
       <div class="flex items-start justify-between mb-3">
-        <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center text-xl">
-          ${MUSCLE_GROUPS.find(m => m.id === w.muscle)?.emoji || '🏋️'}
+        <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+          <img src="https://marketplace.canva.com/rgz8Q/MAHFBsrgz8Q/1/tl/canva-dumbbells-MAHFBsrgz8Q.png" alt="Treino" class="w-7 h-7 object-contain">
         </div>
         <span class="badge">${nivelLabel[w.nivel] || w.nivel}</span>
       </div>
@@ -137,7 +136,6 @@ function renderMuscleGroups() {
     <button onclick="selectMuscle('${m.id}', this)"
       class="flex flex-col items-center gap-1 p-3 border-[1.5px] border-gray-200 rounded-xl text-[12px] font-medium text-dark hover:border-brand hover:bg-blue-50 transition-all cursor-pointer bg-white"
       data-muscle="${m.id}">
-      <span class="text-xl">${m.emoji}</span>
       ${m.label}
     </button>
   `).join('');

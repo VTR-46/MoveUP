@@ -22,8 +22,8 @@ function renderTopWorkouts() {
     container.innerHTML = top5.map(w => `
     <div onclick="window.location.href='./treino.html?id=${w.id}'" class="bg-white border border-gray-200 rounded-xl p-4 hover:border-brand hover:bg-blue-50 transition-all cursor-pointer flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
-                📋
+            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                <img src="https://marketplace.canva.com/rgz8Q/MAHFBsrgz8Q/1/tl/canva-dumbbells-MAHFBsrgz8Q.png" alt="Treino" class="w-8 h-8 object-contain">
             </div>
             <div>
                 <p class="text-[15px] font-bold text-dark">${w.name}</p>
@@ -72,7 +72,9 @@ function renderRecommendedWorkouts() {
         <div class="absolute top-0 right-0 bg-yellow-400 text-dark text-[10px] font-bold px-3 py-1 rounded-bl-xl">PRONTO</div>
         
         <div class="flex items-center gap-3 mb-3 mt-1">
-            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center text-xl">⭐</div>
+            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <img src="https://marketplace.canva.com/rgz8Q/MAHFBsrgz8Q/1/tl/canva-dumbbells-MAHFBsrgz8Q.png" alt="Treino" class="w-7 h-7 object-contain">
+            </div>
             <div>
                 <p class="text-[14px] font-bold text-dark leading-tight">${w.name}</p>
                 <p class="text-[11px] text-gray-500 mt-0.5">${w.duracao} min • ${w.foco}</p>

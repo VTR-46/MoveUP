@@ -2,36 +2,6 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-/* ── Streak fire animation ── */
-@keyframes flicker {
-
-    0%,
-    100% {
-        transform: scaleY(1) rotate(-1deg);
-        filter: brightness(1);
-    }
-
-    25% {
-        transform: scaleY(1.05) rotate(1deg);
-        filter: brightness(1.1);
-    }
-
-    50% {
-        transform: scaleY(0.97) rotate(-0.5deg);
-        filter: brightness(0.95);
-    }
-
-    75% {
-        transform: scaleY(1.03) rotate(1.5deg);
-        filter: brightness(1.05);
-    }
-}
-
-.fire-icon {
-    animation: flicker 1.8s ease-in-out infinite;
-    display: inline-block;
-}
-
 @keyframes countUp {
     from {
         transform: translateY(8px);

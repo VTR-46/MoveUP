@@ -24,11 +24,18 @@
 </head>
 <body class="font-poppins bg-gray-50 min-h-screen">
 
-<main class="max-w-5xl mx-auto px-6 py-10">
+<!-- Fundo abstrato decorativo -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-brand/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] bg-blue-400/10 rounded-full blur-3xl"></div>
+</div>
 
-  <div class="mb-8">
-    <h1 class="text-2xl font-bold text-dark tracking-tight mb-1">Meus Treinos</h1>
-    <p class="text-sm text-gray-400">Selecione um treino existente ou crie um novo personalizado.</p>
+<main class="max-w-7xl mx-auto px-6 py-10 relative z-10">
+
+  <div class="mb-8 bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-brand/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-10 -mt-10"></div>
+    <h1 class="text-2xl font-extrabold text-dark tracking-tight mb-2 relative z-10">Meus Treinos</h1>
+    <p class="text-sm text-gray-500 relative z-10">Selecione um treino existente ou crie um novo personalizado.</p>
   </div>
 
   <div class="flex flex-col sm:flex-row gap-3 mb-8">
@@ -47,7 +54,7 @@
     </button>
   </div>
 
-  <div id="workouts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div id="workouts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
   </div>
 
   <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center">
@@ -66,8 +73,8 @@
 
 
   <div id="barra-navegacao-bottom"
-        class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-dark  rounded-full bottom-4 left-1/2 flex justify-center">
-        <div class="grid h-full w-full max-w-lg grid-cols-4 mx-auto">
+        class="fixed z-50 w-full h-16 max-w-4xl -translate-x-1/2 bg-dark rounded-full bottom-4 left-1/2 flex justify-center shadow-2xl">
+        <div class="grid h-full w-full max-w-4xl grid-cols-4 mx-auto">
 
             <a href="../html/homepage.html" data-tooltip-target="tooltip-home" type="button"
                 class="group inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-neutral-secondary-medium hover:bg-cyan-500">
@@ -103,21 +110,8 @@
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
 
-            <button onclick="logout()" data-tooltip-target="tooltip-logout" type="button"
-                class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white group-hover:text-white">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-                </svg>
-                <span class="sr-only">Sair</span>
-            </button>
-            <div id="tooltip-logout" role="tooltip"
-                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
-                Sair
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-
             <a href="../html/perfil.html" data-tooltip-target="tooltip-profile" type="button"
-                class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500 ">
+                class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6 text-white group-hover:text-white">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -128,6 +122,19 @@
             <div id="tooltip-profile" role="tooltip"
                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
                 Perfil
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+
+            <button onclick="logout()" data-tooltip-target="tooltip-logout" type="button"
+                class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white group-hover:text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+                <span class="sr-only">Sair</span>
+            </button>
+            <div id="tooltip-logout" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+                Sair
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
 
@@ -155,7 +162,6 @@
       <div class="flex-1 overflow-y-auto px-7 py-6">
 
         <div class="step active" id="s1">
-          <span class="text-2xl">💪</span>
           <h2 class="text-xl font-bold text-dark mt-2 mb-1">Novo treino</h2>
           <p class="text-sm text-gray-400 mb-5">Vamos montar um treino perfeito para você.</p>
 
@@ -176,7 +182,6 @@
         </div>
 
         <div class="step" id="s2">
-          <span class="text-2xl">🎯</span>
           <h2 class="text-xl font-bold text-dark mt-2 mb-1">Objetivo do treino</h2>
           <p class="text-sm text-gray-400 mb-5">O que você quer alcançar hoje?</p>
 

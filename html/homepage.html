@@ -29,11 +29,17 @@
 </head>
 
 <body class="font-poppins bg-gray-50 min-h-screen">
+    <!-- Fundo abstrato decorativo -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-brand/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] bg-blue-400/10 rounded-full blur-3xl"></div>
+    </div>
 
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6">
-        <div id="boas-vindas" class="mb-8">
-            <h1 class="text-3xl font-bold text-dark tracking-tight mb-1"></h1>
-            <p class="text-sm text-gray-400">Seus treinos e recomendações em um só lugar.</p>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6 relative z-10">
+        <div id="boas-vindas" class="mb-8 bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-brand/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-10 -mt-10"></div>
+            <h1 class="text-3xl font-extrabold text-dark tracking-tight mb-2 relative z-10"></h1>
+            <p class="text-sm text-gray-500 relative z-10">Seus treinos e recomendações em um só lugar.</p>
         </div>
         
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
@@ -47,7 +53,7 @@
 
                         <div
                             class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent text-white p-4">
-                            <h2 class="text-lg font-bold">EM ALTA🔥</h2>
+                            <h2 class="text-lg font-bold">EM ALTA</h2>
                             <p class="text-sm">Veja os exercicios em alta!</p>
                         </div>
                     </a>
@@ -126,7 +132,7 @@
 
             <div class="mt-8">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-3xl font-bold text-dark">🔥 Meus treinos recentes</h2>
+                    <h2 class="text-3xl font-bold text-dark">Meus treinos recentes</h2>
                     <a href="./exercicios.html" class="text-sm font-semibold text-brand hover:underline">Ver todos</a>
                 </div>
 
@@ -146,11 +152,11 @@
             </div>
 
             <div class="mt-8">
-                <h2 class="text-3xl font-bold text-dark mb-4">⭐ Treinos Recomendados</h2>
+                <h2 class="text-3xl font-bold text-dark mb-4">Treinos Recomendados</h2>
                 <p class="text-sm text-gray-400 mb-4 -mt-3">Experimente um destes treinos prontos criados por
                     especialistas.</p>
 
-                <div id="recommended-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div id="recommended-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 </div>
             </div>
 
@@ -173,8 +179,8 @@
     </div>
 
     <div id="barra-navegacao-bottom"
-        class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-dark  rounded-full bottom-4 left-1/2 flex justify-center">
-        <div class="grid h-full w-full max-w-lg grid-cols-4 mx-auto">
+        class="fixed z-50 w-full h-16 max-w-4xl -translate-x-1/2 bg-dark rounded-full bottom-4 left-1/2 flex justify-center shadow-2xl">
+        <div class="grid h-full w-full max-w-4xl grid-cols-4 mx-auto">
 
             <a href="../html/homepage.html" data-tooltip-target="tooltip-home" type="button"
                 class="group inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-neutral-secondary-medium bg-cyan-600">
@@ -210,21 +216,8 @@
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
 
-            <button onclick="logout()" data-tooltip-target="tooltip-logout" type="button"
-                class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white group-hover:text-white">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-                </svg>
-                <span class="sr-only">Sair</span>
-            </button>
-            <div id="tooltip-logout" role="tooltip"
-                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
-                Sair
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-
             <a href="../html/perfil.html" data-tooltip-target="tooltip-profile" type="button"
-                class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500">
+                class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6 text-white group-hover:text-white">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -238,13 +231,26 @@
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
 
+            <button onclick="logout()" data-tooltip-target="tooltip-logout" type="button"
+                class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white group-hover:text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+                <span class="sr-only">Sair</span>
+            </button>
+            <div id="tooltip-logout" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+                Sair
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+
         </div>
     </div>
 
 
     <div id="toast" class="toast"></div>
 
-    <footer class="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6">
         <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
 
             <hr class="my-6 border-gray-100 sm:mx-auto lg:my-8" />
