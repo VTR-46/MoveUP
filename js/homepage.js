@@ -129,22 +129,21 @@ function init() {
         return;
     }
 
-    const boasVindasUsuario = document.querySelector('#boas-vindas');
-    if (boasVindasUsuario) {
+    const welcomeContainer = document.querySelector('#boas-vindas');
+    if (welcomeContainer) {
         const hora = new Date().getHours();
         let saudacao = "Boa noite";
-
+    
         if (hora >= 4 && hora < 12) {
             saudacao = "Bom dia";
         } else if (hora >= 12 && hora < 18) {
             saudacao = "Boa tarde";
         }
-
-        boasVindasUsuario.innerHTML = `<p>${saudacao}, ${user.nome}!</p>`;
+        const h1 = welcomeContainer.querySelector('h1');
+        if(h1) h1.textContent = `${saudacao}, ${user.nome}!`;
     }
 
 
-    renderTopWorkouts();
     renderTopWorkouts();
     renderRecommendedWorkouts();
 }
