@@ -1,7 +1,7 @@
 window.onload = () => {
   const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
   if (user.nome) {
-    window.location.href = './perfil.html';
+    window.location.href = './homepage.html';
   }
 };
 
@@ -19,5 +19,5 @@ function handleLogin() {
   }
 
   localStorage.setItem('moveup_user', JSON.stringify(resultado.usuario));
-  window.location.href = './perfil.html';
+  window.location.href = './homepage.html';
 }

@@ -1,7 +1,7 @@
 window.onload = () => {
   const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
   if (user.nome) {
-    window.location.href = './perfil.html';
+    window.location.href = './homepage.html';
   }
 };
 
@@ -61,7 +61,7 @@ function handleSignup() {
 
 function closePopup() {
   document.getElementById('popup-overlay').classList.remove('active');
-  window.location.href = './perfil.html';
+  window.location.href = './homepage.html';
 }
 
 function updateUI() {

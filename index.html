@@ -21,6 +21,15 @@
         }
       }
     </script>
+    
+    <script>
+      const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
+      if (user.nome) {
+        window.location.href = './html/homepage.html';
+      } else {
+        window.location.href = './html/login.html';
+      }
+    </script>
 
     <title>MoveUP</title>
 </head>
