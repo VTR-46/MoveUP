@@ -13,54 +13,54 @@ const MUSCLE_GROUPS = [
 
 const EXERCISES_DB = {
   peito: {
-    iniciante:     ['Flexão de braços','Supino com halteres','Crucifixo inclinado','Peck Deck (máquina)','Flexão inclinada (joelhos)'],
-    intermediario: ['Supino reto (barra)','Supino inclinado','Crossover no cabo','Mergulho em paralelas','Flexão com palmas juntas'],
-    avancado:      ['Supino declinado','Supino pega aberta','Flexão archer','Mergulho lastrado','Supino guilhotina'],
+    iniciante: ['Flexão de braços', 'Supino com halteres', 'Crucifixo inclinado', 'Peck Deck (máquina)', 'Flexão inclinada (joelhos)'],
+    intermediario: ['Supino reto (barra)', 'Supino inclinado', 'Crossover no cabo', 'Mergulho em paralelas', 'Flexão com palmas juntas'],
+    avancado: ['Supino declinado', 'Supino pega aberta', 'Flexão archer', 'Mergulho lastrado', 'Supino guilhotina'],
   },
   costas: {
-    iniciante:     ['Remada curvada c/ halteres','Puxada frontal (máquina)','Remada baixa (cabo)','Superman','Pulldown no cabo'],
-    intermediario: ['Barra fixa','Remada cavalinho','Serrote c/ halter','Pullover c/ halter','Remada unilateral'],
-    avancado:      ['Barra fixa lastrada','Remada Pendlay','Levantamento terra','Pull-up com argolas','Remo máquina convergente'],
+    iniciante: ['Remada curvada c/ halteres', 'Puxada frontal (máquina)', 'Remada baixa (cabo)', 'Superman', 'Pulldown no cabo'],
+    intermediario: ['Barra fixa', 'Remada cavalinho', 'Serrote c/ halter', 'Pullover c/ halter', 'Remada unilateral'],
+    avancado: ['Barra fixa lastrada', 'Remada Pendlay', 'Levantamento terra', 'Pull-up com argolas', 'Remo máquina convergente'],
   },
   ombros: {
-    iniciante:     ['Elevação lateral c/ halteres','Desenvolvimento c/ halteres','Elevação frontal','Encolhimento de ombros','Desenvolvimento Arnold (leve)'],
-    intermediario: ['Desenvolvimento militar','Elevação lateral no cabo','Remada alta','Crucifixo invertido','Face pull'],
-    avancado:      ['Desenvolvimento atrás do pescoço','Elevação lateral lastrada','Clean e pressione','Handstand push-up','Arnold press pesado'],
+    iniciante: ['Elevação lateral c/ halteres', 'Desenvolvimento c/ halteres', 'Elevação frontal', 'Encolhimento de ombros', 'Desenvolvimento Arnold (leve)'],
+    intermediario: ['Desenvolvimento militar', 'Elevação lateral no cabo', 'Remada alta', 'Crucifixo invertido', 'Face pull'],
+    avancado: ['Desenvolvimento atrás do pescoço', 'Elevação lateral lastrada', 'Clean e pressione', 'Handstand push-up', 'Arnold press pesado'],
   },
   biceps: {
-    iniciante:     ['Rosca direta c/ barra','Rosca alternada c/ halteres','Rosca martelo','Rosca concentrada','Rosca no cabo'],
-    intermediario: ['Rosca Scott','Rosca inversa','Rosca 21','Rosca aranha','Rosca Zottman'],
-    avancado:      ['Rosca com barra W pesada','Rosca inclinada','Curl preacher lastrado','Rosca dragão','Rosca isométrica máxima'],
+    iniciante: ['Rosca direta c/ barra', 'Rosca alternada c/ halteres', 'Rosca martelo', 'Rosca concentrada', 'Rosca no cabo'],
+    intermediario: ['Rosca Scott', 'Rosca inversa', 'Rosca 21', 'Rosca aranha', 'Rosca Zottman'],
+    avancado: ['Rosca com barra W pesada', 'Rosca inclinada', 'Curl preacher lastrado', 'Rosca dragão', 'Rosca isométrica máxima'],
   },
   triceps: {
-    iniciante:     ['Extensão de tríceps no cabo','Tríceps testa','Tríceps coice','Dip entre bancos','Tríceps francês'],
-    intermediario: ['Tríceps corda no cabo','Tríceps mergulho','Extensão unilateral','Kickback c/ halter','Supino fechado'],
-    avancado:      ['Mergulho lastrado','Extensão pesada acima da cabeça','Dip anéis','Skull crusher c/ barra','Tríceps JM Press'],
+    iniciante: ['Extensão de tríceps no cabo', 'Tríceps testa', 'Tríceps coice', 'Dip entre bancos', 'Tríceps francês'],
+    intermediario: ['Tríceps corda no cabo', 'Tríceps mergulho', 'Extensão unilateral', 'Kickback c/ halter', 'Supino fechado'],
+    avancado: ['Mergulho lastrado', 'Extensão pesada acima da cabeça', 'Dip anéis', 'Skull crusher c/ barra', 'Tríceps JM Press'],
   },
   pernas: {
-    iniciante:     ['Agachamento livre','Leg press','Cadeira extensora','Cadeira flexora','Panturrilha em pé'],
-    intermediario: ['Agachamento c/ barra','Stiff','Avanço c/ halteres','Hack squat','Leg curl deitado'],
-    avancado:      ['Agachamento profundo c/ barra','Levantamento terra romeno','Pistol squat','Bulgarian split squat','Agachamento búlgaro lastrado'],
+    iniciante: ['Agachamento livre', 'Leg press', 'Cadeira extensora', 'Cadeira flexora', 'Panturrilha em pé'],
+    intermediario: ['Agachamento c/ barra', 'Stiff', 'Avanço c/ halteres', 'Hack squat', 'Leg curl deitado'],
+    avancado: ['Agachamento profundo c/ barra', 'Levantamento terra romeno', 'Pistol squat', 'Bulgarian split squat', 'Agachamento búlgaro lastrado'],
   },
   gluteos: {
-    iniciante:     ['Ponte de glúteo','Abdução de quadril','Kickback','Agachamento sumô','Step-up no banco'],
-    intermediario: ['Hip thrust c/ barra','Agachamento sumô pesado','Kickback no cabo','Abdução no cabo','Avanço reverso'],
-    avancado:      ['Hip thrust lastrado','Agachamento sumô máximo','Pull-through','Glute drive máquina','RDL unilateral'],
+    iniciante: ['Ponte de glúteo', 'Abdução de quadril', 'Kickback', 'Agachamento sumô', 'Step-up no banco'],
+    intermediario: ['Hip thrust c/ barra', 'Agachamento sumô pesado', 'Kickback no cabo', 'Abdução no cabo', 'Avanço reverso'],
+    avancado: ['Hip thrust lastrado', 'Agachamento sumô máximo', 'Pull-through', 'Glute drive máquina', 'RDL unilateral'],
   },
   abdomen: {
-    iniciante:     ['Prancha','Crunch básico','Elevação de pernas','Bicicleta','Contração abdominal'],
-    intermediario: ['Prancha lateral','Ab wheel','Crunch inverso','Russian twist','Hollow body hold'],
-    avancado:      ['Dragon flag','Ab wheel em pé','V-up','Hanging leg raise','Canivete'],
+    iniciante: ['Prancha', 'Crunch básico', 'Elevação de pernas', 'Bicicleta', 'Contração abdominal'],
+    intermediario: ['Prancha lateral', 'Ab wheel', 'Crunch inverso', 'Russian twist', 'Hollow body hold'],
+    avancado: ['Dragon flag', 'Ab wheel em pé', 'V-up', 'Hanging leg raise', 'Canivete'],
   },
   cardio: {
-    iniciante:     ['Caminhada rápida 20 min','Pulo de corda 5 min','Jumping jack','Step básico','Bicicleta ergométrica leve'],
-    intermediario: ['Corrida 20 min','HIIT 15 min','Burpee','Mountain climber','Remo ergométrico'],
-    avancado:      ['Corrida intervalada','HIIT tabata','Box jump','Sprint 100m x8','Assault bike'],
+    iniciante: ['Caminhada rápida 20 min', 'Pulo de corda 5 min', 'Jumping jack', 'Step básico', 'Bicicleta ergométrica leve'],
+    intermediario: ['Corrida 20 min', 'HIIT 15 min', 'Burpee', 'Mountain climber', 'Remo ergométrico'],
+    avancado: ['Corrida intervalada', 'HIIT tabata', 'Box jump', 'Sprint 100m x8', 'Assault bike'],
   },
   full_body: {
-    iniciante:     ['Agachamento c/ flexão','Remada + desenvolvimento','Lunges alternados','Prancha com toque de ombro','Agachamento sumo + curl'],
-    intermediario: ['Thruster','Man maker','Kettlebell swing','Complexo de barra','Circuit training 5 exercícios'],
-    avancado:      ['Clean & jerk','Snatch','Turkish get-up','Complexo Barbell pesado','CrossFit WOD'],
+    iniciante: ['Agachamento c/ flexão', 'Remada + desenvolvimento', 'Lunges alternados', 'Prancha com toque de ombro', 'Agachamento sumo + curl'],
+    intermediario: ['Thruster', 'Man maker', 'Kettlebell swing', 'Complexo de barra', 'Circuit training 5 exercícios'],
+    avancado: ['Clean & jerk', 'Snatch', 'Turkish get-up', 'Complexo Barbell pesado', 'CrossFit WOD'],
   },
 };
 
@@ -101,8 +101,8 @@ function renderWorkouts(filter = '') {
   }
   empty.classList.add('hidden');
 
-  const focusLabel = { hipertrofia:'Hipertrofia', forca:'Força', resistencia:'Resistência', queima:'Queima de gordura' };
-  const nivelLabel = { iniciante:'Iniciante', intermediario:'Intermediário', avancado:'Avançado' };
+  const focusLabel = { hipertrofia: 'Hipertrofia', forca: 'Força', resistencia: 'Resistência', queima: 'Queima de gordura' };
+  const nivelLabel = { iniciante: 'Iniciante', intermediario: 'Intermediário', avancado: 'Avançado' };
 
   grid.innerHTML = filtered.map(w => `
     <div class="workout-card bg-white" onclick="openWorkoutDetail('${w.id}')">
@@ -166,14 +166,14 @@ function openWorkoutDetail(id) {
   if (!activeWorkout) return;
 
   document.getElementById('detail-title').textContent = activeWorkout.name;
-  const focusLabel = { hipertrofia:'Hipertrofia', forca:'Força', resistencia:'Resistência', queima:'Queima de gordura' };
+  const focusLabel = { hipertrofia: 'Hipertrofia', forca: 'Força', resistencia: 'Resistência', queima: 'Queima de gordura' };
   document.getElementById('detail-meta').textContent =
     `${MUSCLE_GROUPS.find(m => m.id === activeWorkout.muscle)?.label} · ${focusLabel[activeWorkout.foco]} · ${activeWorkout.duracao} min`;
 
   const list = document.getElementById('detail-ex-list');
   list.innerHTML = activeWorkout.exercises.map((e, i) => `
     <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-      <span class="w-6 h-6 bg-dark text-white rounded-full text-[11px] font-bold flex items-center justify-center flex-shrink-0">${i+1}</span>
+      <span class="w-6 h-6 bg-dark text-white rounded-full text-[11px] font-bold flex items-center justify-center flex-shrink-0">${i + 1}</span>
       <span class="text-[13.5px] font-medium text-dark">${e}</span>
     </div>
   `).join('');
@@ -200,7 +200,7 @@ function resetNewModal() {
   document.querySelectorAll('input[name="foco"]').forEach(r => r.checked = false);
   document.querySelectorAll('input[name="duracao"]').forEach(r => r.checked = false);
   renderMuscleGroups();
-  ['err-s1','err-s2','err-s3'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  ['err-s1', 'err-s2', 'err-s3'].forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
 function updateStepUI() {
@@ -287,8 +287,8 @@ function renderExerciseList(filter = '') {
   updateSelCount();
 
   const tags = document.getElementById('filter-tags');
-  const levels = ['iniciante','intermediario','avancado'];
-  const lbl = { iniciante:'Iniciante', intermediario:'Intermediário', avancado:'Avançado' };
+  const levels = ['iniciante', 'intermediario', 'avancado'];
+  const lbl = { iniciante: 'Iniciante', intermediario: 'Intermediário', avancado: 'Avançado' };
   tags.innerHTML = levels.map(lv => `
     <button onclick="filterByLevel('${lv}')"
       class="pill-tag cursor-pointer border-none ${lv === selectedLevel ? 'active' : ''} hover:bg-blue-50"

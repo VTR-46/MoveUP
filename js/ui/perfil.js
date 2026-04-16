@@ -1,8 +1,10 @@
-
+// UI/DOM - Perfil
+// Importa: logica/streak.js
 
 function getUser() {
   return JSON.parse(localStorage.getItem('moveup_user') || '{}');
 }
+
 function saveUser(data) {
   const existing = getUser();
   const updated = { ...existing, ...data };
@@ -13,9 +15,11 @@ function saveUser(data) {
   filtered.push(updated);
   localStorage.setItem('moveup_users', JSON.stringify(filtered));
 }
+
 function getHistory() {
   return JSON.parse(localStorage.getItem('moveup_history_' + getUser().email) || '[]');
 }
+
 function getWorkouts() {
   return JSON.parse(localStorage.getItem('moveup_workouts_' + getUser().email) || '[]');
 }
@@ -30,43 +34,14 @@ function saveStreakData(data) {
   localStorage.setItem('moveup_streak_' + getUser().email, JSON.stringify(data));
 }
 
-function todayStr() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function yesterdayStr() {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  return d.toISOString().slice(0, 10);
-}
-
 function checkAndUpdateStreak() {
   const history = getHistory();
   const streak = getStreakData();
-  const today = todayStr();
-
-  const workedOutToday = history.some(h => h.date && h.date.slice(0, 10) === today);
-
-  if (workedOutToday) {
-    if (streak.lastDate === today) return streak;
-
-    if (streak.lastDate === yesterdayStr()) {
-      streak.current++;
-    } else if (streak.lastDate !== today) {
-      streak.current = 1;
-    }
-    streak.lastDate = today;
-    streak.best = Math.max(streak.best, streak.current);
-    if (!streak.activeDays) streak.activeDays = [];
-    if (!streak.activeDays.includes(today)) streak.activeDays.push(today);
-    saveStreakData(streak);
-  } else {
-    if (streak.lastDate && streak.lastDate !== today && streak.lastDate !== yesterdayStr()) {
-      streak.current = 0;
-      saveStreakData(streak);
-    }
-  }
-  return getStreakData();
+  
+  // Usa função pura calcularStreak
+  const updatedStreak = calcularStreak(history, streak);
+  saveStreakData(updatedStreak);
+  return updatedStreak;
 }
 
 function logout() {
@@ -87,7 +62,6 @@ function getMyRank(myStreak) {
   
   return higherStreaks + 1;
 }
-
 
 function renderProfile() {
   const user = getUser();
@@ -148,7 +122,6 @@ function renderStats() {
   const rank = getMyRank(streak.current);
   document.getElementById('rank-position').textContent = '#' + rank;
 }
-
 
 function openEditModal(type) {
   const user = getUser();
@@ -220,7 +193,6 @@ function saveProfile() {
   init();
   showToast('Perfil atualizado com sucesso!');
 }
-
 
 function showToast(msg) {
   const t = document.getElementById('toast');

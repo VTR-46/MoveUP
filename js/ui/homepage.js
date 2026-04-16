@@ -1,3 +1,6 @@
+// UI/DOM - Homepage
+// Importa: logica/treinos.js
+
 function getWorkouts() {
     const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
     if (!user.email) return [];
@@ -10,14 +13,14 @@ function renderTopWorkouts() {
     const workouts = getWorkouts();
 
     if (!workouts.length) {
-        container.innerHTML = '<p class="text-sm text-gray-400 mt-2">Nenhum treino criado ainda. Crie seu primeiro treino!</p>';    /////////////
+        container.innerHTML = '<p class="text-sm text-gray-400 mt-2">Nenhum treino criado ainda. Crie seu primeiro treino!</p>';
         containerCriarTreino.style.display = 'flex'
 
         return;
     }
 
-    // Pega apenas os 5 primeiros treinos (índices 0 a 4)
-    const top5 = workouts.slice(0, 5);
+    // Usa função pura obterTopTreinos
+    const top5 = obterTopTreinos(workouts, 5);
 
     container.innerHTML = top5.map(w => `
     <div onclick="window.location.href='./treino.html?id=${w.id}'" class="bg-white border border-gray-200 rounded-xl p-4 hover:border-brand hover:bg-blue-50 transition-all cursor-pointer flex items-center justify-between">
@@ -60,8 +63,6 @@ const TREINOS_RECOMENDADOS = [
         duracao: "30",
         exercises: ["Caminhada rápida 20 min", "Prancha", "Jumping jack"]
     }
-
-
 ];
 
 function renderRecommendedWorkouts() {
@@ -93,10 +94,8 @@ function startRecommended(index) {
     const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
     const workouts = JSON.parse(localStorage.getItem('moveup_workouts_' + user.email) || '[]');
 
-    // Copia o treino recomendado e cria um ID único para ele
-    const novoTreino = { ...TREINOS_RECOMENDADOS[index] };
-    novoTreino.id = Date.now().toString();
-    novoTreino.createdAt = new Date().toISOString();
+    // Usa função pura criarTreinoDeModelo
+    const novoTreino = criarTreinoDeModelo(TREINOS_RECOMENDADOS[index]);
 
     // Salva na lista do usuário
     workouts.unshift(novoTreino);
@@ -144,7 +143,6 @@ function init() {
         const h1 = welcomeContainer.querySelector('h1');
         if(h1) h1.textContent = `${saudacao}, ${user.nome}!`;
     }
-
 
     renderTopWorkouts();
     renderRecommendedWorkouts();

@@ -1,0 +1,16 @@
+{
+  "name": "moveup",
+  "version": "1.0.0",
+  "description": "Aplicação de Treinos MoveUP",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": ["fitness", "workouts", "treinos"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

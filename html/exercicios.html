@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MoveUP — Exercícios</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
   <script>
     tailwind.config = {
       theme: {
@@ -22,268 +24,325 @@
   </script>
   <link rel="stylesheet" href="../css/exercicios.css">
 </head>
+
 <body class="font-poppins bg-gray-50 min-h-screen">
 
-<!-- Fundo abstrato decorativo -->
-<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+  <!-- Fundo abstrato decorativo -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
     <div class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-brand/5 rounded-full blur-3xl"></div>
     <div class="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] bg-blue-400/10 rounded-full blur-3xl"></div>
-</div>
-
-<main class="max-w-7xl mx-auto px-6 py-10 relative z-10">
-
-  <div class="mb-8 bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-brand/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-10 -mt-10"></div>
-    <h1 class="text-2xl font-extrabold text-dark tracking-tight mb-2 relative z-10">Meus Treinos</h1>
-    <p class="text-sm text-gray-500 relative z-10">Selecione um treino existente ou crie um novo personalizado.</p>
   </div>
 
-  <div class="flex flex-col sm:flex-row gap-3 mb-8">
-    <div class="relative flex-1">
-      <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" width="15" height="15" fill="none" viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
-        <path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <input id="search-workouts" type="text" placeholder="Buscar treinos salvos…"
-        class="w-full border border-gray-200 rounded-[10px] pl-10 pr-4 py-2.5 text-sm text-dark placeholder-gray-300 bg-white transition-colors"/>
+  <main class="max-w-7xl mx-auto px-6 py-10 relative z-10">
+
+    <div class="mb-8 bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
+      <div
+        class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-brand/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-10 -mt-10">
+      </div>
+      <h1 class="text-2xl font-extrabold text-dark tracking-tight mb-2 relative z-10">Meus Treinos</h1>
+      <p class="text-sm text-gray-500 relative z-10">Selecione um treino existente ou crie um novo personalizado.</p>
     </div>
-    <button onclick="openNewWorkoutModal()"
-      class="flex items-center gap-2 bg-dark text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none whitespace-nowrap">
-      <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
-      Criar novo treino
-    </button>
-  </div>
 
-  <div id="workouts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-  </div>
-
-  <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center">
-    <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
-      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 5h6" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="flex flex-col sm:flex-row gap-3 mb-8">
+      <div class="relative flex-1">
+        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" width="15" height="15" fill="none"
+          viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+          <path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <input id="search-workouts" type="text" placeholder="Buscar treinos salvos…"
+          class="w-full border border-gray-200 rounded-[10px] pl-10 pr-4 py-2.5 text-sm text-dark placeholder-gray-300 bg-white transition-colors" />
+      </div>
+      <button onclick="openNewWorkoutModal()"
+        class="flex items-center gap-2 bg-dark text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none whitespace-nowrap">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+          <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+        </svg>
+        Criar novo treino
+      </button>
     </div>
-    <h3 class="text-base font-semibold text-dark mb-1">Nenhum treino ainda</h3>
-    <p class="text-sm text-gray-400 mb-5 max-w-xs">Crie seu primeiro treino personalizado com base no seu perfil e objetivos.</p>
-    <button onclick="openNewWorkoutModal()"
-      class="bg-dark text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-[#060e1c] transition-all cursor-pointer border-none">
-      Criar primeiro treino
-    </button>
-  </div>
 
-</main>
+    <div id="workouts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    </div>
+
+    <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center">
+      <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+          <path
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 5h6"
+            stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <h3 class="text-base font-semibold text-dark mb-1">Nenhum treino ainda</h3>
+      <p class="text-sm text-gray-400 mb-5 max-w-xs">Crie seu primeiro treino personalizado com base no seu perfil e
+        objetivos.</p>
+      <button onclick="openNewWorkoutModal()"
+        class="bg-dark text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-[#060e1c] transition-all cursor-pointer border-none">
+        Criar primeiro treino
+      </button>
+    </div>
+
+  </main>
 
 
   <div id="barra-navegacao-bottom"
-        class="fixed z-50 h-16 max-w-4xl bg-dark rounded-full bottom-4 inset-x-4 mx-auto flex justify-center shadow-2xl">
-        <div class="grid h-full w-full grid-cols-4 mx-auto">
+    class="fixed z-50 h-16 max-w-4xl bg-dark rounded-full bottom-4 inset-x-4 mx-auto flex justify-center shadow-2xl">
+    <div class="grid h-full w-full grid-cols-4 mx-auto">
 
-            <a href="../html/homepage.html" data-tooltip-target="tooltip-home" type="button"
-                class="group inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-neutral-secondary-medium hover:bg-cyan-500">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6 text-white group-hover:text-white">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                </svg>
-                <span class="sr-only ">Home</span>
+      <a href="../html/homepage.html" data-tooltip-target="tooltip-home" type="button"
+        class="group inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-neutral-secondary-medium hover:bg-cyan-500">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6 text-white group-hover:text-white">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+        </svg>
+        <span class="sr-only ">Home</span>
 
-            </a>
-            <div id="tooltip-home" role="tooltip"
-                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
-                Home
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
+      </a>
+      <div id="tooltip-home" role="tooltip"
+        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+        Home
+        <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
 
-            <a href="../html/exercicios.html" data-tooltip-target="tooltip-wallet" type="button"
-                class="group inline-flex flex-col items-center justify-center px-5 bg-cyan-600">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-biceps-flexed-icon lucide-biceps-flexed text-white group-hover:text-white">
-                    <path
-                        d="M12.409 13.017A5 5 0 0 1 22 15c0 3.866-4 7-9 7-4.077 0-8.153-.82-10.371-2.462-.426-.316-.631-.832-.62-1.362C2.118 12.723 2.627 2 10 2a3 3 0 0 1 3 3 2 2 0 0 1-2 2c-1.105 0-1.64-.444-2-1" />
-                    <path d="M15 14a5 5 0 0 0-7.584 2" />
-                    <path d="M9.964 6.825C8.019 7.977 9.5 13 8 15" />
-                </svg>
-                <span class="sr-only">Treinos</span>
-            </a>
-            <div id="tooltip-wallet" role="tooltip"
-                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
-                Treinos
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
+      <a href="../html/exercicios.html" data-tooltip-target="tooltip-wallet" type="button"
+        class="group inline-flex flex-col items-center justify-center px-5 bg-cyan-600">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-biceps-flexed-icon lucide-biceps-flexed text-white group-hover:text-white">
+          <path
+            d="M12.409 13.017A5 5 0 0 1 22 15c0 3.866-4 7-9 7-4.077 0-8.153-.82-10.371-2.462-.426-.316-.631-.832-.62-1.362C2.118 12.723 2.627 2 10 2a3 3 0 0 1 3 3 2 2 0 0 1-2 2c-1.105 0-1.64-.444-2-1" />
+          <path d="M15 14a5 5 0 0 0-7.584 2" />
+          <path d="M9.964 6.825C8.019 7.977 9.5 13 8 15" />
+        </svg>
+        <span class="sr-only">Treinos</span>
+      </a>
+      <div id="tooltip-wallet" role="tooltip"
+        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+        Treinos
+        <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
 
-            <a href="../html/perfil.html" data-tooltip-target="tooltip-profile" type="button"
-                class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6 text-white group-hover:text-white">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                </svg>
-                <span class="sr-only">Perfil</span>
-            </a>
-            <div id="tooltip-profile" role="tooltip"
-                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
-                Perfil
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
+      <a href="../html/perfil.html" data-tooltip-target="tooltip-profile" type="button"
+        class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6 text-white group-hover:text-white">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+        </svg>
+        <span class="sr-only">Perfil</span>
+      </a>
+      <div id="tooltip-profile" role="tooltip"
+        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+        Perfil
+        <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
 
-            <button onclick="logout()" data-tooltip-target="tooltip-logout" type="button"
-                class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white group-hover:text-white">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-                </svg>
-                <span class="sr-only">Sair</span>
+      <button onclick="logout()" data-tooltip-target="tooltip-logout" type="button"
+        class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6 text-white group-hover:text-white">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+        </svg>
+        <span class="sr-only">Sair</span>
+      </button>
+      <div id="tooltip-logout" role="tooltip"
+        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
+        Sair
+        <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="overlay" class="fixed inset-0 z-50 flex items-center justify-center px-4"
+    style="background: rgba(10,22,40,0.65); backdrop-filter: blur(4px);">
+
+    <div id="new-modal" class="hidden">
+      <div id="modal-card"
+        class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[92vh] overflow-hidden flex flex-col">
+
+        <div class="px-7 pt-7 pb-5 border-b border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <span id="step-label" class="text-[11px] font-semibold text-brand uppercase tracking-widest">Etapa 1 de
+              3</span>
+            <button onclick="closeModal()"
+              class="text-gray-300 hover:text-gray-500 transition-colors cursor-pointer bg-transparent border-none p-0">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
             </button>
-            <div id="tooltip-logout" role="tooltip"
-                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
-                Sair
-                <div class="tooltip-arrow" data-popper-arrow></div>
+          </div>
+          <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div id="prog-bar" class="h-full bg-brand rounded-full" style="width: 33%"></div>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto px-7 py-6">
+
+          <div class="step active" id="s1">
+            <h2 class="text-xl font-bold text-dark mt-2 mb-1">Novo treino</h2>
+            <p class="text-sm text-gray-400 mb-5">Vamos montar um treino perfeito para você.</p>
+
+            <h3 class="text-[13px] font-semibold text-dark mb-2">Qual grupo muscular você quer treinar?</h3>
+            <div class="grid grid-cols-2 gap-2 mb-5" id="muscle-groups">
             </div>
+
+            <h3 class="text-[13px] font-semibold text-dark mb-2">Seu nível nesse grupo muscular</h3>
+            <div class="space-y-2" id="level-opts">
+              <div class="opt-item"><input type="radio" name="nivel-ex" id="lv1" value="iniciante" />
+                <label for="lv1"><span class="radio-circle"><span class="radio-dot"></span></span>
+                  <div>
+                    <p class="text-[13px] font-medium text-dark">Iniciante</p>
+                    <p class="text-[11px] text-gray-400">Pouca ou nenhuma experiência</p>
+                  </div>
+                </label>
+              </div>
+              <div class="opt-item"><input type="radio" name="nivel-ex" id="lv2" value="intermediario" />
+                <label for="lv2"><span class="radio-circle"><span class="radio-dot"></span></span>
+                  <div>
+                    <p class="text-[13px] font-medium text-dark">Intermediário</p>
+                    <p class="text-[11px] text-gray-400">Treina regularmente há alguns meses</p>
+                  </div>
+                </label>
+              </div>
+              <div class="opt-item"><input type="radio" name="nivel-ex" id="lv3" value="avancado" />
+                <label for="lv3"><span class="radio-circle"><span class="radio-dot"></span></span>
+                  <div>
+                    <p class="text-[13px] font-medium text-dark">Avançado</p>
+                    <p class="text-[11px] text-gray-400">Experiência consistente há mais de 1 ano</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <p id="err-s1" class="text-[12px] text-red-500 mt-3 hidden">Selecione grupo muscular e nível.</p>
+          </div>
+
+          <div class="step" id="s2">
+            <h2 class="text-xl font-bold text-dark mt-2 mb-1">Objetivo do treino</h2>
+            <p class="text-sm text-gray-400 mb-5">O que você quer alcançar hoje?</p>
+
+            <h3 class="text-[13px] font-semibold text-dark mb-2">Foco principal</h3>
+            <div class="space-y-2 mb-5">
+              <div class="opt-item"><input type="radio" name="foco" id="f1" value="hipertrofia" />
+                <label for="f1"><span class="radio-circle"><span class="radio-dot"></span></span>Hipertrofia (ganho de
+                  massa)</label>
+              </div>
+              <div class="opt-item"><input type="radio" name="foco" id="f2" value="forca" />
+                <label for="f2"><span class="radio-circle"><span class="radio-dot"></span></span>Força e
+                  potência</label>
+              </div>
+              <div class="opt-item"><input type="radio" name="foco" id="f3" value="resistencia" />
+                <label for="f3"><span class="radio-circle"><span class="radio-dot"></span></span>Resistência
+                  muscular</label>
+              </div>
+              <div class="opt-item"><input type="radio" name="foco" id="f4" value="queima" />
+                <label for="f4"><span class="radio-circle"><span class="radio-dot"></span></span>Queima de gordura /
+                  condicionamento</label>
+              </div>
+            </div>
+
+            <h3 class="text-[13px] font-semibold text-dark mb-2">Duração aproximada</h3>
+            <div class="grid grid-cols-3 gap-2">
+              <div class="opt-item"><input type="radio" name="duracao" id="d1" value="30" />
+                <label for="d1" class="justify-center text-center"><span class="radio-circle hidden"></span>30
+                  min</label>
+              </div>
+              <div class="opt-item"><input type="radio" name="duracao" id="d2" value="45" />
+                <label for="d2" class="justify-center text-center"><span class="radio-circle hidden"></span>45
+                  min</label>
+              </div>
+              <div class="opt-item"><input type="radio" name="duracao" id="d3" value="60" />
+                <label for="d3" class="justify-center text-center"><span class="radio-circle hidden"></span>60
+                  min</label>
+              </div>
+            </div>
+            <p id="err-s2" class="text-[12px] text-red-500 mt-3 hidden">Selecione o foco e a duração.</p>
+          </div>
+
+          <div class="step" id="s3">
+            <div class="flex items-center justify-between mb-1">
+              <h2 class="text-xl font-bold text-dark">Exercícios sugeridos</h2>
+            </div>
+            <p class="text-sm text-gray-400 mb-4">Desmaque o que não quiser ou adicione outros.</p>
+
+            <div class="relative mb-4">
+              <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" width="14" height="14" fill="none"
+                viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+                <path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+              <input id="ex-search" type="text" placeholder="Buscar exercício…" oninput="filterExercises(this.value)"
+                class="w-full border border-gray-200 rounded-[10px] pl-9 pr-4 py-2.5 text-sm text-dark placeholder-gray-300 bg-white transition-colors" />
+            </div>
+
+            <div id="filter-tags" class="flex flex-wrap gap-1.5 mb-4"></div>
+
+            <div id="exercise-list" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
+
+            <p class="text-[11.5px] text-gray-400 mt-3"><span id="sel-count" class="font-semibold text-dark">0</span>
+              exercícios selecionados</p>
+            <p id="err-s3" class="text-[12px] text-red-500 mt-1 hidden">Selecione pelo menos 1 exercício.</p>
+
+            <div class="mt-4">
+              <label class="block text-[13px] font-medium text-gray-600 mb-1.5">Nome do treino</label>
+              <input id="workout-name" type="text" placeholder="Ex: Peito e Tríceps — Segunda"
+                class="w-full border border-gray-200 rounded-[10px] px-3.5 py-2.5 text-sm text-dark placeholder-gray-300 transition-colors" />
+            </div>
+          </div>
 
         </div>
-    </div>
 
-<div id="overlay" class="fixed inset-0 z-50 flex items-center justify-center px-4"
-     style="background: rgba(10,22,40,0.65); backdrop-filter: blur(4px);">
-
-  <div id="new-modal" class="hidden">
-    <div id="modal-card" class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[92vh] overflow-hidden flex flex-col">
-
-      <div class="px-7 pt-7 pb-5 border-b border-gray-100">
-        <div class="flex items-center justify-between mb-4">
-          <span id="step-label" class="text-[11px] font-semibold text-brand uppercase tracking-widest">Etapa 1 de 3</span>
-          <button onclick="closeModal()" class="text-gray-300 hover:text-gray-500 transition-colors cursor-pointer bg-transparent border-none p-0">
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <div class="px-7 py-5 border-t border-gray-100 flex gap-3">
+          <button id="btn-back" onclick="prevStep()"
+            class="flex-1 border border-gray-200 text-dark text-[14px] font-semibold py-3 rounded-full hover:bg-gray-50 transition-all cursor-pointer hidden">
+            Voltar
+          </button>
+          <button id="btn-next" onclick="nextStep()"
+            class="flex-1 bg-dark text-white text-[14px] font-semibold py-3 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+            Continuar
           </button>
         </div>
-        <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-          <div id="prog-bar" class="h-full bg-brand rounded-full" style="width: 33%"></div>
-        </div>
       </div>
+    </div>
 
-      <div class="flex-1 overflow-y-auto px-7 py-6">
+    <div id="detail-modal" class="hidden w-full max-w-md">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-h-[92vh] overflow-hidden flex flex-col">
 
-        <div class="step active" id="s1">
-          <h2 class="text-xl font-bold text-dark mt-2 mb-1">Novo treino</h2>
-          <p class="text-sm text-gray-400 mb-5">Vamos montar um treino perfeito para você.</p>
-
-          <h3 class="text-[13px] font-semibold text-dark mb-2">Qual grupo muscular você quer treinar?</h3>
-          <div class="grid grid-cols-2 gap-2 mb-5" id="muscle-groups">
+        <div id="detail-header" class="px-7 pt-7 pb-5 border-b border-gray-100 flex items-start justify-between">
+          <div>
+            <h2 id="detail-title" class="text-xl font-bold text-dark mb-0.5"></h2>
+            <p id="detail-meta" class="text-[12px] text-gray-400"></p>
           </div>
-
-          <h3 class="text-[13px] font-semibold text-dark mb-2">Seu nível nesse grupo muscular</h3>
-          <div class="space-y-2" id="level-opts">
-            <div class="opt-item"><input type="radio" name="nivel-ex" id="lv1" value="iniciante"/>
-              <label for="lv1"><span class="radio-circle"><span class="radio-dot"></span></span><div><p class="text-[13px] font-medium text-dark">Iniciante</p><p class="text-[11px] text-gray-400">Pouca ou nenhuma experiência</p></div></label></div>
-            <div class="opt-item"><input type="radio" name="nivel-ex" id="lv2" value="intermediario"/>
-              <label for="lv2"><span class="radio-circle"><span class="radio-dot"></span></span><div><p class="text-[13px] font-medium text-dark">Intermediário</p><p class="text-[11px] text-gray-400">Treina regularmente há alguns meses</p></div></label></div>
-            <div class="opt-item"><input type="radio" name="nivel-ex" id="lv3" value="avancado"/>
-              <label for="lv3"><span class="radio-circle"><span class="radio-dot"></span></span><div><p class="text-[13px] font-medium text-dark">Avançado</p><p class="text-[11px] text-gray-400">Experiência consistente há mais de 1 ano</p></div></label></div>
-          </div>
-          <p id="err-s1" class="text-[12px] text-red-500 mt-3 hidden">Selecione grupo muscular e nível.</p>
-        </div>
-
-        <div class="step" id="s2">
-          <h2 class="text-xl font-bold text-dark mt-2 mb-1">Objetivo do treino</h2>
-          <p class="text-sm text-gray-400 mb-5">O que você quer alcançar hoje?</p>
-
-          <h3 class="text-[13px] font-semibold text-dark mb-2">Foco principal</h3>
-          <div class="space-y-2 mb-5">
-            <div class="opt-item"><input type="radio" name="foco" id="f1" value="hipertrofia"/>
-              <label for="f1"><span class="radio-circle"><span class="radio-dot"></span></span>Hipertrofia (ganho de massa)</label></div>
-            <div class="opt-item"><input type="radio" name="foco" id="f2" value="forca"/>
-              <label for="f2"><span class="radio-circle"><span class="radio-dot"></span></span>Força e potência</label></div>
-            <div class="opt-item"><input type="radio" name="foco" id="f3" value="resistencia"/>
-              <label for="f3"><span class="radio-circle"><span class="radio-dot"></span></span>Resistência muscular</label></div>
-            <div class="opt-item"><input type="radio" name="foco" id="f4" value="queima"/>
-              <label for="f4"><span class="radio-circle"><span class="radio-dot"></span></span>Queima de gordura / condicionamento</label></div>
-          </div>
-
-          <h3 class="text-[13px] font-semibold text-dark mb-2">Duração aproximada</h3>
-          <div class="grid grid-cols-3 gap-2">
-            <div class="opt-item"><input type="radio" name="duracao" id="d1" value="30"/>
-              <label for="d1" class="justify-center text-center"><span class="radio-circle hidden"></span>30 min</label></div>
-            <div class="opt-item"><input type="radio" name="duracao" id="d2" value="45"/>
-              <label for="d2" class="justify-center text-center"><span class="radio-circle hidden"></span>45 min</label></div>
-            <div class="opt-item"><input type="radio" name="duracao" id="d3" value="60"/>
-              <label for="d3" class="justify-center text-center"><span class="radio-circle hidden"></span>60 min</label></div>
-          </div>
-          <p id="err-s2" class="text-[12px] text-red-500 mt-3 hidden">Selecione o foco e a duração.</p>
-        </div>
-
-        <div class="step" id="s3">
-          <div class="flex items-center justify-between mb-1">
-            <h2 class="text-xl font-bold text-dark">Exercícios sugeridos</h2>
-          </div>
-          <p class="text-sm text-gray-400 mb-4">Desmaque o que não quiser ou adicione outros.</p>
-
-          <div class="relative mb-4">
-            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300" width="14" height="14" fill="none" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
-              <path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <button onclick="closeModal()"
+            class="text-gray-300 hover:text-gray-500 cursor-pointer bg-transparent border-none p-0 ml-4 mt-1">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+              <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
-            <input id="ex-search" type="text" placeholder="Buscar exercício…" oninput="filterExercises(this.value)"
-              class="w-full border border-gray-200 rounded-[10px] pl-9 pr-4 py-2.5 text-sm text-dark placeholder-gray-300 bg-white transition-colors"/>
-          </div>
+          </button>
+        </div>
 
-          <div id="filter-tags" class="flex flex-wrap gap-1.5 mb-4"></div>
-
-          <div id="exercise-list" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
-
-          <p class="text-[11.5px] text-gray-400 mt-3"><span id="sel-count" class="font-semibold text-dark">0</span> exercícios selecionados</p>
-          <p id="err-s3" class="text-[12px] text-red-500 mt-1 hidden">Selecione pelo menos 1 exercício.</p>
-
-          <div class="mt-4">
-            <label class="block text-[13px] font-medium text-gray-600 mb-1.5">Nome do treino</label>
-            <input id="workout-name" type="text" placeholder="Ex: Peito e Tríceps — Segunda"
-              class="w-full border border-gray-200 rounded-[10px] px-3.5 py-2.5 text-sm text-dark placeholder-gray-300 transition-colors"/>
-          </div>
+        <div id="detail-summary" class="flex-1 overflow-y-auto px-7 py-6">
+          <h3 class="text-[13px] font-semibold text-dark mb-3">Lista de exercícios</h3>
+          <div id="detail-ex-list" class="space-y-2 mb-6"></div>
+          <button onclick="startWorkout()" id="btn-start"
+            class="w-full bg-dark text-white text-[14px] font-semibold py-3.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
+            Iniciar treino
+          </button>
+          <button onclick="deleteWorkout()"
+            class="w-full mt-3 text-[12.5px] text-red-400 hover:text-red-600 transition-colors cursor-pointer bg-transparent border-none font-medium">
+            Excluir treino
+          </button>
         </div>
 
       </div>
-
-      <div class="px-7 py-5 border-t border-gray-100 flex gap-3">
-        <button id="btn-back" onclick="prevStep()"
-          class="flex-1 border border-gray-200 text-dark text-[14px] font-semibold py-3 rounded-full hover:bg-gray-50 transition-all cursor-pointer hidden">
-          Voltar
-        </button>
-        <button id="btn-next" onclick="nextStep()"
-          class="flex-1 bg-dark text-white text-[14px] font-semibold py-3 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
-          Continuar
-        </button>
-      </div>
     </div>
+
   </div>
 
-  <div id="detail-modal" class="hidden w-full max-w-md">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-h-[92vh] overflow-hidden flex flex-col">
-
-      <div id="detail-header" class="px-7 pt-7 pb-5 border-b border-gray-100 flex items-start justify-between">
-        <div>
-          <h2 id="detail-title" class="text-xl font-bold text-dark mb-0.5"></h2>
-          <p id="detail-meta" class="text-[12px] text-gray-400"></p>
-        </div>
-        <button onclick="closeModal()" class="text-gray-300 hover:text-gray-500 cursor-pointer bg-transparent border-none p-0 ml-4 mt-1">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </button>
-      </div>
-
-      <div id="detail-summary" class="flex-1 overflow-y-auto px-7 py-6">
-        <h3 class="text-[13px] font-semibold text-dark mb-3">Lista de exercícios</h3>
-        <div id="detail-ex-list" class="space-y-2 mb-6"></div>
-        <button onclick="startWorkout()" id="btn-start"
-          class="w-full bg-dark text-white text-[14px] font-semibold py-3.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none">
-          Iniciar treino
-        </button>
-        <button onclick="deleteWorkout()" class="w-full mt-3 text-[12.5px] text-red-400 hover:text-red-600 transition-colors cursor-pointer bg-transparent border-none font-medium">
-          Excluir treino
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js" defer></script>
-<script src="../js/exercicios.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js" defer></script>
+  <script src="../js/exercicios.js" defer></script>
 </body>
+
 </html>

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Saúde App — Cadastro</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
   <script>
     tailwind.config = {
       theme: {
@@ -22,21 +24,19 @@
   </script>
   <link rel="stylesheet" href="../css/cadastro.css">
 </head>
+
 <body class="font-poppins bg-white overflow-hidden h-screen flex flex-col">
 
   <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
 
     <div class="relative md:w-[52%] h-56 md:h-full shrink-0 overflow-hidden">
-      <img
-        src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1200&q=85"
-        alt="Pessoa se exercitando"
-        class="w-full h-full object-cover object-center"
-      />
+      <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1200&q=85" alt="Pessoa se exercitando"
+        class="w-full h-full object-cover object-center" />
       <div class="hidden md:block absolute bottom-0 left-0 right-0 h-48"
-           style="background: linear-gradient(to top, rgba(8,18,45,0.88) 0%, transparent 100%);">
+        style="background: linear-gradient(to top, rgba(8,18,45,0.88) 0%, transparent 100%);">
       </div>
       <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-transparent via-transparent to-white"
-           style="--tw-gradient-stops: transparent 30%, white 100%;"></div>
+        style="--tw-gradient-stops: transparent 30%, white 100%;"></div>
       <div class="hidden md:block absolute bottom-10 left-10 z-10 max-w-xs">
         <h2 class="text-2xl font-extrabold leading-snug tracking-tight mb-2 text-white drop-shadow">
           Comece Sua <em class="not-italic text-brand-light">Jornada</em><br>Hoje Mesmo
@@ -58,7 +58,7 @@
 
       <div class="mb-8">
         <div class="flex items-center gap-2">
-          <img src="../img/MoveUPSolo.png"  alt="" class="w-35 h-12 rounded-lg flex items-center justify-center"> 
+          <img src="../img/MoveUPSolo.png" alt="" class="w-35 h-12 rounded-lg flex items-center justify-center">
         </div>
       </div>
 
@@ -117,13 +117,15 @@
   </div>
 
   <div id="popup-overlay" class="fixed inset-0 z-50 flex items-center justify-center px-4"
-       style="background: rgba(10,22,40,0.65); backdrop-filter: blur(4px);">
+    style="background: rgba(10,22,40,0.65); backdrop-filter: blur(4px);">
 
-    <div id="popup-card" class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-hidden flex flex-col">
+    <div id="popup-card"
+      class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-hidden flex flex-col">
 
       <div class="px-7 pt-7 pb-5 border-b border-gray-100">
         <div class="flex items-center justify-between mb-4">
-          <span id="step-label" class="text-[11px] font-semibold text-brand uppercase tracking-widest">Etapa 1 de 3</span>
+          <span id="step-label" class="text-[11px] font-semibold text-brand uppercase tracking-widest">Etapa 1 de
+            3</span>
           <span id="step-pct" class="text-[11px] font-semibold text-gray-400">33%</span>
         </div>
         <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -135,7 +137,8 @@
 
         <div class="step active" id="step-1">
           <h2 class="text-xl font-bold text-dark mt-2 mb-1">Quase lá!</h2>
-          <p class="text-sm text-gray-400 mb-6">Conta pra gente um pouco sobre você para personalizar sua experiência.</p>
+          <p class="text-sm text-gray-400 mb-6">Conta pra gente um pouco sobre você para personalizar sua experiência.
+          </p>
           <h3 class="text-[13px] font-semibold text-dark mb-3">Qual é o seu nível de atividade física atual?</h3>
           <div class="space-y-2.5">
             <div class="level-item">
@@ -189,31 +192,52 @@
           <div class="space-y-2.5">
             <div class="opt-item">
               <input type="checkbox" id="o1" value="perder_peso" />
-              <label for="o1"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Perder peso</label>
+              <label for="o1"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg></span>Perder peso</label>
             </div>
             <div class="opt-item">
               <input type="checkbox" id="o2" value="ganhar_massa" />
-              <label for="o2"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Ganhar massa muscular</label>
+              <label for="o2"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg></span>Ganhar massa muscular</label>
             </div>
             <div class="opt-item">
               <input type="checkbox" id="o3" value="melhorar_condicionamento" />
-              <label for="o3"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Melhorar condicionamento físico</label>
+              <label for="o3"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg></span>Melhorar condicionamento físico</label>
             </div>
             <div class="opt-item">
               <input type="checkbox" id="o4" value="reducao_stress" />
-              <label for="o4"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Reduzir estresse e ansiedade</label>
+              <label for="o4"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg></span>Reduzir estresse e ansiedade</label>
             </div>
             <div class="opt-item">
               <input type="checkbox" id="o5" value="flexibilidade" />
-              <label for="o5"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Melhorar flexibilidade e mobilidade</label>
+              <label for="o5"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg></span>Melhorar flexibilidade e mobilidade</label>
             </div>
             <div class="opt-item">
               <input type="checkbox" id="o6" value="saude_geral" />
-              <label for="o6"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Manter saúde geral e bem-estar</label>
+              <label for="o6"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg></span>Manter saúde geral e bem-estar</label>
             </div>
             <div class="opt-item">
               <input type="checkbox" id="o7" value="preparacao_evento" />
-              <label for="o7"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Preparação para evento ou competição</label>
+              <label for="o7"><span class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg></span>Preparação para evento ou competição</label>
             </div>
           </div>
           <p id="err-2" class="text-[12px] text-red-500 mt-3 hidden">Selecione pelo menos um objetivo.</p>
@@ -222,14 +246,17 @@
         <div class="step" id="step-3">
           <h2 class="text-xl font-bold text-dark mt-2 mb-1">Mais alguma coisa?</h2>
           <p class="text-sm text-gray-400 mb-6">Essa pergunta é completamente opcional — responda só se quiser.</p>
-          <h3 class="text-[13px] font-semibold text-dark mb-1.5">Tem alguma limitação física, lesão ou algo que devemos saber para personalizar seus treinos?</h3>
-          <p class="text-[11.5px] text-gray-400 mb-3">Ex: dor no joelho, hérnia de disco, gravidez, cirurgia recente…</p>
+          <h3 class="text-[13px] font-semibold text-dark mb-1.5">Tem alguma limitação física, lesão ou algo que devemos
+            saber para personalizar seus treinos?</h3>
+          <p class="text-[11.5px] text-gray-400 mb-3">Ex: dor no joelho, hérnia de disco, gravidez, cirurgia recente…
+          </p>
           <textarea id="inp-obs" rows="4" placeholder="Escreva aqui (opcional)…"
             class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors resize-none"
             style="font-family: 'Poppins', sans-serif;"></textarea>
           <div class="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-xl">
             <p class="text-[12px] text-brand font-medium mb-0.5">Seus dados estão seguros</p>
-            <p class="text-[11.5px] text-gray-500">Todas as suas informações são armazenadas de forma segura e usadas apenas para personalizar sua experiência.</p>
+            <p class="text-[11.5px] text-gray-500">Todas as suas informações são armazenadas de forma segura e usadas
+              apenas para personalizar sua experiência.</p>
           </div>
         </div>
 
@@ -237,11 +264,13 @@
           <div class="flex flex-col items-center text-center py-4">
             <div class="success-check w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-5">
               <svg width="36" height="28" viewBox="0 0 36 28" fill="none">
-                <path d="M3 14L13 24L33 4" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 14L13 24L33 4" stroke="white" stroke-width="3.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
               </svg>
             </div>
             <h2 class="text-2xl font-bold text-dark mb-2">Tudo certo!</h2>
-            <p class="text-sm text-gray-500 mb-6 max-w-xs">Seu perfil foi criado com sucesso. Estamos prontos para começar sua jornada com o MoveUP.</p>
+            <p class="text-sm text-gray-500 mb-6 max-w-xs">Seu perfil foi criado com sucesso. Estamos prontos para
+              começar sua jornada com o MoveUP.</p>
             <div class="w-full bg-gray-50 rounded-xl p-4 text-left mb-6">
               <p class="text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-3">Resumo do seu perfil</p>
               <div id="summary-body" class="space-y-1.5"></div>
@@ -269,6 +298,9 @@
     </div>
   </div>
 
-  <script src="../js/cadastro.js" defer></script>
+  <script src="../js/logica/validacoes.js" defer></script>
+  <script src="../js/logica/usuarios.js" defer></script>
+  <script src="../js/ui/cadastro.js" defer></script>
 </body>
+
 </html>

@@ -36,12 +36,15 @@
     </div>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6 relative z-10">
-        <div id="boas-vindas" class="mb-8 bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-brand/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-10 -mt-10"></div>
+        <div id="boas-vindas"
+            class="mb-8 bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
+            <div
+                class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-brand/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-10 -mt-10">
+            </div>
             <h1 class="text-3xl font-extrabold text-dark tracking-tight mb-2 relative z-10"></h1>
             <p class="text-sm text-gray-500 relative z-10">Seus treinos e recomendações em um só lugar.</p>
         </div>
-        
+
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative h-56 overflow-hidden rounded-base md:h-96">
@@ -139,26 +142,26 @@
                 <div id="workouts-list" class="flex flex-col gap-3">
                 </div>
 
-                <div id="bt-criar" style="display: none;"> 
+                <div id="bt-criar" style="display: none;">
                     <button onclick="openNewWorkoutModal()"
-                    class="flex items-center gap-2 bg-dark text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none whitespace-nowrap">
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
-                        <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round" />
-                    </svg>
-                    Criar novo treino
-                </button>
+                        class="flex items-center gap-2 bg-dark text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#060e1c] active:scale-[0.98] transition-all cursor-pointer border-none whitespace-nowrap">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+                            <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                        </svg>
+                        Criar novo treino
+                    </button>
                 </div>
             </div>
-            </div>
+        </div>
 
-            <div class="mt-8">
-                <h2 class="text-3xl font-bold text-dark mb-4">Treinos Recomendados</h2>
-                <p class="text-sm text-gray-400 mb-4 -mt-3">Experimente um destes treinos prontos criados por
-                    especialistas.</p>
+        <div class="mt-8">
+            <h2 class="text-3xl font-bold text-dark mb-4">Treinos Recomendados</h2>
+            <p class="text-sm text-gray-400 mb-4 -mt-3">Experimente um destes treinos prontos criados por
+                especialistas.</p>
 
-                <div id="recommended-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                </div>
+            <div id="recommended-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             </div>
+        </div>
 
     </main>
 
@@ -233,8 +236,10 @@
 
             <button onclick="logout()" data-tooltip-target="tooltip-logout" type="button"
                 class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white group-hover:text-white">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6 text-white group-hover:text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                 </svg>
                 <span class="sr-only">Sair</span>
             </button>
@@ -258,7 +263,8 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js" defer></script>
-    <script src="../js/homepage.js" defer></script>
+    <script src="../js/logica/treinos.js" defer></script>
+    <script src="../js/ui/homepage.js" defer></script>
 </body>
 
 </html>
