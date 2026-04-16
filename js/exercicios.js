@@ -189,7 +189,10 @@ function closeModal() {
     document.getElementById('new-modal').classList.add('hidden');
     document.getElementById('detail-modal').classList.add('hidden');
     const card = document.getElementById('modal-card');
-    if (card) { card.style.transform = ''; card.style.opacity = ''; }
+    if (card) {
+      card.style.transform = '';
+      card.style.opacity = '';
+    }
   }, 350);
 }
 
@@ -246,7 +249,10 @@ function nextStep() {
 }
 
 function prevStep() {
-  if (currentStep > 1) { currentStep--; updateStepUI(); }
+  if (currentStep > 1) {
+    currentStep--;
+    updateStepUI();
+  }
 }
 
 function buildExerciseList() {

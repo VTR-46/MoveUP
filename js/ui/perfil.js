@@ -1,6 +1,3 @@
-// UI/DOM - Perfil
-// Importa: logica/streak.js
-
 function getUser() {
   return JSON.parse(localStorage.getItem('moveup_user') || '{}');
 }

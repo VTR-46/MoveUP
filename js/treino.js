@@ -67,12 +67,16 @@ const params = new URLSearchParams(window.location.search);
 const workoutId = params.get('id');
 const currentUser = JSON.parse(localStorage.getItem('moveup_user') || '{}');
 
-if (!currentUser.email) window.location.href = './login.html';
+if (!currentUser.email) {
+  window.location.href = './login.html';
+}
 
 const workouts = JSON.parse(localStorage.getItem('moveup_workouts_' + currentUser.email) || '[]');
 const workout = workouts.find(w => w.id === workoutId);
 
-if (!workout) window.location.href = './exercicios.html';
+if (!workout) {
+  window.location.href = './exercicios.html';
+}
 
 const FOCUS_LABEL = { hipertrofia: 'Hipertrofia', forca: 'Forca', resistencia: 'Resistencia', queima: 'Queima de gordura' };
 const NIVEL_LABEL = { iniciante: 'Iniciante', intermediario: 'Intermediario', avancado: 'Avancado' };
@@ -108,7 +112,9 @@ function renderSidebar() {
     const done = completedSeries[i] >= seriesTotal;
     const active = i === currentExIdx;
     let firstUncompleted = completedSeries.findIndex(c => c < seriesTotal);
-    if (firstUncompleted === -1) firstUncompleted = workout.exercises.length - 1;
+  if (firstUncompleted === -1) {
+    firstUncompleted = workout.exercises.length - 1;
+  }
     const locked = i > firstUncompleted;
     
     let classes = "flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors border border-transparent";
@@ -177,9 +183,13 @@ function renderSetsRow() {
   const row = document.getElementById('sets-row');
   row.innerHTML = Array.from({ length: seriesTotal }, (_, i) => {
     let baseCls = "w-10 h-10 rounded-xl border-2 flex items-center justify-center text-[13px] font-bold transition-all";
-    if (i < seriesDone) baseCls += " bg-green-500 border-green-500 text-white";
-    else if (i === seriesDone) baseCls += " bg-blue-50 border-brand text-brand";
-    else baseCls += " bg-transparent border-gray-200 text-gray-400";
+    if (i < seriesDone) {
+      baseCls += " bg-green-500 border-green-500 text-white";
+    } else if (i === seriesDone) {
+      baseCls += " bg-blue-50 border-brand text-brand";
+    } else {
+      baseCls += " bg-transparent border-gray-200 text-gray-400";
+    }
     
     return `<div class="${baseCls}">${i + 1}</div>`;
   }).join('');
@@ -196,7 +206,9 @@ function checkExerciseDone() {
 }
 
 function completeSerie() {
-  if (seriesDone >= seriesTotal) return;
+  if (seriesDone >= seriesTotal) {
+    return;
+  }
   seriesDone++;
   completedSeries[currentExIdx] = seriesDone;
   totalSeriesCompleted++;
@@ -227,12 +239,16 @@ function nextExercise() {
   loadExercise(next);
   const sidebar = document.getElementById('exercises-sidebar');
   const item = document.getElementById(`sidebar-item-${next}`);
-  if (item) item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  if (item) {
+    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 }
 
 function jumpToExercise(idx) {
   let firstUncompleted = completedSeries.findIndex(c => c < seriesTotal);
-  if (firstUncompleted === -1) firstUncompleted = workout.exercises.length - 1;
+  if (firstUncompleted === -1) {
+    firstUncompleted = workout.exercises.length - 1;
+  }
   if (idx > firstUncompleted) {
     showToast('Conclua os exercícios anteriores primeiro!');
     return;

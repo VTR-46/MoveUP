@@ -1,6 +1,3 @@
-// UI/DOM - Homepage
-// Importa: logica/treinos.js
-
 function getWorkouts() {
     const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
     if (!user.email) return [];
@@ -19,7 +16,6 @@ function renderTopWorkouts() {
         return;
     }
 
-    // Usa função pura obterTopTreinos
     const top5 = obterTopTreinos(workouts, 5);
 
     container.innerHTML = top5.map(w => `

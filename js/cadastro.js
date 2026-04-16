@@ -9,17 +9,19 @@ let currentStep = 1;
 const totalSteps = 3;
 
 function checkStrength(val) {
-  const forcaData = calcularForcaSenha(val);
-  
   const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e'];
-  
+  const labels = ['Muito fraca', 'Fraca', 'Média', 'Forte'];
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
   ['s1', 's2', 's3', 's4'].forEach((id, i) => {
-    document.getElementById(id).style.background = i < forcaData.score ? colors[forcaData.score - 1] : '#e5e7eb';
+    document.getElementById(id).style.background = i < score ? colors[score - 1] : '#e5e7eb';
   });
-  
   const lbl = document.getElementById('strength-label');
-  lbl.textContent = forcaData.label;
-  lbl.style.color = forcaData.color;
+  lbl.textContent = val.length ? (labels[score - 1] || 'Muito fraca') : '';
+  lbl.style.color = score > 0 ? colors[score - 1] : '#9ca3af';
 }
 
 function showError(msg) {
@@ -34,17 +36,23 @@ function handleSignup() {
   const email = document.getElementById('inp-email').value.trim();
   const senha = document.getElementById('inp-senha').value;
   
-  const users = JSON.parse(localStorage.getItem('moveup_users') || '[]');
-  
-  const resultado = validarCadastro(nome, sobrenome, email, senha, users);
+  if (!nome || !sobrenome) {
+    return showError('Preencha seu nome e sobrenome.');
+  }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return showError('Insira um e-mail válido.');
+  }
+  if (senha.length < 6) {
+    return showError('A senha deve ter pelo menos 6 caracteres.');
+  }
 
-  if (!resultado.valido) {
-    return showError(resultado.erro);
+  const users = JSON.parse(localStorage.getItem('moveup_users') || '[]');
+  if (users.find(u => u.email === email)) {
+    return showError('E-mail já cadastrado.');
   }
 
   document.getElementById('form-error').classList.add('hidden');
-  const newUser = resultado.usuario;
-  
+  const newUser = { nome, sobrenome, email, senha };
   localStorage.setItem('moveup_user', JSON.stringify(newUser));
   users.push(newUser);
   localStorage.setItem('moveup_users', JSON.stringify(users));
