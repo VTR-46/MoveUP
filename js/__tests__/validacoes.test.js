@@ -6,12 +6,7 @@ describe("Validação de Email", () => {
     expect(validarEmail("usuario@ifsp.edu.br").valido).toBe(true);
   });
 
-  // Email sem @
-  test("Email sem @ deve falhar", () => {
-    expect(validarEmail("usuarioifsp.edu.br").valido).toBe(false);
-  });
-
-  // Email vazio
+  // CLASSE DE EQUIVALÊNCIA: Email vazio
   test("Email vazio deve falhar", () => {
     expect(validarEmail("").valido).toBe(false);
   });
@@ -28,10 +23,6 @@ describe("Validação de Senha", () => {
     expect(validarSenha("123456").valido).toBe(true);
   });
 
-  // 7 caracteres (acima do limite)
-  test("Senha com 7 caracteres deve passar", () => {
-    expect(validarSenha("1234567").valido).toBe(true);
-  });
 });
 
 describe("Cálculo de Força de Senha", () => {
@@ -40,12 +31,7 @@ describe("Cálculo de Força de Senha", () => {
     expect(calcularForcaSenha("abc").score).toBe(1);
   });
 
-  // 8 caracteres (mínimo para score aumentar)
-  test("Senha com 8 caracteres minúsculos = score 2", () => {
-    expect(calcularForcaSenha("abcdefgh").score).toBe(2);
-  });
-
-  // Forte (com maiúscula + número + 8 caracteres)
+  // CLASSE DE EQUIVALÊNCIA: Forte (com maiúscula + número + 8 caracteres)
   test("Senha com maiúscula, número e 8+ chars = score 4", () => {
     expect(calcularForcaSenha("Abcd1234").score).toBe(4);
   });

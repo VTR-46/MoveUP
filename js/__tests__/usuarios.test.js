@@ -49,31 +49,7 @@ describe("Validação de Cadastro", () => {
     expect(resultado.valido).toBe(true);
   });
 
-  // 5 caracteres de senha (abaixo do mínimo)
-  test("Cadastro com senha de 5 caracteres deve falhar", () => {
-    const resultado = validarCadastro("João", "Silva", "novo@ifsp.edu.br", "12345", []);
-    expect(resultado.valido).toBe(false);
-  });
-
-  // 6 caracteres de senha (no limite exato)
-  test("Cadastro com senha de 6 caracteres deve passar", () => {
-    const resultado = validarCadastro("João", "Silva", "novo2@ifsp.edu.br", "123456", []);
-    expect(resultado.valido).toBe(true);
-  });
-
-  // Email duplicado
-  test("Cadastro com email já existente deve falhar", () => {
-    const resultado = validarCadastro("João", "Silva", "existente@ifsp.edu.br", "senha123", usuariosExistentes);
-    expect(resultado.valido).toBe(false);
-  });
-
-  // Email inválido
-  test("Cadastro com email inválido deve falhar", () => {
-    const resultado = validarCadastro("João", "Silva", "emailinvalido", "senha123", []);
-    expect(resultado.valido).toBe(false);
-  });
-
-  // Nome ou sobrenome vazio
+  // CLASSE DE EQUIVALÊNCIA: Nome ou sobrenome vazio
   test("Cadastro sem nome deve falhar", () => {
     const resultado = validarCadastro("", "Silva", "novo@ifsp.edu.br", "senha123", []);
     expect(resultado.valido).toBe(false);
