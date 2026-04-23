@@ -94,3 +94,13 @@ input:focus, textarea:focus { border-color: #1a4fa8; outline: none; }
   pointer-events: none;
 }
 .toast.show { transform: translateY(0); opacity: 1; }
+
+/* ── Bottom navbar (mobile only) ── */
+@media (min-width: 768px) {
+  #barra-navegacao-bottom {
+    display: none !important;
+  }
+  main {
+    margin-bottom: 0 !important;
+  }
+}

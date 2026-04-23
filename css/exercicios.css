@@ -94,3 +94,13 @@ input[type="text"]:focus, textarea:focus { border-color: #1a4fa8; outline: none;
   font-weight: 500;
 }
 .pill-tag.active { background: #eef3fc; color: #1a4fa8; font-weight: 600; }
+
+/* ── Bottom navbar (mobile only) ── */
+@media (min-width: 768px) {
+    #barra-navegacao-bottom {
+        display: none !important;
+    }
+    main {
+        margin-bottom: 0 !important;
+    }
+}

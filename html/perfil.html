@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="../css/perfil.css">
 </head>
 
-<body class="font-poppins bg-gray-50 min-h-screen pt-5">
+<body class="font-poppins bg-gray-50 min-h-screen pt-16">
 
   <!-- Fundo abstrato decorativo -->
   <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -33,16 +33,13 @@
     <div class="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] bg-blue-400/10 rounded-full blur-3xl"></div>
   </div>
 
-  <main class="w-full mx-auto px-4 sm:px-6 py-8 space-y-8 relative z-10 mb-20">
-
-            <!-- NAVBAR -->
-
-      <nav class="bg-neutral-primary fixed w-full z-50 top-0 start-0 border-b border-none">
-        <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4 bg-dark ">
+  <!-- NAVBAR -->
+  <nav class="bg-dark fixed inset-x-0 z-50 top-0 border-none">
+        <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="../html/homepage.html" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="../img/MoveUPSoloWhite.png" class="h-7" alt="MoveUP Logo" />
             </a>
-            <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary" aria-controls="navbar-default" aria-expanded="false">
+            <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-neutral-tertiary" aria-controls="navbar-default" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
                 <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
             </button>
@@ -52,15 +49,20 @@
                 <a href="../html/homepage.html" class="block py-2 px-3 text-white bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0 hover:bg-neutral-secondary-medium hover:text-cyan-500" aria-current="page">Home</a>
                 </li>
                 <li>
-                <a href="../html/treino.html" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500">Treinos</a>
+                <a href="../html/exercicios.html" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500">Treinos</a>
                 </li>
                 <li>
                 <a href="../html/perfil.html" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500">Perfil</a>
                 </li>
+                <li>
+                <a onclick="logout()" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500 cursor-pointer">Sair</a>
+                </li>
             </ul>
             </div>
         </div>
-      </nav>
+  </nav>
+
+  <main class="w-full mx-auto px-4 sm:px-6 pt-2 pb-8 space-y-8 relative z-10 mb-20">
 
 
     <!-- Header Info -->
@@ -195,10 +197,10 @@
     </div>
   </div>
 
+  <!-- NAVBAR MOBILE COMENTADA (não será usada por enquanto)
   <div id="barra-navegacao-bottom"
     class="fixed z-50 h-16 max-w-4xl bg-dark rounded-full bottom-4 inset-x-4 mx-auto flex justify-center shadow-2xl">
     <div class="grid h-full w-full grid-cols-4 mx-auto">
-
       <a href="../html/homepage.html" data-tooltip-target="tooltip-home" type="button"
         class="group inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-neutral-secondary-medium hover:bg-cyan-500">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -207,14 +209,12 @@
             d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
         </svg>
         <span class="sr-only ">Home</span>
-
       </a>
       <div id="tooltip-home" role="tooltip"
         class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-dark rounded-base shadow-xs opacity-0 tooltip">
         Home
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>
-
       <a href="../html/exercicios.html" data-tooltip-target="tooltip-wallet" type="button"
         class="group inline-flex flex-col items-center justify-center px-5 hover:bg-cyan-500">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -232,7 +232,6 @@
         Treinos
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>
-
       <a href="../html/perfil.html" data-tooltip-target="tooltip-profile" type="button"
         class="group inline-flex flex-col items-center justify-center px-5 bg-cyan-600">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -247,7 +246,6 @@
         Perfil
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>
-
       <button onclick="logout()" data-tooltip-target="tooltip-logout" type="button"
         class="group inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-cyan-500 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -262,9 +260,9 @@
         Sair
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>
-
     </div>
   </div>
+  -->
 
   <div id="toast" class="toast"></div>
 

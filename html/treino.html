@@ -22,7 +22,7 @@
   </script>
   <link rel="stylesheet" href="../css/treino.css">
 </head>
-<body class="font-poppins bg-gray-50 min-h-screen flex flex-col pt-10">
+<body class="font-poppins bg-gray-50 min-h-screen flex flex-col pt-16">
 
 <!-- Fundo abstrato decorativo -->
 <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -32,12 +32,12 @@
 
             <!-- NAVBAR -->
 
-      <nav class="bg-neutral-primary fixed w-full z-50 top-0 start-0 border-b border-none">
-        <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4 bg-dark ">
+      <nav class="bg-dark fixed inset-x-0 z-50 top-0 border-none">
+        <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="../html/homepage.html" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="../img/MoveUPSoloWhite.png" class="h-7" alt="MoveUP Logo" />
             </a>
-            <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary" aria-controls="navbar-default" aria-expanded="false">
+            <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-neutral-tertiary" aria-controls="navbar-default" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
                 <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
             </button>
@@ -47,10 +47,13 @@
                 <a href="../html/homepage.html" class="block py-2 px-3 text-white bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0 hover:bg-neutral-secondary-medium hover:text-cyan-500" aria-current="page">Home</a>
                 </li>
                 <li>
-                <a href="../html/treino.html" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500">Treinos</a>
+                <a href="../html/exercicios.html" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500">Treinos</a>
                 </li>
                 <li>
                 <a href="../html/perfil.html" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500">Perfil</a>
+                </li>
+                <li>
+                <a onclick="logout()" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500 cursor-pointer">Sair</a>
                 </li>
             </ul>
             </div>
@@ -58,7 +61,7 @@
       </nav>
 
 
-<main class="w-full mx-auto px-4 sm:px-6 py-8 w-full flex-1 flex flex-col relative z-10">
+<main class="w-full mx-auto px-4 sm:px-6 pt-2 pb-8 w-full flex-1 flex flex-col relative z-10">
   <div id="active-view" class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start w-full">
     <!-- Left Column -->
     <div class="flex flex-col gap-6">
