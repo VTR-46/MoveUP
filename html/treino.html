@@ -24,42 +24,17 @@
 </head>
 <body class="font-poppins bg-gray-50 min-h-screen flex flex-col pt-16">
 
+<!-- Input hidden for file upload -->
+<input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleAvatarUpload(event)" />
+
 <!-- Fundo abstrato decorativo -->
 <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
     <div class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-brand/5 rounded-full blur-3xl"></div>
     <div class="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] bg-blue-400/10 rounded-full blur-3xl"></div>
 </div>
 
-            <!-- NAVBAR -->
-
-      <nav class="bg-dark fixed inset-x-0 z-50 top-0 border-none">
-        <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="../html/homepage.html" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="../img/MoveUPSoloWhite.png" class="h-7" alt="MoveUP Logo" />
-            </a>
-            <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-white focus:outline-none focus:ring-2 focus:ring-neutral-tertiary" aria-controls="navbar-default" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
-            </button>
-            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-neutral-primary">
-                <li>
-                <a href="../html/homepage.html" class="block py-2 px-3 text-white bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0 hover:bg-neutral-secondary-medium hover:text-cyan-500" aria-current="page">Home</a>
-                </li>
-                <li>
-                <a href="../html/exercicios.html" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500">Treinos</a>
-                </li>
-                <li>
-                <a href="../html/perfil.html" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500">Perfil</a>
-                </li>
-                <li>
-                <a onclick="logout()" class="block py-2 px-3 text-white rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent hover:bg-neutral-secondary-medium hover:text-cyan-500 cursor-pointer">Sair</a>
-                </li>
-            </ul>
-            </div>
-        </div>
-      </nav>
-
+<!-- NAVBAR será renderizado aqui pelo navbar.js -->
+<div id="navbar-container"></div>
 
 <main class="w-full mx-auto px-4 sm:px-6 pt-2 pb-8 w-full flex-1 flex flex-col relative z-10">
   <div id="active-view" class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start w-full">
@@ -84,9 +59,9 @@
             <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-gray-400">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M15 12l-6 4V8l6 4z" fill="currentColor"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
-            <p class="text-sm text-gray-400 font-medium">Nenhum vídeo disponível</p>
+            <p class="text-sm text-gray-400 font-medium">Nenhuma imagem disponível</p>
           </div>
-          <iframe id="video-iframe" src="" class="absolute inset-0 w-full h-full border-none hidden" allowfullscreen></iframe>
+          <img id="video-iframe" src="" alt="Exercício" class="absolute inset-0 w-full h-full border-none hidden object-cover rounded" />
         </div>
 
         <div class="p-6">
@@ -169,6 +144,8 @@
 
 <div id="toast" class="toast"></div>
 
+<script src="../js/logica/usuarios.js" defer></script>
+<script src="../js/ui/navbar.js" defer></script>
 <script src="../js/treino.js" defer></script>
 <script src="../js/logica/streak.js" defer></script>
 <script src="../js/ui/perfil.js" defer></script>

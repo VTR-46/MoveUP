@@ -1,3 +1,40 @@
+// ========== GERENCIAMENTO DE USUÁRIOS ==========
+
+function getUser() {
+  return JSON.parse(localStorage.getItem('moveup_user') || '{}');
+}
+
+function saveUser(data) {
+  const existing = getUser();
+  const updated = { ...existing, ...data };
+  localStorage.setItem('moveup_user', JSON.stringify(updated));
+  
+  const users = JSON.parse(localStorage.getItem('moveup_users') || '[]');
+  const filtered = users.filter(u => u.email !== updated.email);
+  filtered.push(updated);
+  localStorage.setItem('moveup_users', JSON.stringify(filtered));
+}
+
+function getHistory() {
+  return JSON.parse(localStorage.getItem('moveup_history_' + getUser().email) || '[]');
+}
+
+function getWorkouts() {
+  return JSON.parse(localStorage.getItem('moveup_workouts_' + getUser().email) || '[]');
+}
+
+function getStreakData() {
+  const raw = localStorage.getItem('moveup_streak_' + getUser().email);
+  if (raw) return JSON.parse(raw);
+  return { current: 0, best: 0, lastDate: null, activeDays: [] };
+}
+
+function saveStreakData(data) {
+  localStorage.setItem('moveup_streak_' + getUser().email, JSON.stringify(data));
+}
+
+// ========== VALIDAÇÕES ==========
+
 function validarLogin(email, senha, users = []) {
   if (!email || !senha) {
     return { valido: false, erro: "Por favor, preencha e-mail e senha." };

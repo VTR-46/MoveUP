@@ -1,35 +1,5 @@
-function getUser() {
-  return JSON.parse(localStorage.getItem('moveup_user') || '{}');
-}
-
-function saveUser(data) {
-  const existing = getUser();
-  const updated = { ...existing, ...data };
-  localStorage.setItem('moveup_user', JSON.stringify(updated));
-  
-  const users = JSON.parse(localStorage.getItem('moveup_users') || '[]');
-  const filtered = users.filter(u => u.email !== updated.email);
-  filtered.push(updated);
-  localStorage.setItem('moveup_users', JSON.stringify(filtered));
-}
-
-function getHistory() {
-  return JSON.parse(localStorage.getItem('moveup_history_' + getUser().email) || '[]');
-}
-
-function getWorkouts() {
-  return JSON.parse(localStorage.getItem('moveup_workouts_' + getUser().email) || '[]');
-}
-
-function getStreakData() {
-  const raw = localStorage.getItem('moveup_streak_' + getUser().email);
-  if (raw) return JSON.parse(raw);
-  return { current: 0, best: 0, lastDate: null, activeDays: [] };
-}
-
-function saveStreakData(data) {
-  localStorage.setItem('moveup_streak_' + getUser().email, JSON.stringify(data));
-}
+// Funções de usuário estão em js/logica/usuarios.js
+// Este arquivo contém apenas funções de UI para perfil
 
 function checkAndUpdateStreak() {
   const history = getHistory();
@@ -74,8 +44,14 @@ function renderProfile() {
   document.getElementById('display-bio').textContent = bio;
 
   const avatarEl = document.getElementById('avatar-inner');
-  const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
-  avatarEl.textContent = initials || '?';
+  
+  // Verifica se existe imagem salva
+  if (user.imagemCaminho) {
+    avatarEl.innerHTML = `<img src="${user.imagemCaminho}" alt="Avatar do usuário" class="w-full h-full object-cover" />`;
+  } else {
+    const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+    avatarEl.textContent = initials || '?';
+  }
 
   if (user.nivel) {
     const badge = document.getElementById('level-badge');
@@ -196,6 +172,50 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function handleAvatarUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Valida tipo de arquivo
+  if (!file.type.startsWith('image/')) {
+    showToast('Selecione uma imagem válida!');
+    return;
+  }
+
+  // Valida tamanho (máximo 5MB)
+  const maxSize = 5 * 1024 * 1024;
+  if (file.size > maxSize) {
+    showToast('A imagem não pode ter mais de 5MB!');
+    return;
+  }
+
+  // Cria URL local para a imagem
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const imagemCaminho = e.target.result;
+    saveUser({ imagemCaminho });
+    
+    // Atualiza perfil
+    renderProfile();
+    
+    // Força atualização da navbar em todas as abas
+    window.dispatchEvent(new Event('updateAvatar'));
+    
+    // Aguarda um pouco e força nova leitura
+    setTimeout(() => {
+      if (typeof updateNavbarAvatar !== 'undefined') {
+        updateNavbarAvatar();
+      }
+    }, 100);
+    
+    showToast('Foto de perfil atualizada!');
+  };
+  reader.readAsDataURL(file);
+
+  // Limpa o input para permitir selecionar a mesma imagem novamente
+  event.target.value = '';
 }
 
 function init() {
