@@ -343,6 +343,37 @@
 
   </div>
 
+        <!-- ÍCONE DE AJUDA COM bOTAO tooltip -->
+  <div class="fixed top-20 right-6 z-40 group">
+    <button class="w-12 h-12 rounded-full bg-brand hover:bg-brand-light text-white font-bold text-lg flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 cursor-help" title="Clique ou passe o mouse para obter ajuda">
+        ?
+    </button>
+    
+        <div class="absolute top-16 right-0 w-1/4 min-w-[720px] bg-dark text-white rounded-xl shadow-2xl p-5 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto z-50">
+            <div class="absolute top-[-8px] right-6 w-4 h-4 bg-dark transform rotate-45"></div>
+            
+            <h3 class="font-bold text-lg text-brand mb-4 text-white">Como usar o MoveUP</h3>
+            
+            <div class="space-y-3 text-sm">
+            
+            <div class="flex gap-3">
+                <span class="text-brand font-bold min-w-fit text-sky-400">🏋️ Criar Treino:</span>
+                <p>Clique em criar novo treino para inicar a criação de um novo treino.</p>
+            </div>
+
+            <div class="flex gap-3">
+              <span class="text-brand font-bold min-w-fit text-sky-400">🔍 Pesquisar Treino Existente:</span>
+              <p>Use a barra de pesquisa para procurar seus treinos já existentes (caso possua).</p>
+            </div>
+
+            <div class="flex gap-3">
+              <span class="text-brand font-bold min-w-fit text-sky-400">💪 Treino:</span>
+              <p>Clique no seu treino existente para exibi-lo (caso possua).</p>
+            </div>
+
+        </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js" defer></script>
   <script src="../js/logica/usuarios.js" defer></script>
   <script src="../js/ui/navbar.js" defer></script>
