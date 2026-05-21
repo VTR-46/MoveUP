@@ -148,6 +148,14 @@ function closeEditModal() {
   document.getElementById('edit-overlay').classList.remove('active');
 }
 
+function openRankingModal() {
+  document.getElementById('ranking-overlay').classList.add('active');
+}
+
+function closeRankingModal() {
+  document.getElementById('ranking-overlay').classList.remove('active');
+}
+
 function saveProfile() {
   const nome = document.getElementById('edit-nome')?.value.trim();
   const sobrenome = document.getElementById('edit-sobrenome')?.value.trim();
@@ -218,6 +226,127 @@ function handleAvatarUpload(event) {
   event.target.value = '';
 }
 
+function renderRanking() {
+  const users = JSON.parse(localStorage.getItem('moveup_users') || '[]');
+  const currentUserEmail = getUser().email;
+
+  // Cria array com usuários e suas sequências
+  const usersWithStreak = users.map(u => {
+    const streak = JSON.parse(localStorage.getItem('moveup_streak_' + u.email) || '{"current":0}');
+    return {
+      ...u,
+      currentStreak: streak.current,
+      bestStreak: streak.best
+    };
+  });
+
+  // Ordena por sequência atual (decrescente) com desempates
+  usersWithStreak.sort((a, b) => {
+    if (b.currentStreak !== a.currentStreak) {
+      return b.currentStreak - a.currentStreak;
+    }
+    // Desempate 1: Privilegiar o usuário atual no ranking
+    if (a.email === currentUserEmail) return -1;
+    if (b.email === currentUserEmail) return 1;
+    
+    // Desempate 2: Melhor sequência
+    if (b.bestStreak !== a.bestStreak) {
+      return b.bestStreak - a.bestStreak;
+    }
+    
+    // Desempate 3: Ordem alfabética
+    return (a.nome || '').localeCompare(b.nome || '');
+  });
+
+  // Pega top 10
+  const top10 = usersWithStreak.slice(0, 10);
+
+  const rankingHTML = top10.map((u, index) => {
+    const name = [u.nome, u.sobrenome].filter(Boolean).join(' ') || 'Usuário';
+    const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+    const isCurrentUser = u.email === currentUserEmail;
+    
+    // Posição real: quantidade de pessoas com score maior + 1 (Mesma lógica do getMyRank)
+    const position = usersWithStreak.findIndex(user => user.currentStreak === u.currentStreak) + 1;
+    
+    const medal = position === 1 ? '🥇' : position === 2 ? '🥈' : position === 3 ? '🥉' : `#${position}`;
+
+    const avatarHTML = u.imagemCaminho 
+      ? `<img src="${u.imagemCaminho}" alt="Avatar" class="w-full h-full object-cover" />`
+      : `<span class="text-sm font-bold text-brand">${initials}</span>`;
+
+    return `
+      <div class="flex items-center gap-4 p-4 rounded-2xl border ${isCurrentUser ? 'border-brand bg-blue-50' : 'border-gray-100 bg-white'} hover:shadow-sm transition-shadow">
+        <div class="w-10 h-10 rounded-full bg-gray-100 border-2 ${isCurrentUser ? 'border-brand' : 'border-gray-200'} flex items-center justify-center overflow-hidden text-xs font-bold flex-shrink-0">
+          ${avatarHTML}
+        </div>
+        
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-dark">${name}</p>
+          <p class="text-xs text-gray-500">@${u.username || name.toLowerCase()}</p>
+        </div>
+
+        <div class="text-right flex-shrink-0">
+          <p class="text-2xl font-black text-amber-500">${medal}</p>
+          <p class="text-xs text-gray-500 mt-1"><span class="font-bold text-dark">${u.currentStreak}</span> dias</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const listEl = document.getElementById('ranking-list');
+  if (listEl) {
+    listEl.innerHTML = rankingHTML || '<div class="text-center py-8 text-gray-400">Nenhum usuário no ranking ainda</div>';
+  }
+}
+
+function renderHistory() {
+  const history = getHistory();
+  const listEl = document.getElementById('history-list');
+
+  if (!listEl) return;
+
+  if (history.length === 0) {
+    listEl.innerHTML = '<div class="text-center py-8 text-gray-400">Nenhum treino concluído ainda</div>';
+    return;
+  }
+
+  // Sort history by date (newest first)
+  const sortedHistory = [...history].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  // Take top 5 recent workouts for UI
+  const recentHistory = sortedHistory.slice(0, 5);
+
+  const historyHTML = recentHistory.map(h => {
+    const workoutName = h.workoutName || 'Treino Personalizado';
+    const dateObj = new Date(h.date);
+    const dateStr = dateObj.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+    const timeStr = dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    return `
+      <div class="flex items-center gap-4 p-4 rounded-2xl border border-gray-100 bg-white hover:shadow-sm transition-shadow">
+        <div class="w-10 h-10 rounded-full bg-purple-50 text-purple-500 flex items-center justify-center flex-shrink-0">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-dark">${workoutName}</p>
+          <p class="text-xs text-gray-500">Concluído com sucesso</p>
+        </div>
+
+        <div class="text-right flex-shrink-0">
+          <p class="text-xs font-bold text-dark">${dateStr}</p>
+          <p class="text-xs text-gray-500">${timeStr}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  listEl.innerHTML = historyHTML;
+}
+
 function init() {
   const user = JSON.parse(localStorage.getItem('moveup_user') || '{}');
   if (!user.nome) {
@@ -228,6 +357,8 @@ function init() {
   renderProfile();
   renderStreak();
   renderStats();
+  renderRanking();
+  renderHistory();
 }
 
 init();

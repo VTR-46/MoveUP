@@ -4,6 +4,8 @@
   "description": "Aplicação de Treinos MoveUP",
   "scripts": {
     "test": "jest",
+    "testblack": "jest --testPathPattern='caixapreta\\.test\\.js$'",
+    "testwhite": "jest --testPathPattern='caixabranca\\.test\\.js$'",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },

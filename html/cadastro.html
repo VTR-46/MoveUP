@@ -88,8 +88,17 @@
 
         <div>
           <label class="block text-[13px] font-medium text-gray-600 mb-1.5">Senha</label>
-          <input id="inp-senha" type="password" placeholder="••••••••" oninput="checkStrength(this.value)"
-            class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors" />
+          <div class="relative">
+            <input id="inp-senha" type="password" placeholder="••••••••" oninput="checkStrength(this.value)"
+              class="w-full border border-gray-200 rounded-[10px] px-3.5 py-3 text-sm text-dark placeholder-gray-300 transition-colors pr-10" />
+            <button type="button" onclick="togglePasswordCadastro()" 
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+              <svg id="eye-icon-cadastro" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+            </button>
+          </div>
           <div class="flex gap-1 mt-2">
             <div class="strength-bar flex-1 bg-gray-200" id="s1"></div>
             <div class="strength-bar flex-1 bg-gray-200" id="s2"></div>
@@ -126,7 +135,14 @@
         <div class="flex items-center justify-between mb-4">
           <span id="step-label" class="text-[11px] font-semibold text-brand uppercase tracking-widest">Etapa 1 de
             3</span>
-          <span id="step-pct" class="text-[11px] font-semibold text-gray-400">33%</span>
+          <div class="flex items-center gap-3">
+            <span id="step-pct" class="text-[11px] font-semibold text-gray-400">33%</span>
+            <button type="button" onclick="closePopup()" class="text-gray-400 hover:text-gray-600 transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
           <div id="progress-bar" class="h-full bg-brand rounded-full" style="width: 33%"></div>

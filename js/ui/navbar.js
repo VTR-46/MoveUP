@@ -30,7 +30,7 @@ function renderNavbar() {
           </ul>
           <div class="hidden md:flex items-center">
             <button onclick="redirectToProfile()" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <div class="w-8 h-8 rounded-full bg-gray-100 border-2 border-cyan-500 flex items-center justify-center overflow-hidden text-xs font-bold text-brand" id="navbar-avatar">
+              <div class="w-10 h-10 rounded-full bg-gray-100 border-2 border-cyan-500 flex items-center justify-center overflow-hidden text-sm font-bold text-brand" id="navbar-avatar">
                 ?
               </div>
             </button>

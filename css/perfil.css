@@ -23,18 +23,18 @@ body { font-family: 'Poppins', sans-serif; }
   box-shadow: 0 8px 24px rgba(26,79,168,0.10);
 }
 
-/* ── Edit modal ── */
-#edit-overlay {
+/* ── Modals ── */
+#edit-overlay, #ranking-overlay {
   opacity: 0; pointer-events: none;
   transition: opacity 0.3s ease;
 }
-#edit-overlay.active { opacity: 1; pointer-events: all; }
-#edit-card {
+#edit-overlay.active, #ranking-overlay.active { opacity: 1; pointer-events: all; }
+#edit-card, #ranking-card {
   transform: translateY(28px) scale(0.97);
   transition: transform 0.35s cubic-bezier(.22,1,.36,1), opacity 0.3s ease;
   opacity: 0;
 }
-#edit-overlay.active #edit-card { transform: translateY(0) scale(1); opacity: 1; }
+#edit-overlay.active #edit-card, #ranking-overlay.active #ranking-card { transform: translateY(0) scale(1); opacity: 1; }
 
 /* ── Ranking row ── */
 .rank-row { transition: background 0.15s ease; }
