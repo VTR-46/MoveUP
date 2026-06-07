@@ -1,6 +1,10 @@
-# MoveUP
+# MoveUP - Sistema de Gerenciamento de Treinos
 
 Aplicação web de gerenciamento de treinos com testes automatizados.
+
+## Descrição do Projeto
+
+O **MoveUP** é uma aplicação web robusta voltada para o gerenciamento de treinos físicos, projetada para otimizar a organização de rotinas de exercícios. Desenvolvido como parte integrante das disciplinas de **Interação Humano Computador (ARQIHCO)** e **Arquitetura, Verificação, Validação e Teste de Software (ARQVVET)**, o projeto foca na aplicação de boas práticas de engenharia de software, garantindo escalabilidade, manutenibilidade e confiabilidade através de testes automatizados.
 
 ---
 
@@ -29,3 +33,8 @@ npm install
 ```bash
 npm test
 ```
+
+## Informações Acadêmicas
+- **Instituição:** Instituto Federal de São Paulo (IFSP) - Campus Araraquara
+- **Orientador:** Prof. Mario Popolin Neto
+- **Disciplinas:** ARQIHCO e ARQVVET
