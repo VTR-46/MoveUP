@@ -4,7 +4,7 @@ Aplicação web de gerenciamento de treinos com testes automatizados.
 
 ## Descrição do Projeto
 
-O **MoveUP** é uma aplicação web robusta voltada para o gerenciamento de treinos físicos, projetada para otimizar a organização de rotinas de exercícios. Desenvolvido como parte integrante das disciplinas de **Interação Humano Computador (ARQIHCO)** e **Arquitetura, Verificação, Validação e Teste de Software (ARQVVET)**, o projeto foca na aplicação de boas práticas de engenharia de software, garantindo escalabilidade, manutenibilidade e confiabilidade através de testes automatizados.
+O **MoveUP** é uma aplicação web robusta voltada para o gerenciamento de treinos físicos, projetada para otimizar a organização de rotinas de exercícios. Desenvolvido como parte integrante das disciplinas de **Interação Humano Computador (ARQIHCO)** e **Verificação, Validação e Teste de Software (ARQVVET)**, o projeto foca na aplicação de boas práticas de engenharia de software, garantindo escalabilidade, manutenibilidade e confiabilidade através de testes automatizados.
 
 ---
 
