@@ -210,6 +210,7 @@ let seriesDone = 0;
 let completedSeries = [];
 let workoutStartTime = Date.now();
 let totalSeriesCompleted = 0;
+let skippedExercises = new Set();
 
 function initPage() {
   document.getElementById('workout-name-display').textContent = workout.name;
@@ -229,7 +230,7 @@ function renderSidebar() {
   container.innerHTML = workout.exercises.map((ex, i) => {
     const done = completedSeries[i] >= seriesTotal;
     const active = i === currentExIdx;
-    let firstUncompleted = completedSeries.findIndex(c => c < seriesTotal);
+    let firstUncompleted = completedSeries.findIndex((c, index) => c < seriesTotal && !skippedExercises.has(index));
   if (firstUncompleted === -1) {
     firstUncompleted = workout.exercises.length - 1;
   }
@@ -318,14 +319,19 @@ function checkExerciseDone() {
   const done = seriesDone >= seriesTotal;
   document.getElementById('btn-complete-set').classList.toggle('hidden', done);
   document.getElementById('btn-next-ex').classList.toggle('hidden', !done);
+
+  const btnSkip = document.getElementById('btn-skip-ex');
+  if(btnSkip) btnSkip.classList.toggle('hidden', done);
+
   const isLast = currentExIdx >= workout.exercises.length - 1;
   document.getElementById('btn-next-ex').textContent = isLast ? 'Finalizar treino' : 'Próximo exercício';
 }
 
 function completeSerie() {
-  if (seriesDone >= seriesTotal) {
-    return;
-  }
+  if (seriesDone >= seriesTotal) return;
+
+  skippedExercises.delete(currentExIdx);
+
   seriesDone++;
   completedSeries[currentExIdx] = seriesDone;
   totalSeriesCompleted++;
@@ -345,9 +351,9 @@ function completeSerie() {
 function nextExercise() {
   const next = currentExIdx + 1;
   if (next >= workout.exercises.length) {
-    const allDone = completedSeries.every(c => c >= seriesTotal);
+    const allDone = completedSeries.every((c, i) => c >= seriesTotal || skippedExercises.has(i));
     if (!allDone) {
-      showToast('Conclua todos os exercícios antes de finalizar!');
+      showToast('Conclua ou pule todos os exercícios antes de finalizar!');
       return;
     }
     finishWorkout();
@@ -362,19 +368,19 @@ function nextExercise() {
 }
 
 function jumpToExercise(idx) {
-  let firstUncompleted = completedSeries.findIndex(c => c < seriesTotal);
+  let firstUncompleted = completedSeries.findIndex((c, i) => c < seriesTotal && !skippedExercises.has(i));
   if (firstUncompleted === -1) {
     firstUncompleted = workout.exercises.length - 1;
   }
   if (idx > firstUncompleted) {
-    showToast('Conclua os exercícios anteriores primeiro!');
+    showToast('Conclua ou pule os exercícios anteriores primeiro!');
     return;
   }
   loadExercise(idx);
 }
 
 function updateOverall() {
-  const done = completedSeries.filter((c, i) => c >= seriesTotal).length;
+  const done = completedSeries.filter((c, i) => c >= seriesTotal || skippedExercises.has(i)).length;
   const total = workout.exercises.length;
   const pct = Math.round((done / total) * 100);
   document.getElementById('overall-bar').style.width = pct + '%';
@@ -495,5 +501,14 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
+
+function skipExercise() {
+
+  skippedExercises.add(currentExIdx);
+
+  nextExercise();
+}
+
+
 
 initPage();
